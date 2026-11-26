@@ -7,7 +7,7 @@
 <meta name="description" content="Yarden Amir is on a job hunt. Draw on the laser bed, then press Cut.">
 <meta property="og:title" content="Yarden Amir is on a job hunt">
 <meta property="og:description" content="Cut something with a laser on his resume.">
-<meta property="og:url" content="https://flyer.yardenamir.com">
+<meta property="og:url" content="https://job.yardenamir.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
@@ -107,7 +107,7 @@ class Component extends DCLogic {
     super(props);
     this.state = { strokes: [], cur: null, phase: 'intro', el: 0, frame: 0 };
     this.storyFile = null; this.storyBusy = false; this.shareMsg = ''; this.linkMsg = '';
-    this.SITE = 'https://flyer.yardenamir.com';
+    this.SITE = 'https://job.yardenamir.com';
     this.introMode = true;
     this.swipeK = 0;
     this.swipeRaf = null;
@@ -575,7 +575,7 @@ class Component extends DCLogic {
       ctx.fillStyle = '#262422'; ctx.fillRect(110, 1460, 860, 2);
       ctx.font = '500 46px ' + serif; ctx.fillText('Your turn →', 110, 1532);
       ctx.fillStyle = '#7A5A30'; ctx.font = '400 30px ' + mono; ctx.textAlign = 'right';
-      ctx.fillText('flyer.yardenamir.com', 970, 1528); ctx.textAlign = 'left';
+      ctx.fillText('job.yardenamir.com', 970, 1528); ctx.textAlign = 'left';
       ctx.drawImage(plateImg, 110, 1572, 91, 91);
       ctx.fillStyle = '#262422'; ctx.font = '500 44px ' + serif; ctx.fillText('Yarden Amir', 223, 1612);
       ctx.fillStyle = '#5F5A52'; ctx.font = '400 19px ' + mono; ctx.fillText('Designer · Making & Fabrication Instructor · Craft Researcher', 223, 1650);
@@ -602,12 +602,12 @@ class Component extends DCLogic {
     if (f && touch && navigator.canShare && navigator.canShare({ files: [f] })) {
       navigator.share({ files: [f], text }).then(() => { this.shareMsg = 'Shared · the link is copied: add it with a Link sticker'; this.setState({ frame: performance.now() }); })
         .catch(() => {});
-      this.shareMsg = 'Link copied: flyer.yardenamir.com · add it with a Link sticker';
+      this.shareMsg = 'Link copied: job.yardenamir.com · add it with a Link sticker';
     } else if (f) {
       const a = document.createElement('a'); a.href = this.storyURL; a.download = f.name; document.body.appendChild(a); a.click(); a.remove();
       this.shareMsg = 'Image saved and link copied · post it to your story with a Link sticker';
     } else {
-      this.shareMsg = 'Link copied: flyer.yardenamir.com';
+      this.shareMsg = 'Link copied: job.yardenamir.com';
     }
     this.setState({ frame: performance.now() });
   }
@@ -618,7 +618,7 @@ class Component extends DCLogic {
       navigator.share({ title: 'Yarden Amir is on a job hunt', text: 'Cut something with a laser on his resume.', url: this.SITE }).catch(() => {});
       this.linkMsg = '';
     } else {
-      this.linkMsg = 'Link copied: flyer.yardenamir.com';
+      this.linkMsg = 'Link copied: job.yardenamir.com';
     }
     this.setState({ frame: performance.now() });
   }
