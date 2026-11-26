@@ -36,8 +36,8 @@ button:disabled{opacity:.45;cursor:default}
 <button id="cut" style="min-height: 52px; border: 0; border-radius: 0; background: #B4593A; color: #FFFFFF; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-weight: 500; font-size: 16px; letter-spacing: 0.08em; cursor: pointer">CUT</button>
 <button id="clear" style="min-height: 52px; border: 1px solid #262422; border-radius: 0; background: transparent; color: #262422; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-weight: 500; font-size: 16px; letter-spacing: 0.08em; cursor: pointer">CLEAR</button>
 </div>
-<div id="hint" style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5F5A52"></div>
-<div id="shareBox" style="display: none; flex-direction: column; gap: 8px; margin-top: 8px"><button id="shareBtn" style="min-height: 52px; border: 0; border-radius: 0; background: #B4593A; color: #FFFFFF; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-weight: 500; font-size: 15px; letter-spacing: 0.08em; cursor: pointer">SHARE YOUR CUT TO YOUR STORY</button><div id="shareMsg" style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; line-height: 1.5; color: #5F5A52"></div></div>
+<div id="hint" style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; line-height: 1.5; min-height: 36px; color: #5F5A52"></div>
+<div id="shareBox" style="display: none; flex-direction: column; gap: 8px; margin-top: 8px"><button id="shareBtn" style="min-height: 52px; border: 0; border-radius: 0; background: #B4593A; color: #FFFFFF; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-weight: 500; font-size: 15px; letter-spacing: 0.08em; cursor: pointer">SHARE YOUR CUT TO YOUR STORY</button><div id="shareMsg" style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; line-height: 1.5; min-height: 36px; color: #5F5A52"></div></div>
 </div>
 
 <div style="display: flex; flex-direction: column; gap: 14px">
@@ -358,7 +358,7 @@ class Component extends DCLogic {
       const n = f.pts.length - 1;
       const c = [f.pts.slice(0, n).reduce((t, p) => t + p[0], 0) / n, f.pts.slice(0, n).reduce((t, p) => t + p[1], 0) / n];
       if (this.parts.some((p) => f.area <= p.area * 1.03 && this.inPoly(c, p.pts))) return;
-      this.parts.push({ pts: f.pts, area: f.area });
+      this.parts.push({ pts: f.pts, area: f.area, t: performance.now() });
     });
   }
 
@@ -598,7 +598,8 @@ class Component extends DCLogic {
     this.copyLink();
     const f = this.storyFile;
     const text = 'Yarden Amir is on a job hunt. I cut this with a laser on his resume. ' + this.SITE;
-    if (f && navigator.canShare && navigator.canShare({ files: [f] })) {
+    const touch = (window.matchMedia && matchMedia('(pointer: coarse)').matches) || navigator.maxTouchPoints > 0;
+    if (f && touch && navigator.canShare && navigator.canShare({ files: [f] })) {
       navigator.share({ files: [f], text }).then(() => { this.shareMsg = 'Shared · the link is copied: add it with a Link sticker'; this.setState({ frame: performance.now() }); })
         .catch(() => {});
       this.shareMsg = 'Link copied: flyer.yardenamir.com · add it with a Link sticker';
@@ -612,7 +613,8 @@ class Component extends DCLogic {
   }
   onShareLink() {
     this.copyLink();
-    if (navigator.share) {
+    const touch = (window.matchMedia && matchMedia('(pointer: coarse)').matches) || navigator.maxTouchPoints > 0;
+    if (touch && navigator.share) {
       navigator.share({ title: 'Yarden Amir is on a job hunt', text: 'Cut something with a laser on his resume.', url: this.SITE }).catch(() => {});
       this.linkMsg = '';
     } else {
@@ -670,7 +672,8 @@ class Component extends DCLogic {
       });
       return d;
     };
-    const pieceList = this.parts.map((p) => ({ pts: fmt(p.pts), inner: innerOf(p) }));
+    const nowT = performance.now();
+    const pieceList = this.parts.map((p) => ({ pts: fmt(p.pts), inner: innerOf(p), fresh: nowT - (p.t || 0) < 1000 }));
     const now = this.now;
     const smoke = this.smoke.map((p) => {
       const k = Math.min(1, (now - p.born) / p.life), e = k * k;
@@ -699,7 +702,7 @@ class Component extends DCLogic {
       else hint = 'draw lines and arcs, enclose an area to cut out a part, then press Cut';
     }
     return {
-      accent, planned, sketch, nodes, kerf, holes, pieces: introDropped ? pieceList.slice(1) : pieceList, introStatic, introDrop,
+      accent, planned, sketch, nodes, kerf, holes, pieces: (introDropped ? pieceList.slice(1) : pieceList).filter((p) => p.fresh), introStatic, introDrop,
       introPts: this.introMode && strokes.length ? fmt(strokes[0].pts) : '',
       sheetT: 'translate(' + dx.toFixed(1) + ',0)', smoke, ring, ringX, ringY, status, hint,
       hexD: this.hexD,
@@ -792,11 +795,18 @@ ${(v.smoke||[]).map((m)=>`
 const c = new Component({});
 const $ = (id) => document.getElementById(id);
 let rendering = false;
+const dropStart = new Map();
 function render() {
   if (rendering) return; rendering = true;
   try {
     const v = c.renderVals();
     $('bed').innerHTML = bedTpl(v);
+    const now = performance.now();
+    document.querySelectorAll('#bed .drop').forEach((el) => {
+      const key = el.getAttribute('points') || (el.querySelector('polygon') || el).getAttribute('points') || 'x';
+      if (!dropStart.has(key)) dropStart.set(key, now);
+      el.style.animationDelay = (-(now - dropStart.get(key)) / 1000).toFixed(3) + 's';
+    });
     $('readout').textContent = v.readout;
     $('status').textContent = v.status; $('status').style.color = v.statusColor;
     $('hint').textContent = v.hint || '';
