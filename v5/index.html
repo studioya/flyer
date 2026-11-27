@@ -19,6 +19,8 @@
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet" crossorigin="anonymous">
 <style>
 html,body{margin:0;background:#F1E9DC}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+button,#warn{-webkit-tap-highlight-color:transparent}
 #stage{position:relative;max-width:480px;margin:0 auto}
 #bedBg{position:absolute;inset:0;background:#1E1D1B url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212.124%22%20height%3D%2221.000%22%3E%3Cpath%20d%3D%22M6.06%203.50L0.00%207.00L-6.06%203.50L-6.06%20-3.50L-0.00%20-7.00L6.06%20-3.50ZM18.19%203.50L12.12%207.00L6.06%203.50L6.06%20-3.50L12.12%20-7.00L18.19%20-3.50ZM12.12%2014.00L6.06%2017.50L0.00%2014.00L-0.00%207.00L6.06%203.50L12.12%207.00ZM6.06%2024.50L0.00%2028.00L-6.06%2024.50L-6.06%2017.50L-0.00%2014.00L6.06%2017.50ZM18.19%2024.50L12.12%2028.00L6.06%2024.50L6.06%2017.50L12.12%2014.00L18.19%2017.50Z%22%20fill%3D%22none%22%20stroke%3D%22%233A3733%22%20stroke-width%3D%221.1%22/%3E%3C/svg%3E");background-size:12.124px 21.000px;z-index:0}
 #app{position:relative;z-index:1;max-width:none}
@@ -580,20 +582,22 @@ class Game {
     applyHoles();
     this.mode = 'opening'; draw();
     this.storyFile = null; this.shareMsg = '';
+    const els = fresh.map((p) => this.makePiece(p));  // in place right away, so the hole is never empty
     setTimeout(() => this.lid(false, () => {
       this.mode = 'draw';
-      fresh.forEach((p, i) => this.liftPiece(p, i));
+      fresh.forEach((p, i) => this.liftPiece(p, i, els[i]));
       this.prepareStory();
       draw();
     }), 250);
   }
-  liftPiece(part, i) {
+  makePiece(part) {
     const n = part.pts.length - 1;
     const cx = part.pts.slice(0, n).reduce((t, p) => t + p[0], 0) / n, cy = part.pts.slice(0, n).reduce((t, p) => t + p[1], 0) / n;
     const outer = document.createElement('div');
     outer.className = 'piece';
     outer.style.width = this.W + 'px'; outer.style.height = this.H + 'px';
     outer.style.transformOrigin = cx.toFixed(1) + 'px ' + cy.toFixed(1) + 'px';
+    outer.style.filter = 'none';
     const inner = document.createElement('div');
     inner.style.cssText = 'position:absolute;inset:0;clip-path:path(\'' + polyD(part.pts) + '\')';
     const clone = app.cloneNode(true);
@@ -610,10 +614,16 @@ class Game {
     inner.appendChild(edge);
     outer.appendChild(inner);
     piecesEl.appendChild(outer);
+    return outer;
+  }
+  liftPiece(part, i, outer) {
+    const n = part.pts.length - 1;
+    const cx = part.pts.slice(0, n).reduce((t, p) => t + p[0], 0) / n;
     const room = cx < this.W / 2 ? 1 : -1;
     const dx = room * (16 + Math.random() * 10) * (i % 2 ? -1 : 1), dy = -(6 + Math.random() * 6);
     const rot = (dx > 0 ? 1 : -1) * (2.5 + Math.random() * 3.5);
     part.lift = { dx, dy, rot };
+    outer.style.filter = '';
     outer.animate([
       { transform: 'none', filter: 'drop-shadow(0 0 0 rgba(38,36,34,0))' },
       { transform: 'translate(' + (dx * 0.25).toFixed(1) + 'px,' + (dy * 1.4).toFixed(1) + 'px) scale(1.03)', offset: 0.4 },
