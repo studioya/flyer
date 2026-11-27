@@ -30,9 +30,9 @@ button,#warn{-webkit-tap-highlight-color:transparent}
 #pieces{position:absolute;inset:0;z-index:3;pointer-events:none}
 #rig{z-index:6;pointer-events:none}
 .piece{position:absolute;left:0;top:0;filter:drop-shadow(0 6px 7px rgba(38,36,34,.38)) drop-shadow(0 1px 1px rgba(38,36,34,.3));will-change:transform}
-#lid{position:fixed;inset:0;z-index:7;pointer-events:none;perspective:1400px;perspective-origin:50% -10%;display:none}
+#lid{position:fixed;inset:0;z-index:7;pointer-events:none;perspective:1600px;perspective-origin:50% 0;display:none}
 #lid .frame{position:absolute;inset:0;transform-origin:50% 0;border:solid #2B2927;border-width:30px 16px calc(118px + env(safe-area-inset-bottom));box-shadow:inset 0 0 0 1px #4E4B46,0 24px 50px rgba(0,0,0,.45)}
-#lid .glass{position:absolute;inset:0;background:linear-gradient(112deg,rgba(255,255,255,0) 22%,rgba(255,255,255,.16) 27%,rgba(255,255,255,0) 33%,rgba(255,255,255,0) 61%,rgba(255,255,255,.09) 64%,rgba(255,255,255,0) 69%),rgba(190,92,28,.26);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),inset 0 0 60px rgba(40,18,6,.45)}
+#lid .glass{position:absolute;inset:0;background:linear-gradient(118deg,rgba(255,255,255,0) 14%,rgba(255,255,255,.30) 19%,rgba(255,255,255,.06) 24%,rgba(255,255,255,0) 30%,rgba(255,255,255,0) 55%,rgba(255,255,255,.18) 58%,rgba(255,255,255,0) 63%),linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0) 22%,rgba(255,255,255,0) 80%,rgba(255,255,255,.08)),rgba(214,150,90,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),inset 0 1px 0 rgba(255,255,255,.6),inset 0 0 40px rgba(40,18,6,.12)}
 #lid .label{position:absolute;left:0;right:0;top:-22px;text-align:center;font-family:'IBM Plex Mono', ui-monospace, Menlo, monospace;font-size:10px;letter-spacing:.14em;color:#C79A5B}
 #lid .handle{position:absolute;left:28%;right:28%;bottom:-20px;height:9px;border-radius:5px;background:linear-gradient(#6A6660,#45423E);box-shadow:0 2px 3px rgba(0,0,0,.5)}
 html.locked,html.locked body{overflow:hidden;overscroll-behavior:none}
@@ -82,7 +82,7 @@ html.locked #ov{pointer-events:auto;touch-action:none;cursor:crosshair}
 <div id="bedBg" aria-hidden="true"></div>
 <div id="app">
 <div style="width: 100%; min-width: 320px; box-sizing: border-box; background: #F1E9DC; color: #262422; font-family: 'EB Garamond', Garamond, 'Times New Roman', serif; font-variant-numeric: oldstyle-nums; padding: 24px 20px 40px; display: flex; flex-direction: column; gap: 32px">
-<div style="display: flex; align-items: center; gap: 11px"><svg width="40" height="40" viewBox="0 0 42.00 42.00" role="img" aria-label="Yarden Amir test-plate mark" style="display: block; color: #262422"><defs><pattern id="tq0" patternUnits="userSpaceOnUse" width="0.780" height="0.780" patternTransform="rotate(45)"><rect width="0.780" height="0.420" fill="currentColor"></rect></pattern><pattern id="tq1" patternUnits="userSpaceOnUse" width="1.110" height="1.110" patternTransform="rotate(45)"><rect width="1.110" height="0.420" fill="currentColor"></rect></pattern><pattern id="tq2" patternUnits="userSpaceOnUse" width="1.560" height="1.560" patternTransform="rotate(45)"><rect width="1.560" height="0.420" fill="currentColor"></rect></pattern></defs><circle cx="6.00" cy="6.00" r="6.00" fill="url(#tq0)" opacity="0.55"></circle><circle cx="6.00" cy="6.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="21.00" cy="6.00" r="6.00" fill="url(#tq1)" opacity="0.55"></circle><circle cx="21.00" cy="6.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="36.00" cy="6.00" r="6.00" fill="url(#tq2)" opacity="0.55"></circle><circle cx="36.00" cy="6.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="6.00" cy="21.00" r="6.00" fill="url(#tq0)" opacity="0.8"></circle><circle cx="6.00" cy="21.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="21.00" cy="21.00" r="6.00" fill="url(#tq1)" opacity="0.8"></circle><circle cx="21.00" cy="21.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="36.00" cy="21.00" r="6.00" fill="url(#tq2)" opacity="0.8"></circle><circle cx="36.00" cy="21.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="6.00" cy="36.00" r="6.00" fill="url(#tq0)" opacity="1"></circle><circle cx="6.00" cy="36.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="21.00" cy="36.00" r="6.00" fill="url(#tq1)" opacity="1"></circle><circle cx="21.00" cy="36.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="36.00" cy="36.00" r="6.00" fill="url(#tq2)" opacity="1"></circle><circle cx="36.00" cy="36.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle></svg></div>
+<div style="display: flex; align-items: center; gap: 11px"><div id="logoSlot" style="width: 46px; height: 46px" role="img" aria-label="Yarden Amir test-plate mark"></div></div>
 <div style="display: flex; flex-direction: column; gap: 14px">
 <h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 500; letter-spacing: -0.005em">Yarden Amir is looking for the next thing.</h1>
 <div style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; line-height: 1.5; color: #7A5A30">Designer · Making &amp; Fabrication Instructor · Craft Researcher</div>
@@ -173,6 +173,7 @@ const $ = (id) => document.getElementById(id);
 const stage = $('stage'), app = $('app'), ov = $('ov'), rig = $('rig'), piecesEl = $('pieces');
 const SVGNS = 'http://www.w3.org/2000/svg';
 const LIB = 'https://cdn.jsdelivr.net/npm/modern-screenshot@4.6.8/dist/index.js';
+const LOGO = "<defs><pattern id=\"tq0\" patternUnits=\"userSpaceOnUse\" width=\"0.780\" height=\"0.780\" patternTransform=\"rotate(45)\"><rect width=\"0.780\" height=\"0.420\" fill=\"currentColor\"></rect></pattern><pattern id=\"tq1\" patternUnits=\"userSpaceOnUse\" width=\"1.110\" height=\"1.110\" patternTransform=\"rotate(45)\"><rect width=\"1.110\" height=\"0.420\" fill=\"currentColor\"></rect></pattern><pattern id=\"tq2\" patternUnits=\"userSpaceOnUse\" width=\"1.560\" height=\"1.560\" patternTransform=\"rotate(45)\"><rect width=\"1.560\" height=\"0.420\" fill=\"currentColor\"></rect></pattern></defs><circle cx=\"6.00\" cy=\"6.00\" r=\"6.00\" fill=\"url(#tq0)\" opacity=\"0.55\"></circle><circle cx=\"6.00\" cy=\"6.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"21.00\" cy=\"6.00\" r=\"6.00\" fill=\"url(#tq1)\" opacity=\"0.55\"></circle><circle cx=\"21.00\" cy=\"6.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"36.00\" cy=\"6.00\" r=\"6.00\" fill=\"url(#tq2)\" opacity=\"0.55\"></circle><circle cx=\"36.00\" cy=\"6.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"6.00\" cy=\"21.00\" r=\"6.00\" fill=\"url(#tq0)\" opacity=\"0.8\"></circle><circle cx=\"6.00\" cy=\"21.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"21.00\" cy=\"21.00\" r=\"6.00\" fill=\"url(#tq1)\" opacity=\"0.8\"></circle><circle cx=\"21.00\" cy=\"21.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"36.00\" cy=\"21.00\" r=\"6.00\" fill=\"url(#tq2)\" opacity=\"0.8\"></circle><circle cx=\"36.00\" cy=\"21.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"6.00\" cy=\"36.00\" r=\"6.00\" fill=\"url(#tq0)\" opacity=\"1\"></circle><circle cx=\"6.00\" cy=\"36.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"21.00\" cy=\"36.00\" r=\"6.00\" fill=\"url(#tq1)\" opacity=\"1\"></circle><circle cx=\"21.00\" cy=\"36.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"36.00\" cy=\"36.00\" r=\"6.00\" fill=\"url(#tq2)\" opacity=\"1\"></circle><circle cx=\"36.00\" cy=\"36.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle>";
 
 class Game {
   constructor() {
@@ -419,7 +420,7 @@ class Game {
 
   // ---------- view ----------
   viewTop() { return -stage.getBoundingClientRect().top; }
-  home() { return [26, this.viewTop() + 26]; }
+  home() { const sl = this.slot || [43, 47]; return this.mode === 'idle' ? sl : [sl[0], Math.max(sl[1], this.viewTop() + 34)]; }
   pt(e) { const r = ov.getBoundingClientRect(); return this.clampP([e.clientX - r.left, e.clientY - r.top]); }
 
   // ---------- arming ----------
@@ -515,9 +516,10 @@ class Game {
   lid(close, done) {
     const lid = $('lid'), f = lid.querySelector('.frame');
     lid.style.display = 'block';
-    const shut = { transform: 'rotateX(0deg)', opacity: 1 }, open = { transform: 'rotateX(-82deg)', opacity: 0 };
-    const kf = close ? [open, { transform: 'rotateX(-30deg)', opacity: 1, offset: 0.45 }, { transform: 'rotateX(1.5deg)', opacity: 1, offset: 0.88 }, shut]
-                     : [shut, { transform: 'rotateX(-25deg)', opacity: 1, offset: 0.5 }, open];
+    // hinged along the top edge of the screen: open, the lid stands up out of the screen toward you
+    const shut = { transform: 'rotateX(0deg)', opacity: 1 }, open = { transform: 'rotateX(84deg)', opacity: 0 };
+    const kf = close ? [open, { transform: 'rotateX(55deg)', opacity: 1, offset: 0.35 }, { transform: 'rotateX(-1.2deg)', opacity: 1, offset: 0.86 }, shut]
+                     : [shut, { transform: 'rotateX(40deg)', opacity: 1, offset: 0.55 }, open];
     const a = f.animate(kf, { duration: close ? 700 : 650, easing: close ? 'cubic-bezier(.5,0,.85,.4)' : 'cubic-bezier(.3,.1,.4,1)', fill: 'forwards' });
     a.onfinish = () => { if (!close) { lid.style.display = 'none'; a.cancel(); } if (done) done(); };
   }
@@ -669,122 +671,103 @@ class Game {
       try { cap = await this.capture(); } catch (e) { cap = null; }
       const plateImg = await this.svgImage(this.plateSVG(13));
       try { await Promise.all(['500 70px "EB Garamond"', '500 46px "EB Garamond"', '500 26px "IBM Plex Mono"', '400 30px "IBM Plex Mono"'].map((f) => document.fonts.load(f))); } catch (e) {}
-      const cv = document.createElement('canvas'); cv.width = 1080; cv.height = 1920;
+      const CW = 1080, CH = 1920;
+      const cv = document.createElement('canvas'); cv.width = CW; cv.height = CH;
       const ctx = cv.getContext('2d');
       const serif = '"EB Garamond", Garamond, serif', mono = '"IBM Plex Mono", monospace';
-      ctx.fillStyle = '#F1E9DC'; ctx.fillRect(0, 0, 1080, 1920);
+      const parts = this.parts;
+      // everything that was cut or lifted, in page coordinates
+      const all = [].concat(...cuts.map((s) => s.pts));
+      parts.forEach((p) => { if (p.lift) p.pts.forEach((q) => all.push([q[0] + p.lift.dx, q[1] + p.lift.dy])); });
+      const bx0 = Math.min(...all.map((p) => p[0])), by0 = Math.min(...all.map((p) => p[1]));
+      const bx1 = Math.max(...all.map((p) => p[0])), by1 = Math.max(...all.map((p) => p[1]));
+      const cw = bx1 - bx0, ch = by1 - by0;
+      // fill the width; zoom in further on small cuts, but keep the cut inside the middle band
+      const k = Math.max(CW / this.W, Math.min(3.4, 900 / Math.max(cw, 1), 720 / Math.max(ch, 1)));
+      const vw = CW / k, vh = CH / k;
+      const x0 = Math.max(0, Math.min(this.W - vw, (bx0 + bx1) / 2 - vw / 2));
+      const y0 = Math.max(0, Math.min(this.H - vh, (by0 + by1) / 2 - 1010 / k));
+      ctx.fillStyle = '#F1E9DC'; ctx.fillRect(0, 0, CW, CH);
+      ctx.save();
+      ctx.scale(k, k); ctx.translate(-x0, -y0);
+      if (cap) ctx.drawImage(cap.cv, x0 * cap.sc, y0 * cap.sc, vw * cap.sc, vh * cap.sc, x0, y0, vw, vh);
+      const strokesPath = new Path2D(cuts.map((s) => 'M' + s.pts.map((p) => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L')).join(''));
+      const hex = (x, y, w, h, R) => {
+        ctx.beginPath();
+        const HW = Math.sqrt(3) * R;
+        const c0 = Math.floor(x / HW) - 1, r0 = Math.floor(y / (1.5 * R)) - 1;
+        for (let row = r0; row * 1.5 * R < y + h + R; row++) for (let col = c0; col * HW < x + w + HW; col++) {
+          const hx = col * HW + (Math.abs(row) % 2 ? HW / 2 : 0), hy = row * 1.5 * R;
+          for (let q = 0; q < 6; q++) { const a = Math.PI / 6 + q * Math.PI / 3; ctx[q ? 'lineTo' : 'moveTo'](hx + R * Math.cos(a), hy + R * Math.sin(a)); }
+          ctx.closePath();
+        }
+        ctx.stroke();
+      };
+      if (parts.length) {
+        ctx.save(); ctx.clip(new Path2D(parts.map((p) => polyD(p.pts)).join('')), 'evenodd');
+        ctx.fillStyle = '#1E1D1B'; ctx.fillRect(x0, y0, vw, vh);
+        ctx.strokeStyle = '#3A3733'; ctx.lineWidth = 1.1; hex(x0, y0, vw, vh, 7);
+        ctx.restore();
+      }
+      const kerf = () => {
+        ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        ctx.strokeStyle = 'rgba(92,52,20,0.36)'; ctx.lineWidth = 5; ctx.stroke(strokesPath);
+        ctx.strokeStyle = '#262422'; ctx.lineWidth = 1.6; ctx.stroke(strokesPath);
+      };
+      ctx.save();
+      ctx.clip(new Path2D('M' + x0 + ' ' + y0 + 'h' + vw + 'v' + vh + 'h' + (-vw) + 'Z' + parts.map((p) => polyD(p.pts)).join('')), 'evenodd');
+      kerf();
+      ctx.restore();
+      // the pieces, lifted and set aside on the flyer exactly as on screen
+      parts.forEach((part) => {
+        const L = part.lift || { dx: 18, dy: -8, rot: 4 };
+        const n = part.pts.length - 1;
+        const cx = part.pts.slice(0, n).reduce((t, p) => t + p[0], 0) / n, cy = part.pts.slice(0, n).reduce((t, p) => t + p[1], 0) / n;
+        const path = new Path2D(polyD(part.pts));
+        ctx.save();
+        ctx.translate(cx + L.dx, cy + L.dy); ctx.rotate(L.rot * Math.PI / 180); ctx.scale(1.01, 1.01); ctx.translate(-cx, -cy);
+        ctx.save();
+        ctx.shadowColor = 'rgba(38,36,34,0.42)'; ctx.shadowBlur = 22; ctx.shadowOffsetY = 12;
+        ctx.fillStyle = cap ? '#F1E9DC' : '#C79A5B'; ctx.fill(path);
+        ctx.restore();
+        ctx.save(); ctx.clip(path);
+        if (cap) {
+          const xs = part.pts.map((p) => p[0]), ys = part.pts.map((p) => p[1]);
+          const px = Math.min(...xs) - 2, py = Math.min(...ys) - 2, pw = Math.max(...xs) - px + 4, ph = Math.max(...ys) - py + 4;
+          ctx.drawImage(cap.cv, px * cap.sc, py * cap.sc, pw * cap.sc, ph * cap.sc, px, py, pw, ph);
+        }
+        kerf();
+        ctx.restore();
+        ctx.strokeStyle = 'rgba(92,52,20,0.5)'; ctx.lineWidth = 3.5; ctx.stroke(path);
+        ctx.strokeStyle = '#262422'; ctx.lineWidth = 1.4; ctx.stroke(path);
+        ctx.restore();
+      });
+      ctx.restore();
+      // light gradients for the text, fading out toward the cut
+      const top = (by0 - y0) * k, bot = (by1 - y0) * k;
+      const birch = (a) => 'rgba(241,233,220,' + a + ')';
+      const tEnd = Math.max(700, Math.min(top + 10, 980));
+      let gr = ctx.createLinearGradient(0, 0, 0, tEnd);
+      gr.addColorStop(0, birch(0.985)); gr.addColorStop(Math.min(0.9, 580 / tEnd), birch(0.96)); gr.addColorStop(1, birch(0));
+      ctx.fillStyle = gr; ctx.fillRect(0, 0, CW, tEnd);
+      const bStart = Math.min(1380, Math.max(bot - 10, 1060));
+      gr = ctx.createLinearGradient(0, bStart, 0, CH);
+      gr.addColorStop(0, birch(0)); gr.addColorStop(Math.max(0.1, (1450 - bStart) / (CH - bStart)), birch(0.96)); gr.addColorStop(1, birch(0.985));
+      ctx.fillStyle = gr; ctx.fillRect(0, bStart, CW, CH - bStart);
+      // text
       ctx.fillStyle = '#7A5A30'; ctx.font = '500 26px ' + mono;
       if ('letterSpacing' in ctx) ctx.letterSpacing = '2px';
       ctx.fillText('CUT OUT OF HIS FLYER', 110, 278);
       if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
       ctx.fillStyle = '#262422'; ctx.font = '500 70px ' + serif;
       ['Yarden Amir is on a job hunt.', 'I cut this with a laser', 'on his resume.'].forEach((l, i) => ctx.fillText(l, 110, 370 + i * 76));
-
-      // the area of the flyer that was cut
-      const all = [].concat(...cuts.map((s) => s.pts));
-      const PAD = 26;
-      let fx0 = Math.max(0, Math.min(...all.map((p) => p[0])) - PAD), fy0 = Math.max(0, Math.min(...all.map((p) => p[1])) - PAD);
-      let fx1 = Math.min(this.W, Math.max(...all.map((p) => p[0])) + PAD), fy1 = Math.min(this.H, Math.max(...all.map((p) => p[1])) + PAD);
-      const minW = 150, minH = 150;
-      if (fx1 - fx0 < minW) { const c = (fx0 + fx1) / 2; fx0 = Math.max(0, c - minW / 2); fx1 = Math.min(this.W, fx0 + minW); }
-      if (fy1 - fy0 < minH) { const c = (fy0 + fy1) / 2; fy0 = Math.max(0, c - minH / 2); fy1 = Math.min(this.H, fy0 + minH); }
-      const fw = fx1 - fx0, fh = fy1 - fy0;
-      const parts = this.parts;
-      const hasParts = parts.length > 0;
-      // where each piece is set down: under its hole when the cut area is wide, to the right when it's tall
-      const info = parts.map((part) => {
-        const xs = part.pts.map((p) => p[0]), ys = part.pts.map((p) => p[1]), n = part.pts.length - 1;
-        return { w: Math.max(...xs) - Math.min(...xs), h: Math.max(...ys) - Math.min(...ys),
-          cx: part.pts.slice(0, n).reduce((t, p) => t + p[0], 0) / n, cy: part.pts.slice(0, n).reduce((t, p) => t + p[1], 0) / n };
-      });
-      const mW = hasParts ? Math.max(...info.map((q) => q.w)) : 0, mH = hasParts ? Math.max(...info.map((q) => q.h)) : 0;
-      const AX = 110, AY = 600, AW = 860, AH = 760, GAP = 40;
-      const wide = hasParts && fw / fh > 1.15;
-      const k = Math.min(3.2, !hasParts ? Math.min(AW / fw, AH / fh) : wide ? Math.min(AW / fw, (AH - GAP) / (fh + mH)) : Math.min(AH / fh, (AW - GAP) / (fw + mW)));
-      const fragW = fw * k, fragH = fh * k;
-      const ox = AX + (AW - (wide || !hasParts ? fragW : fragW + GAP + mW * k)) / 2;
-      const oy = AY + (AH - (wide ? fragH + GAP + mH * k : fragH)) / 2;
-      const spot = info.map((q) => {
-        if (wide) {
-          const x = ox + (q.cx - fx0) * k + 14;
-          return [Math.max(AX + q.w * k / 2, Math.min(AX + AW - q.w * k / 2, x)), oy + fragH + GAP + mH * k / 2];
-        }
-        const y = oy + (q.cy - fy0) * k;
-        return [ox + fragW + GAP + mW * k / 2, Math.max(AY + q.h * k / 2, Math.min(AY + AH - q.h * k / 2, y))];
-      });
-      const toFrag = () => { ctx.translate(ox, oy); ctx.scale(k, k); ctx.translate(-fx0, -fy0); };
-      const strokesPath = new Path2D(cuts.map((s) => 'M' + s.pts.map((p) => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L')).join(''));
-      const holes = new Path2D(parts.map((p) => polyD(p.pts)).join(''));
-      const hex = (x, y, w, h, R) => {
-        ctx.beginPath();
-        const HW = Math.sqrt(3) * R;
-        for (let row = -1; row * 1.5 * R < h + R; row++) for (let col = -1; col * HW < w + HW; col++) {
-          const hx = x + col * HW + (row % 2 ? HW / 2 : 0), hy = y + row * 1.5 * R;
-          for (let q = 0; q < 6; q++) { const a = Math.PI / 6 + q * Math.PI / 3; ctx[q ? 'lineTo' : 'moveTo'](hx + R * Math.cos(a), hy + R * Math.sin(a)); }
-          ctx.closePath();
-        }
-        ctx.stroke();
-      };
-      // fragment shadow + paper
-      ctx.save();
-      ctx.shadowColor = 'rgba(38,36,34,0.28)'; ctx.shadowBlur = 34; ctx.shadowOffsetY = 14;
-      ctx.fillStyle = '#F1E9DC'; ctx.fillRect(ox, oy, fragW, fragH);
-      ctx.restore();
-      ctx.save();
-      ctx.beginPath(); ctx.rect(ox, oy, fragW, fragH); ctx.clip();
-      ctx.save(); toFrag();
-      if (cap) ctx.drawImage(cap.cv, fx0 * cap.sc, fy0 * cap.sc, fw * cap.sc, fh * cap.sc, fx0, fy0, fw, fh);
-      // holes show the bed
-      if (hasParts) {
-        ctx.save(); ctx.clip(holes, 'evenodd');
-        ctx.fillStyle = '#1E1D1B'; ctx.fillRect(fx0, fy0, fw, fh);
-        ctx.strokeStyle = '#3A3733'; ctx.lineWidth = 1.1; hex(fx0, fy0, fw, fh, 7);
-        ctx.restore();
-      }
-      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-      ctx.strokeStyle = 'rgba(92,52,20,0.32)'; ctx.lineWidth = 4.5; ctx.stroke(strokesPath);
-      ctx.strokeStyle = '#262422'; ctx.lineWidth = 1.5; ctx.stroke(strokesPath);
-      ctx.restore();
-      ctx.restore();
-      ctx.strokeStyle = 'rgba(38,36,34,0.18)'; ctx.lineWidth = 2; ctx.strokeRect(ox, oy, fragW, fragH);
-
-      // the pieces, set down beside the fragment
-      if (hasParts) {
-        parts.forEach((part, i) => {
-          const path = new Path2D(polyD(part.pts));
-          const n = part.pts.length - 1;
-          const cx = part.pts.slice(0, n).reduce((t, p) => t + p[0], 0) / n, cy = part.pts.slice(0, n).reduce((t, p) => t + p[1], 0) / n;
-          ctx.save();
-          ctx.translate(spot[i][0], spot[i][1]);
-          ctx.rotate((i % 2 ? -1 : 1) * 6 * Math.PI / 180);
-          ctx.scale(k, k); ctx.translate(-cx, -cy);
-          ctx.save();
-          ctx.shadowColor = 'rgba(38,36,34,0.42)'; ctx.shadowBlur = 26 / k * k; ctx.shadowOffsetY = 16;
-          ctx.fillStyle = cap ? '#F1E9DC' : '#C79A5B'; ctx.fill(path);
-          ctx.restore();
-          ctx.save(); ctx.clip(path);
-          if (cap) {
-            const xs = part.pts.map((p) => p[0]), ys = part.pts.map((p) => p[1]);
-            const x0 = Math.min(...xs) - 2, y0 = Math.min(...ys) - 2, w = Math.max(...xs) - x0 + 4, h = Math.max(...ys) - y0 + 4;
-            ctx.drawImage(cap.cv, x0 * cap.sc, y0 * cap.sc, w * cap.sc, h * cap.sc, x0, y0, w, h);
-          }
-          ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-          ctx.strokeStyle = 'rgba(92,52,20,0.32)'; ctx.lineWidth = 4.5; ctx.stroke(strokesPath);
-          ctx.strokeStyle = '#262422'; ctx.lineWidth = 1.5; ctx.stroke(strokesPath);
-          ctx.restore();
-          ctx.strokeStyle = 'rgba(92,52,20,0.55)'; ctx.lineWidth = 4; ctx.stroke(path);
-          ctx.strokeStyle = '#262422'; ctx.lineWidth = 1.6; ctx.stroke(path);
-          ctx.restore();
-        });
-      }
-      // footer
-      ctx.fillStyle = '#262422'; ctx.fillRect(110, 1460, 860, 2);
-      ctx.font = '500 46px ' + serif; ctx.fillText('Your turn →', 110, 1532);
+      ctx.fillStyle = '#262422'; ctx.fillRect(110, 1490, 860, 2);
+      ctx.font = '500 46px ' + serif; ctx.fillText('Your turn →', 110, 1562);
       ctx.fillStyle = '#7A5A30'; ctx.font = '400 30px ' + mono; ctx.textAlign = 'right';
-      ctx.fillText('job.yardenamir.com', 970, 1528); ctx.textAlign = 'left';
-      ctx.drawImage(plateImg, 110, 1572, 91, 91);
-      ctx.fillStyle = '#262422'; ctx.font = '500 44px ' + serif; ctx.fillText('Yarden Amir', 223, 1612);
-      ctx.fillStyle = '#5F5A52'; ctx.font = '400 19px ' + mono; ctx.fillText('Designer · Making & Fabrication Instructor · Craft Researcher', 223, 1650);
+      ctx.fillText('job.yardenamir.com', 970, 1558); ctx.textAlign = 'left';
+      ctx.drawImage(plateImg, 110, 1600, 91, 91);
+      ctx.fillStyle = '#262422'; ctx.font = '500 44px ' + serif; ctx.fillText('Yarden Amir', 223, 1640);
+      ctx.fillStyle = '#5F5A52'; ctx.font = '400 19px ' + mono; ctx.fillText('Designer · Making & Fabrication Instructor · Craft Researcher', 223, 1678);
       const blob = await new Promise((r) => cv.toBlob(r, 'image/png'));
       this.storyFile = new File([blob], 'yarden-amir-laser-cut.png', { type: 'image/png' });
       if (this.storyURL) URL.revokeObjectURL(this.storyURL);
@@ -828,6 +811,8 @@ function lineD(pts) { return 'M' + pts.map((p) => p[0].toFixed(1) + ' ' + p[1].t
 function measure() {
   const W = app.offsetWidth, H = app.offsetHeight;
   const changedW = g.W && Math.abs(W - g.W) > 1;
+  const ls = document.getElementById('logoSlot');
+  if (ls) { const a = ls.getBoundingClientRect(), b = stage.getBoundingClientRect(); g.slot = [a.left - b.left + a.width / 2, a.top - b.top + a.height / 2]; }
   g.W = W; g.H = H;
   [ov, rig].forEach((s) => { s.setAttribute('width', W); s.setAttribute('height', H); s.setAttribute('viewBox', '0 0 ' + W + ' ' + H); });
   if (changedW && g.parts.length) { g.cap = null; g.reload(); }
@@ -877,17 +862,27 @@ function draw() {
     ov.innerHTML = o;
     // ---- gantry, head and smoke (above everything but the dock)
     let r = '';
-    if (mode !== 'idle') {
+    {
       const y = head[1];
       r += '<defs><linearGradient id="gs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".42"/><stop offset=".45" stop-color="#000" stop-opacity=".16"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>'
         + '<filter id="hs" x="-60%" y="-60%" width="220%" height="260%"><feGaussianBlur stdDeviation="4"/></filter></defs>';
       r += '<rect x="0" y="' + (y + 5).toFixed(1) + '" width="' + g.W + '" height="26" fill="url(#gs)"/>';
-      r += '<rect x="' + (head[0] - 13).toFixed(1) + '" y="' + (y - 8).toFixed(1) + '" width="30" height="34" rx="4" fill="#000" opacity=".38" filter="url(#hs)" transform="translate(4,9)"/>';
+      r += '<rect x="' + (head[0] - 22).toFixed(1) + '" y="' + (y - 20).toFixed(1) + '" width="46" height="46" rx="5" fill="#000" opacity=".34" filter="url(#hs)" transform="translate(4,9)"/>';
       r += '<rect x="0" y="' + (y - 7).toFixed(1) + '" width="' + g.W + '" height="13" fill="#3E3D39" opacity=".96"/><rect x="0" y="' + (y - 7).toFixed(1) + '" width="' + g.W + '" height="2" fill="#5A5852"/>';
+      // the head carries the test-plate mark; firing, its nine circles light up like a red LED matrix
+      const fire = laserOn ? 0.82 + Math.random() * 0.18 : 0, idleGlow = cutting && !laserOn ? 0.16 : 0;
+      const S = 34 / 42, cs = [6, 21, 36];
+      let leds = '';
+      cs.forEach((cy2) => cs.forEach((cx2) => { leds += '<circle cx="' + (-17 + cx2 * S).toFixed(2) + '" cy="' + (-17 + cy2 * S).toFixed(2) + '" r="' + (6 * S).toFixed(2) + '"/>'; }));
+      r += '<defs><filter id="led" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="3.2"/></filter></defs>';
       r += '<g transform="translate(' + head[0].toFixed(1) + ',' + y.toFixed(1) + ')">'
-        + '<circle r="16" fill="' + accent + '" opacity="' + (laserOn ? 0.4 : 0) + '"/>'
-        + '<rect x="-14" y="-18" width="28" height="32" rx="3" fill="#D6CFBF" stroke="#262422" stroke-width=".8"/><rect x="-9" y="-13" width="18" height="7" rx="1" fill="#8D877A"/>'
-        + '<circle cy="6" r="3.6" fill="' + (laserOn ? accent : '#4A4740') + '"/></g>';
+        + '<rect x="-23" y="-23" width="46" height="46" rx="4" fill="#E4DDCE" stroke="#262422" stroke-width=".8"/>'
+        + '<rect x="-21" y="-21" width="42" height="3" rx="1.5" fill="#fff" opacity=".45"/>'
+        + '<svg x="-17" y="-17" width="34" height="34" viewBox="0 0 42 42" style="color:#262422" overflow="visible">' + LOGO + '</svg>'
+        + ((fire || idleGlow) ? '<g fill="#FF3B2A" opacity="' + Math.max(fire, idleGlow).toFixed(2) + '" filter="url(#led)">' + leds + '</g>'
+          + '<g fill="#FF5A3C" opacity="' + Math.max(fire, idleGlow).toFixed(2) + '">' + leds + '</g>'
+          + (fire ? '<g fill="#FFD2B8" opacity="' + (fire * 0.75).toFixed(2) + '">' + leds.replace(/r="[\d.]+"/g, 'r="' + (2.2 * S).toFixed(2) + '"') + '</g>' : '') : '')
+        + '</g>';
       const now = g.now;
       g.smoke.forEach((p) => {
         const k = Math.min(1, (now - p.born) / p.life);
