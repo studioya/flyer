@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yarden Amir — Designer · Making &amp; Fabrication Instructor · Craft Researcher</title>
+<meta name="description" content="Yarden Amir is on a job hunt. Arm the laser and cut a piece out of his flyer.">
+<meta property="og:title" content="Yarden Amir is on a job hunt">
+<meta property="og:description" content="Cut something with a laser on his resume.">
+<meta property="og:url" content="https://job.yardenamir.com/v5/">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://job.yardenamir.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Yarden Amir is on a job hunt. Designer, Making and Fabrication Instructor, Craft Researcher.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet" crossorigin="anonymous">
+<style>
+html,body{margin:0;background:#F1E9DC}
+#stage{position:relative;max-width:480px;margin:0 auto}
+#bedBg{position:absolute;inset:0;background:#1E1D1B url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212.124%22%20height%3D%2221.000%22%3E%3Cpath%20d%3D%22M6.06%203.50L0.00%207.00L-6.06%203.50L-6.06%20-3.50L-0.00%20-7.00L6.06%20-3.50ZM18.19%203.50L12.12%207.00L6.06%203.50L6.06%20-3.50L12.12%20-7.00L18.19%20-3.50ZM12.12%2014.00L6.06%2017.50L0.00%2014.00L-0.00%207.00L6.06%203.50L12.12%207.00ZM6.06%2024.50L0.00%2028.00L-6.06%2024.50L-6.06%2017.50L-0.00%2014.00L6.06%2017.50ZM18.19%2024.50L12.12%2028.00L6.06%2024.50L6.06%2017.50L12.12%2014.00L18.19%2017.50Z%22%20fill%3D%22none%22%20stroke%3D%22%233A3733%22%20stroke-width%3D%221.1%22/%3E%3C/svg%3E");background-size:12.124px 21.000px;z-index:0}
+#app{position:relative;z-index:1;max-width:none}
+#app > div{padding-bottom:132px !important}
+#ov,#rig{position:absolute;left:0;top:0;display:block;overflow:visible}
+#ov{z-index:2;pointer-events:none}
+#pieces{position:absolute;inset:0;z-index:3;pointer-events:none}
+#rig{z-index:6;pointer-events:none}
+.piece{position:absolute;left:0;top:0;filter:drop-shadow(0 14px 14px rgba(0,0,0,.45));will-change:transform}
+html.locked,html.locked body{overflow:hidden;overscroll-behavior:none}
+html.locked #ov{pointer-events:auto;touch-action:none;cursor:crosshair}
+#scrim{position:fixed;inset:0;z-index:4;background:rgba(38,36,34,.32);display:none}
+#warn{position:fixed;left:50%;top:44%;transform:translate(-50%,-50%);z-index:5;width:min(318px,calc(100vw - 56px));box-sizing:border-box;
+  background:#C79A5B;color:#262422;border:1px solid rgba(38,36,34,.3);box-shadow:0 20px 44px rgba(0,0,0,.38);padding:30px 22px 24px;
+  text-align:center;font-family:'IBM Plex Mono', ui-monospace, Menlo, monospace;cursor:pointer;display:none;-webkit-tap-highlight-color:transparent}
+#warn .w1{font-weight:500;font-size:24px;line-height:1.25;letter-spacing:.06em}
+#warn .w2{font-size:13px;margin-top:14px;animation:blink 1.3s steps(2,start) infinite}
+#warn .w3{font-size:12.5px;line-height:1.55;margin-top:18px;padding-top:14px;border-top:1px dashed rgba(38,36,34,.45);text-align:left}
+@keyframes blink{to{opacity:.35}}
+#dock{position:fixed;left:0;right:0;bottom:0;z-index:8;max-width:480px;margin:0 auto;box-sizing:border-box;padding:0 12px calc(12px + env(safe-area-inset-bottom))}
+#panel{background:#262422;color:#F1E9DC;box-shadow:0 10px 28px rgba(0,0,0,.28);padding:10px;display:flex;flex-direction:column;gap:8px;font-family:'IBM Plex Mono', ui-monospace, Menlo, monospace}
+#status{display:flex;justify-content:space-between;gap:10px;font-size:11.5px;line-height:1.4;color:rgba(241,233,220,.78);min-height:16px;padding:0 2px}
+#status b{font-weight:500;white-space:nowrap}
+.row{display:grid;gap:8px}
+.row3{grid-template-columns:1.3fr 1fr 1fr}
+.row2{grid-template-columns:1.4fr 1fr}
+.btn{min-height:46px;border:1px solid rgba(241,233,220,.55);background:transparent;color:#F1E9DC;font-family:'IBM Plex Mono', ui-monospace, Menlo, monospace;font-weight:500;font-size:13.5px;letter-spacing:.08em;cursor:pointer;border-radius:0;padding:0 8px}
+.btn.primary{background:#B4593A;border-color:#B4593A;color:#fff}
+.btn:disabled{opacity:.38;cursor:default}
+.btn:focus-visible,.arm:focus-visible,#warn:focus-visible{outline:2px solid #C79A5B;outline-offset:2px}
+.arm{position:relative;display:flex;align-items:center;gap:14px;width:100%;min-height:68px;padding:0 18px 0 14px;border:0;border-radius:0;
+  background:#262422;color:#F1E9DC;font-family:'IBM Plex Mono', ui-monospace, Menlo, monospace;cursor:pointer;text-align:left}
+.arm .ants{position:absolute;inset:5px;width:calc(100% - 10px);height:calc(100% - 10px);overflow:visible;pointer-events:none}
+.arm .ants rect{fill:none;stroke:#C79A5B;stroke-width:1.2;stroke-dasharray:7 5;animation:march 1.1s linear infinite}
+@keyframes march{to{stroke-dashoffset:-24}}
+.arm .lz{flex:none;position:relative;width:34px;height:34px;background:#3E3D39;border:1px solid #5A5852;display:grid;place-items:center}
+.arm .lz::before{content:"";position:absolute;left:-6px;right:-6px;top:50%;height:1px;background:rgba(199,154,91,.55)}
+.arm .lz::after{content:"";position:absolute;top:-6px;bottom:-6px;left:50%;width:1px;background:rgba(199,154,91,.55)}
+.arm .lz i{position:relative;z-index:1;width:10px;height:10px;border-radius:50%;background:#B4593A;animation:pulse 1.6s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(180,89,58,.85),0 0 6px 2px rgba(180,89,58,.9)}100%{box-shadow:0 0 0 12px rgba(180,89,58,0),0 0 6px 2px rgba(180,89,58,.9)}}
+.arm .t{flex:1;display:flex;flex-direction:column;gap:3px}
+.arm .t b{font-weight:500;font-size:16px;letter-spacing:.12em}
+.arm .t small{font-size:12px;color:rgba(241,233,220,.72);letter-spacing:.01em}
+.arm .go{flex:none;font-size:20px;color:#C79A5B;transition:transform .2s}
+.arm:hover .go{transform:translateX(4px)}
+.arm.compact{min-height:52px}
+.arm.compact .t small{display:none}
+#shareMsg{font-size:11.5px;line-height:1.4;color:rgba(241,233,220,.72);min-height:16px;padding:0 2px}
+@media (prefers-reduced-motion: reduce){.arm .ants rect,.arm .lz i,#warn .w2{animation:none}}
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="bedBg" aria-hidden="true"></div>
+<div id="app">
+<div style="width: 100%; min-width: 320px; box-sizing: border-box; background: #F1E9DC; color: #262422; font-family: 'EB Garamond', Garamond, 'Times New Roman', serif; font-variant-numeric: oldstyle-nums; padding: 24px 20px 40px; display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; align-items: center; gap: 11px"><svg width="32" height="32" viewBox="0 0 42.00 42.00" role="img" aria-label="Yarden Amir test-plate mark" style="display: block; color: #262422"><defs><pattern id="tq0" patternUnits="userSpaceOnUse" width="0.780" height="0.780" patternTransform="rotate(45)"><rect width="0.780" height="0.420" fill="currentColor"></rect></pattern><pattern id="tq1" patternUnits="userSpaceOnUse" width="1.110" height="1.110" patternTransform="rotate(45)"><rect width="1.110" height="0.420" fill="currentColor"></rect></pattern><pattern id="tq2" patternUnits="userSpaceOnUse" width="1.560" height="1.560" patternTransform="rotate(45)"><rect width="1.560" height="0.420" fill="currentColor"></rect></pattern></defs><circle cx="6.00" cy="6.00" r="6.00" fill="url(#tq0)" opacity="0.55"></circle><circle cx="6.00" cy="6.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="21.00" cy="6.00" r="6.00" fill="url(#tq1)" opacity="0.55"></circle><circle cx="21.00" cy="6.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="36.00" cy="6.00" r="6.00" fill="url(#tq2)" opacity="0.55"></circle><circle cx="36.00" cy="6.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="6.00" cy="21.00" r="6.00" fill="url(#tq0)" opacity="0.8"></circle><circle cx="6.00" cy="21.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="21.00" cy="21.00" r="6.00" fill="url(#tq1)" opacity="0.8"></circle><circle cx="21.00" cy="21.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="36.00" cy="21.00" r="6.00" fill="url(#tq2)" opacity="0.8"></circle><circle cx="36.00" cy="21.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="6.00" cy="36.00" r="6.00" fill="url(#tq0)" opacity="1"></circle><circle cx="6.00" cy="36.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="21.00" cy="36.00" r="6.00" fill="url(#tq1)" opacity="1"></circle><circle cx="21.00" cy="36.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="36.00" cy="36.00" r="6.00" fill="url(#tq2)" opacity="1"></circle><circle cx="36.00" cy="36.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle></svg><span style="font-size: 28px; font-weight: 500; letter-spacing: -0.005em; line-height: 1">Yarden Amir</span></div>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 500; letter-spacing: -0.005em">Yarden is looking for the next thing.</h1>
+<div style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; line-height: 1.5; color: #7A5A30">Designer · Making &amp; Fabrication Instructor · Craft Researcher</div>
+<p style="margin: 0; font-size: 22px; line-height: 1.45; color: #262422">I design and make handmade objects in a digital way, working in a hybrid space of traditional, industrial, and modern technologies. I observe and research workshop culture, and instruct others in both old and new practices.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #7A5A30; padding-bottom: 8px; border-bottom: 1px solid #262422">01&nbsp;&nbsp;What I bring</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="border: 1px solid rgba(38, 36, 34, 0.18); border-radius: 2px; padding: 6px 12px; font-size: 17px; background: #FFFFFF">Rhino / Grasshopper</span>
+<span style="border: 1px solid rgba(38, 36, 34, 0.18); border-radius: 2px; padding: 6px 12px; font-size: 17px; background: #FFFFFF">Adobe Creative Suite</span>
+<span style="border: 1px solid rgba(38, 36, 34, 0.18); border-radius: 2px; padding: 6px 12px; font-size: 17px; background: #FFFFFF">3D printing</span>
+<span style="border: 1px solid rgba(38, 36, 34, 0.18); border-radius: 2px; padding: 6px 12px; font-size: 17px; background: #FFFFFF">Laser cutting</span>
+<span style="border: 1px solid rgba(38, 36, 34, 0.18); border-radius: 2px; padding: 6px 12px; font-size: 17px; background: #FFFFFF">CNC milling</span>
+<span style="border: 1px solid rgba(38, 36, 34, 0.18); border-radius: 2px; padding: 6px 12px; font-size: 17px; background: #FFFFFF">AI fluency</span>
+<span style="border: 1px solid rgba(38, 36, 34, 0.18); border-radius: 2px; padding: 6px 12px; font-size: 17px; background: #FFFFFF">Parametric thinking</span>
+<span style="border: 1px solid rgba(38, 36, 34, 0.18); border-radius: 2px; padding: 6px 12px; font-size: 17px; background: #FFFFFF">Craft research</span>
+<span style="border: 1px solid rgba(38, 36, 34, 0.18); border-radius: 2px; padding: 6px 12px; font-size: 17px; background: #FFFFFF">Workshop culture</span>
+<span style="border: 1px solid rgba(38, 36, 34, 0.18); border-radius: 2px; padding: 6px 12px; font-size: 17px; background: #FFFFFF">Craft instruction</span>
+<span style="border: 1px solid rgba(38, 36, 34, 0.18); border-radius: 2px; padding: 6px 12px; font-size: 17px; background: #FFFFFF">Workshop design</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #7A5A30; padding-bottom: 8px; border-bottom: 1px solid #262422">02&nbsp;&nbsp;Background</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; border-top: 0">
+<li style="padding: 12px 0; border-bottom: 1px solid rgba(38, 36, 34, 0.18); font-size: 17px; line-height: 1.45; color: #5F5A52"><span style="color: #262422; font-weight: 500">Workshop Supervisor</span>, Bezalel Academy, Jerusalem: running digital fabrication for design, architecture and art students <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5F5A52; white-space: nowrap">· 2019–2026</span></li>
+<li style="padding: 12px 0; border-bottom: 1px solid rgba(38, 36, 34, 0.18); font-size: 17px; line-height: 1.45; color: #5F5A52"><span style="color: #262422; font-weight: 500">Own practice</span>: designing and fabricating under my own name <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5F5A52; white-space: nowrap">· 2017–now</span></li>
+<li style="padding: 12px 0; border-bottom: 1px solid rgba(38, 36, 34, 0.18); font-size: 17px; line-height: 1.45; color: #5F5A52"><span style="color: #262422; font-weight: 500">MDes Industrial Design</span>, Bezalel Academy <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5F5A52; white-space: nowrap">· 2023</span></li>
+<li style="padding: 12px 0; border-bottom: 1px solid rgba(38, 36, 34, 0.18); font-size: 17px; line-height: 1.45; color: #5F5A52"><span style="color: #262422; font-weight: 500">Before design</span>: fine woodworker, art printer and framer, high-school history teacher</li><li style="padding: 12px 0; border-bottom: 1px solid rgba(38, 36, 34, 0.18); font-size: 17px; line-height: 1.45; color: #5F5A52"><span style="color: #262422; font-weight: 500">MA in Jewish History</span>, Tel Aviv University&nbsp;<span style="color: #5F5A52; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; white-space: nowrap">· 2018</span></li>
+
+</ul>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #7A5A30; padding-bottom: 8px; border-bottom: 1px solid #262422">03&nbsp;&nbsp;Selected work</div>
+<a href="https://studioya.github.io/pdf/lasers-ceramics.pdf" target="_blank" rel="noopener" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 72px; padding: 8px 0; border-bottom: 1px solid rgba(38, 36, 34, 0.18); text-decoration: none; color: #262422; font-size: 19px; line-height: 1.3"><img src="../img/085277a97b.jpg" alt="Ceramic test tile etched with a radial pattern of tones" style="display: block; width: 56px; height: 56px; flex: none; object-fit: cover; border-radius: 0"><span style="flex: 1; min-width: 0">Lasers × ceramics: research to objects</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5F5A52; white-space: nowrap">2023–24 ↗</span></a>
+<a href="https://studioya.github.io/pdf/parametric-objects.pdf" target="_blank" rel="noopener" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 72px; padding: 8px 0; border-bottom: 1px solid rgba(38, 36, 34, 0.18); text-decoration: none; color: #262422; font-size: 19px; line-height: 1.3"><img src="../img/efdc1edb24.jpg" alt="Terracotta dish covered in a laser-etched black pixel pattern" style="display: block; width: 56px; height: 56px; flex: none; object-fit: cover; border-radius: 0"><span style="flex: 1; min-width: 0">Parametric objects</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5F5A52; white-space: nowrap">2021–now ↗</span></a>
+<a href="https://studioya.github.io/pdf/aumbry-2.0.pdf" target="_blank" rel="noopener" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 72px; padding: 8px 0; border-bottom: 1px solid rgba(38, 36, 34, 0.18); text-decoration: none; color: #262422; font-size: 19px; line-height: 1.3"><img src="../img/2b609ade53.jpg" alt="Render of milled Gothic tracery in oak beside an orange aluminium track" style="display: block; width: 56px; height: 56px; flex: none; object-fit: cover; border-radius: 0"><span style="flex: 1; min-width: 0">Aumbry 2.0: historical craft, redesigned</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5F5A52; white-space: nowrap">2024–25 ↗</span></a>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #7A5A30; padding-bottom: 8px; border-bottom: 1px solid #262422">04&nbsp;&nbsp;What’s next</div>
+<p style="margin: 0; font-size: 18px; line-height: 1.55; color: #262422">Looking for a full-time or near-full-time role, or projects in design and fabrication · Tel Aviv, on site or remote.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 4px">
+<a href="mailto:studio@yardenamir.com" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; min-height: 56px; border-radius: 0; background: #B4593A; color: #FFFFFF; font-weight: 500; font-size: 20px; text-decoration: none">Write to studio@yardenamir.com</a>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<a href="https://wa.me/972524251299" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border: 1px solid #262422; border-radius: 0; color: #262422; text-decoration: none; font-size: 18px">WhatsApp</a>
+<a href="https://www.instagram.com/yardenamirstudio/" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border: 1px solid #262422; border-radius: 0; color: #262422; text-decoration: none; font-size: 18px">Instagram</a>
+<a href="https://studioya.github.io/pdf/cv-yarden-amir.pdf" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border: 1px solid #262422; border-radius: 0; color: #262422; text-decoration: none; font-size: 18px">CV</a>
+<a href="https://github.com/studioya?tab=repositories" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border: 1px solid #262422; border-radius: 0; color: #262422; text-decoration: none; font-size: 18px">GitHub</a>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-start"><button id="shareLinkBtn" style="border: 0; background: none; padding: 0; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; color: #7A5A30; text-decoration: underline; text-underline-offset: 3px; cursor: pointer">Share this flyer ↗</button><span id="linkMsg" style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5F5A52"></span></div>
+<div style="display: flex; flex-direction: column; gap: 8px; padding-top: 24px; border-top: 1px solid rgba(38, 36, 34, 0.18)"><svg width="32.2" height="32.2" viewBox="0 0 32.20 32.20" role="img" aria-label="Yarden Amir test-plate mark" style="display: block; color: #262422"><defs><pattern id="fp0" patternUnits="userSpaceOnUse" width="0.598" height="0.598" patternTransform="rotate(45)"><rect width="0.598" height="0.322" fill="currentColor"></rect></pattern><pattern id="fp1" patternUnits="userSpaceOnUse" width="0.851" height="0.851" patternTransform="rotate(45)"><rect width="0.851" height="0.322" fill="currentColor"></rect></pattern><pattern id="fp2" patternUnits="userSpaceOnUse" width="1.196" height="1.196" patternTransform="rotate(45)"><rect width="1.196" height="0.322" fill="currentColor"></rect></pattern></defs><circle cx="4.60" cy="4.60" r="4.60" fill="url(#fp0)" opacity="0.55"></circle><circle cx="4.60" cy="4.60" r="4.60" fill="none" stroke="currentColor" stroke-width="0.230" stroke-opacity=".6"></circle><circle cx="16.10" cy="4.60" r="4.60" fill="url(#fp1)" opacity="0.55"></circle><circle cx="16.10" cy="4.60" r="4.60" fill="none" stroke="currentColor" stroke-width="0.230" stroke-opacity=".6"></circle><circle cx="27.60" cy="4.60" r="4.60" fill="url(#fp2)" opacity="0.55"></circle><circle cx="27.60" cy="4.60" r="4.60" fill="none" stroke="currentColor" stroke-width="0.230" stroke-opacity=".6"></circle><circle cx="4.60" cy="16.10" r="4.60" fill="url(#fp0)" opacity="0.8"></circle><circle cx="4.60" cy="16.10" r="4.60" fill="none" stroke="currentColor" stroke-width="0.230" stroke-opacity=".6"></circle><circle cx="16.10" cy="16.10" r="4.60" fill="url(#fp1)" opacity="0.8"></circle><circle cx="16.10" cy="16.10" r="4.60" fill="none" stroke="currentColor" stroke-width="0.230" stroke-opacity=".6"></circle><circle cx="27.60" cy="16.10" r="4.60" fill="url(#fp2)" opacity="0.8"></circle><circle cx="27.60" cy="16.10" r="4.60" fill="none" stroke="currentColor" stroke-width="0.230" stroke-opacity=".6"></circle><circle cx="4.60" cy="27.60" r="4.60" fill="url(#fp0)" opacity="1"></circle><circle cx="4.60" cy="27.60" r="4.60" fill="none" stroke="currentColor" stroke-width="0.230" stroke-opacity=".6"></circle><circle cx="16.10" cy="27.60" r="4.60" fill="url(#fp1)" opacity="1"></circle><circle cx="16.10" cy="27.60" r="4.60" fill="none" stroke="currentColor" stroke-width="0.230" stroke-opacity=".6"></circle><circle cx="27.60" cy="27.60" r="4.60" fill="url(#fp2)" opacity="1"></circle><circle cx="27.60" cy="27.60" r="4.60" fill="none" stroke="currentColor" stroke-width="0.230" stroke-opacity=".6"></circle></svg><div style="font-size: 26px; font-weight: 500; letter-spacing: -0.005em; line-height: 1; margin-top: 1px">Yarden Amir</div><div style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5F5A52; margin-top: 6px">yardenamir.com · hand-coded, view source welcome</div></div>
+</div>
+</div>
+<svg id="ov" aria-hidden="true"></svg>
+<div id="pieces" aria-hidden="true"></div>
+<svg id="rig" aria-hidden="true"></svg>
+</div>
+
+<div id="scrim"></div>
+<div id="warn" role="button" tabindex="0" aria-label="Laser cutters are not a game. Tap the sheet to play. Draw on the flyer, close a shape and press Cut; that piece of the flyer drops out.">
+<div class="w1">LASER CUTTERS<br>ARE NOT A GAME!</div>
+<div class="w2">&#9654; tap the sheet to play</div>
+<div class="w3">Draw on the flyer with your finger. Close a shape, press Cut, and that piece of the flyer drops out.</div>
+</div>
+<div id="dock"><div id="panel">
+<div id="status"><span id="hintT"></span><b id="readout"></b></div>
+<button id="arm" class="arm" aria-label="Arm the laser, cut a piece out of this flyer">
+<svg class="ants" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%"></rect></svg>
+<span class="lz" aria-hidden="true"><i></i></span>
+<span class="t"><b>ARM THE LASER</b><small>cut a piece out of this flyer</small></span>
+<span class="go" aria-hidden="true">&rarr;</span>
+</button>
+<div id="armedRow" class="row row3"><button id="cutB" class="btn primary">CUT</button><button id="clearB" class="btn">CLEAR</button><button id="doneB" class="btn">DONE</button></div>
+<div id="afterRow" class="row row2"><button id="shareB" class="btn primary">SHARE YOUR CUT &#8599;</button><button id="reloadB" class="btn">RELOAD FLYER</button></div>
+<div id="shareMsg"></div>
+</div></div>
+<script>
+(function () {
+const $ = (id) => document.getElementById(id);
+const stage = $('stage'), app = $('app'), ov = $('ov'), rig = $('rig'), piecesEl = $('pieces');
+const SVGNS = 'http://www.w3.org/2000/svg';
+const LIB = 'https://cdn.jsdelivr.net/npm/modern-screenshot@4.6.8/dist/index.js';
+
+class Game {
+  constructor() {
+    this.state = { strokes: [], cur: null };
+    this.parts = []; this.faceKey = '';
+    this.W = 0; this.H = 0;
+    this.mode = 'idle';        // idle | intro | tracing | draw | cutting
+    this.introDone = false;
+    this.segs = []; this.total = 0; this.el = 0; this.job = null;
+    this.smoke = []; this.now = 0; this.raf = null;
+    this.lastJob = null; this.jobPartsStart = 0;
+    this.storyFile = null; this.storyURL = null; this.storyBusy = false; this.shareMsg = ''; this.linkMsg = '';
+    this.cap = null;
+    this.SITE = 'https://job.yardenamir.com';
+  }
+  setState(s) { Object.assign(this.state, s); draw(); }
+  // ---------- geometry: turn a scribble into lines and arcs ----------
+  distSeg(p, a, b) {
+    const dx = b[0] - a[0], dy = b[1] - a[1], L = dx * dx + dy * dy;
+    let t = L ? ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / L : 0;
+    t = Math.max(0, Math.min(1, t));
+    return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy);
+  }
+  circum(A, M, B) {
+    const d = 2 * (A[0] * (M[1] - B[1]) + M[0] * (B[1] - A[1]) + B[0] * (A[1] - M[1]));
+    if (Math.abs(d) < 1e-6) return null;
+    const a2 = A[0] * A[0] + A[1] * A[1], m2 = M[0] * M[0] + M[1] * M[1], b2 = B[0] * B[0] + B[1] * B[1];
+    const ux = (a2 * (M[1] - B[1]) + m2 * (B[1] - A[1]) + b2 * (A[1] - M[1])) / d;
+    const uy = (a2 * (B[0] - M[0]) + m2 * (A[0] - B[0]) + b2 * (M[0] - A[0])) / d;
+    return { c: [ux, uy], r: Math.hypot(A[0] - ux, A[1] - uy) };
+  }
+  arcPts(A, M, B) {
+    const C = this.circum(A, M, B);
+    if (!C || C.r > 2000) return [B];
+    const TAU = Math.PI * 2, ang = (p) => Math.atan2(p[1] - C.c[1], p[0] - C.c[0]);
+    const ccw = (f, t) => (((t - f) % TAU) + TAU) % TAU;
+    const a0 = ang(A), am = ang(M), a1 = ang(B);
+    const sweep = ccw(a0, am) < ccw(a0, a1) ? ccw(a0, a1) : -(TAU - ccw(a0, a1));
+    const n = Math.max(4, Math.ceil(Math.abs(sweep) * C.r / 4));
+    const out = [];
+    for (let i = 1; i < n; i++) {
+      const a = a0 + sweep * i / n;
+      out.push([C.c[0] + C.r * Math.cos(a), C.c[1] + C.r * Math.sin(a)]);
+    }
+    out.push(B);
+    return out;
+  }
+  clampP(p) { return [Math.max(4, Math.min(this.W - 4, p[0])), Math.max(4, Math.min(this.H - 4, p[1]))]; }
+  fitStroke(raw, closed, pinEnd) {
+    const pts = closed ? raw.concat([raw[0]]) : raw;
+    if (closed) {
+      const body = raw;
+      const cx = body.reduce((t, p) => t + p[0], 0) / body.length, cy = body.reduce((t, p) => t + p[1], 0) / body.length;
+      const ds = body.map((p) => Math.hypot(p[0] - cx, p[1] - cy));
+      const R = ds.reduce((t, v) => t + v, 0) / ds.length;
+      const sd = Math.sqrt(ds.reduce((t, v) => t + (v - R) * (v - R), 0) / ds.length);
+      if (R > 8 && sd / R < 0.13) {
+        const a0 = Math.atan2(body[0][1] - cy, body[0][0] - cx), out = [];
+        const n = Math.max(24, Math.ceil(2 * Math.PI * R / 4));
+        for (let i = 0; i < n; i++) out.push(this.clampP([cx + R * Math.cos(a0 + i * 2 * Math.PI / n), cy + R * Math.sin(a0 + i * 2 * Math.PI / n)]));
+        out.push(out[0]);
+        return { pts: out, closed: true, nodes: [[cx, cy]], cut: false };
+      }
+    }
+    const prims = [];
+    const fit = (i, j, depth) => {
+      if (j - i < 2) { prims.push({ i, j, arc: false }); return; }
+      const A = pts[i], B = pts[j];
+      let dev = 0, kmax = i + 1;
+      for (let k = i + 1; k < j; k++) { const d = this.distSeg(pts[k], A, B); if (d > dev) { dev = d; kmax = k; } }
+      if (dev < 5) { prims.push({ i, j, arc: false }); return; }
+      const m = (i + j) >> 1, C = this.circum(A, pts[m], B);
+      if (C && C.r < 700 && j - i >= 4) {
+        let res = 0;
+        for (let k = i; k <= j; k++) res = Math.max(res, Math.abs(Math.hypot(pts[k][0] - C.c[0], pts[k][1] - C.c[1]) - C.r));
+        if (res < 4.5) { prims.push({ i, j, arc: true, m }); return; }
+      }
+      if (depth > 8) { prims.push({ i, j, arc: false }); return; }
+      fit(i, kmax, depth + 1);
+      fit(kmax, j, depth + 1);
+    };
+    const last = pts.length - 1;
+    if (closed) {
+      let far = 1, fd = 0;
+      for (let k = 1; k < last; k++) { const d = Math.hypot(pts[k][0] - pts[0][0], pts[k][1] - pts[0][1]); if (d > fd) { fd = d; far = k; } }
+      fit(0, far, 0); fit(far, last, 0);
+    } else fit(0, last, 0);
+
+    const V = [pts[prims[0].i].slice()];
+    prims.forEach((p) => V.push(pts[p.j].slice()));
+    if (closed) V[V.length - 1] = V[0];
+    const STEP = Math.PI / 4, SNAP = 7 * Math.PI / 180;
+    prims.forEach((p, k) => {
+      if (p.arc || ((closed || pinEnd) && k === prims.length - 1)) return;
+      const a = V[k], b = V[k + 1], L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+      const ang = Math.atan2(b[1] - a[1], b[0] - a[0]), snapped = Math.round(ang / STEP) * STEP;
+      if (Math.abs(ang - snapped) < SNAP) {
+        const nb = this.clampP([a[0] + L * Math.cos(snapped), a[1] + L * Math.sin(snapped)]);
+        b[0] = nb[0]; b[1] = nb[1];
+      }
+    });
+    const out = [V[0]];
+    prims.forEach((p, k) => {
+      if (p.arc) this.arcPts(V[k], pts[p.m], V[k + 1]).forEach((q) => out.push(q));
+      else out.push(V[k + 1]);
+    });
+    if (closed) out[out.length - 1] = out[0];
+    return { pts: out.map((p, i) => (closed && i === out.length - 1) ? out[0] : this.clampP(p)), closed, nodes: closed ? V.slice(0, -1) : V, cut: false };
+  }
+
+  // ---------- joining strokes into shapes ----------
+  snapPoint(p) {
+    let best = null, bd = 14;
+    this.state.strokes.forEach((s) => {
+      [s.pts[0], s.pts[s.pts.length - 1]].forEach((q) => {
+        const d = Math.hypot(q[0] - p[0], q[1] - p[1]);
+        if (d < bd) { bd = d; best = q.slice(); }
+      });
+    });
+    if (best) return best;
+    bd = 10;
+    this.state.strokes.forEach((s) => {
+      for (let i = 1; i < s.pts.length; i++) {
+        const a = s.pts[i - 1], b = s.pts[i], dx = b[0] - a[0], dy = b[1] - a[1], L = dx * dx + dy * dy;
+        if (!L) continue;
+        const u = Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / L));
+        const q = [a[0] + u * dx, a[1] + u * dy], d = Math.hypot(q[0] - p[0], q[1] - p[1]);
+        if (d < bd) { bd = d; best = q; }
+      }
+    });
+    return best;
+  }
+  computeFaces(polys) {
+    const segs = [];
+    polys.forEach((p) => { for (let i = 1; i < p.length; i++) if (Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1]) > 0.01) segs.push([p[i - 1], p[i]]); });
+    const splits = segs.map(() => [0, 1]);
+    const box = segs.map(([a, b]) => [Math.min(a[0], b[0]) - 3, Math.min(a[1], b[1]) - 3, Math.max(a[0], b[0]) + 3, Math.max(a[1], b[1]) + 3]);
+    for (let i = 0; i < segs.length; i++) {
+      for (let j = i + 1; j < segs.length; j++) {
+        const A = box[i], B = box[j];
+        if (A[0] > B[2] || B[0] > A[2] || A[1] > B[3] || B[1] > A[3]) continue;
+        const [a, b] = segs[i], [c, d] = segs[j];
+        const r = [b[0] - a[0], b[1] - a[1]], s = [d[0] - c[0], d[1] - c[1]];
+        const den = r[0] * s[1] - r[1] * s[0];
+        if (Math.abs(den) < 1e-9) continue;
+        const ca = [c[0] - a[0], c[1] - a[1]];
+        const t = (ca[0] * s[1] - ca[1] * s[0]) / den, u = (ca[0] * r[1] - ca[1] * r[0]) / den;
+        const eT = 2.5 / Math.hypot(r[0], r[1]), eU = 2.5 / Math.hypot(s[0], s[1]);
+        if (t >= -eT && t <= 1 + eT && u >= -eU && u <= 1 + eU) {
+          splits[i].push(Math.max(0, Math.min(1, t)));
+          splits[j].push(Math.max(0, Math.min(1, u)));
+        }
+      }
+    }
+    const nodes = [], grid = {};
+    const nid = (p) => {
+      const gx = Math.round(p[0] / 2), gy = Math.round(p[1] / 2);
+      for (let x = gx - 1; x <= gx + 1; x++) for (let y = gy - 1; y <= gy + 1; y++) {
+        for (const id of (grid[x + ',' + y] || [])) if (Math.hypot(nodes[id][0] - p[0], nodes[id][1] - p[1]) < 1.6) return id;
+      }
+      nodes.push(p); (grid[gx + ',' + gy] = grid[gx + ',' + gy] || []).push(nodes.length - 1);
+      return nodes.length - 1;
+    };
+    const adj = new Map(), link = (u, v) => {
+      if (u === v) return;
+      if (!adj.has(u)) adj.set(u, new Set());
+      if (!adj.has(v)) adj.set(v, new Set());
+      adj.get(u).add(v); adj.get(v).add(u);
+    };
+    segs.forEach(([a, b], i) => {
+      const ts = Array.from(new Set(splits[i].map((x) => Math.round(x * 1e5) / 1e5))).sort((x, y) => x - y);
+      let prev = null;
+      ts.forEach((tt) => {
+        const id = nid([a[0] + (b[0] - a[0]) * tt, a[1] + (b[1] - a[1]) * tt]);
+        if (prev !== null) link(prev, id);
+        prev = id;
+      });
+    });
+    let pruned = true;
+    while (pruned) {
+      pruned = false;
+      for (const [u, set] of adj) if (set.size < 2) { set.forEach((v) => adj.get(v) && adj.get(v).delete(u)); adj.delete(u); pruned = true; }
+    }
+    const order = new Map();
+    for (const [u, set] of adj) {
+      const p = nodes[u];
+      order.set(u, Array.from(set).sort((x, y) => Math.atan2(nodes[x][1] - p[1], nodes[x][0] - p[0]) - Math.atan2(nodes[y][1] - p[1], nodes[y][0] - p[0])));
+    }
+    const seen = new Set(), faces = [];
+    for (const [u0, list] of order) {
+      for (const v0 of list) {
+        if (seen.has(u0 + '>' + v0)) continue;
+        const cyc = [];
+        let u = u0, v = v0, guard = 0;
+        while (guard++ < 20000) {
+          seen.add(u + '>' + v);
+          cyc.push(nodes[u]);
+          const nb = order.get(v), k = nb.indexOf(u);
+          const w = nb[(k - 1 + nb.length) % nb.length];
+          u = v; v = w;
+          if (u === u0 && v === v0) break;
+        }
+        let area = 0;
+        for (let i = 0; i < cyc.length; i++) { const p = cyc[i], q = cyc[(i + 1) % cyc.length]; area += p[0] * q[1] - q[0] * p[1]; }
+        area /= 2;
+        if (area > 40) faces.push({ pts: cyc.concat([cyc[0]]), area });
+      }
+    }
+    return faces;
+  }
+  nearEdge(p, poly) {
+    for (let i = 1; i < poly.length; i++) if (this.distSeg(p, poly[i - 1], poly[i]) < 2.5) return true;
+    return false;
+  }
+  inPoly(p, poly) {
+    let inside = false;
+    for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      const a = poly[i], b = poly[j];
+      if ((a[1] > p[1]) !== (b[1] > p[1]) && p[0] < (b[0] - a[0]) * (p[1] - a[1]) / (b[1] - a[1]) + a[0]) inside = !inside;
+    }
+    return inside;
+  }
+  updateParts(cutSet) {
+    const key = cutSet.join(',');
+    if (key === this.faceKey) return;
+    this.faceKey = key;
+    if (!cutSet.length) return;
+    const faces = this.computeFaces(cutSet.map((si) => this.state.strokes[si].pts));
+    faces.sort((a, b) => b.area - a.area).forEach((f) => {
+      const n = f.pts.length - 1;
+      const c = [f.pts.slice(0, n).reduce((t, p) => t + p[0], 0) / n, f.pts.slice(0, n).reduce((t, p) => t + p[1], 0) / n];
+      if (this.parts.some((p) => f.area <= p.area * 1.03 && this.inPoly(c, p.pts))) return;
+      this.parts.push({ pts: f.pts, area: f.area, t: performance.now() });
+    });
+  }
+
+
+  plateSVG(r) {
+    const g = r / 2, sp = [0.13 * r, 0.185 * r, 0.26 * r], tw = 0.07 * r, op = [0.55, 0.8, 1], w = 6 * r + 2 * g;
+    let s = '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + w + '" viewBox="0 0 ' + w + ' ' + w + '"><defs>';
+    sp.forEach((p, i) => { s += '<pattern id="h' + i + '" patternUnits="userSpaceOnUse" width="' + p + '" height="' + p + '" patternTransform="rotate(45)"><rect width="' + p + '" height="' + tw + '" fill="#262422"/></pattern>'; });
+    s += '</defs>';
+    for (let j = 0; j < 3; j++) for (let i = 0; i < 3; i++) {
+      const cx = r + i * (2 * r + g), cy = r + j * (2 * r + g);
+      s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="url(#h' + i + ')" opacity="' + op[j] + '"/><circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="none" stroke="#262422" stroke-width="' + (0.05 * r) + '" stroke-opacity=".6"/>';
+    }
+    return s + '</svg>';
+  }
+  svgImage(svg) {
+    return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); });
+  }
+  innerPath(part) {
+    let d = '';
+    this.state.strokes.filter((s) => s.cut).forEach((s) => {
+      const pts = s.pts, step = Math.max(1, Math.floor(pts.length / 16));
+      let n = 0, inside = 0;
+      for (let k = 0; k < pts.length; k += step) { n++; if (!this.nearEdge(pts[k], part.pts) && this.inPoly(pts[k], part.pts)) inside++; }
+      if (n && inside > n / 2) d += 'M' + pts.map((p) => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L');
+    });
+    return d;
+  }
+
+  // ---------- view ----------
+  viewTop() { return -stage.getBoundingClientRect().top; }
+  home() { return [26, this.viewTop() + 26]; }
+  pt(e) { const r = ov.getBoundingClientRect(); return this.clampP([e.clientX - r.left, e.clientY - r.top]); }
+
+  // ---------- arming ----------
+  arm() {
+    if (this.mode !== 'idle') return;
+    document.documentElement.classList.add('locked');
+    this.capture().catch(() => {});
+    if (this.introDone) { this.mode = 'draw'; draw(); return; }
+    this.mode = 'intro';
+    $('scrim').style.display = 'block'; $('scrim').style.opacity = '1';
+    const w = $('warn'); w.style.display = 'block'; w.style.opacity = '1'; w.style.transform = ''; w.style.pointerEvents = '';
+    w.focus({ preventScroll: true });
+    draw();
+  }
+  disarm() {
+    if (this.mode !== 'draw') return;
+    this.state.strokes = this.state.strokes.filter((s) => s.cut);
+    this.state.cur = null;
+    this.mode = 'idle';
+    document.documentElement.classList.remove('locked');
+    draw();
+  }
+  clearWarning() {
+    if (this.mode !== 'intro') return;
+    $('warn').style.pointerEvents = 'none';
+    const r = $('warn').getBoundingClientRect(), s = stage.getBoundingClientRect();
+    const x0 = r.left - s.left - 3, y0 = r.top - s.top - 3, x1 = r.right - s.left + 3, y1 = r.bottom - s.top + 3;
+    this.runJob([[[x0, y0], [x1, y0], [x1, y1], [x0, y1], [x0, y0]]], true);
+  }
+  dropWarning() {
+    const w = $('warn'), sc = $('scrim');
+    const a = w.animate([
+      { transform: 'translate(-50%,-50%)', opacity: 1 },
+      { transform: 'translate(-50%,calc(-50% + 6px)) scale(.97)', opacity: 1, offset: 0.18 },
+      { transform: 'translate(-50%,calc(-50% + 75vh)) rotate(9deg) scale(.9)', opacity: 0 }
+    ], { duration: 1000, easing: 'cubic-bezier(.45,0,.9,.55)', fill: 'forwards' });
+    sc.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 700, fill: 'forwards' });
+    a.onfinish = () => { w.style.display = 'none'; sc.style.display = 'none'; a.cancel(); };
+  }
+
+  // ---------- drawing ----------
+  onDown(e) {
+    if (this.mode !== 'draw') return;
+    e.preventDefault();
+    try { ov.setPointerCapture(e.pointerId); } catch (err) {}
+    this.setState({ cur: [this.pt(e)] });
+  }
+  onMove(e) {
+    const c = this.state.cur;
+    if (!c) return;
+    const p = this.pt(e), l = c[c.length - 1];
+    if (Math.hypot(p[0] - l[0], p[1] - l[1]) < 3) return;
+    this.setState({ cur: c.concat([p]) });
+  }
+  onUp() {
+    const c = this.state.cur;
+    if (!c) return;
+    if (c.length < 2) { this.setState({ cur: null }); return; }
+    const closed = c.length >= 6 && Math.hypot(c[0][0] - c[c.length - 1][0], c[0][1] - c[c.length - 1][1]) < 22;
+    let raw = c.slice(), pinEnd = false;
+    if (!closed) {
+      const a = this.snapPoint(raw[0]), b = this.snapPoint(raw[raw.length - 1]);
+      if (a) raw[0] = a;
+      if (b) { raw[raw.length - 1] = b; pinEnd = true; }
+    }
+    const body = closed ? raw.slice(0, -1) : raw;
+    const s = this.fitStroke(body.length >= 2 ? body : raw, closed, pinEnd);
+    this.setState({ cur: null, strokes: this.state.strokes.concat([s]) });
+  }
+  onClear() {
+    if (this.mode !== 'draw') return;
+    this.setState({ cur: null, strokes: this.state.strokes.filter((s) => s.cut) });
+  }
+
+  // ---------- machine ----------
+  onCut() {
+    if (this.mode !== 'draw') return;
+    const strokes = this.state.strokes;
+    const job = strokes.map((s, si) => s.cut ? -1 : si).filter((si) => si >= 0);
+    if (!job.length) return;
+    // Inside-out: lines inside an enclosed area are cut before that area's edges.
+    const faces = this.computeFaces(strokes.filter((s) => s.cut).map((s) => s.pts).concat(job.map((si) => strokes[si].pts)));
+    const depth = {};
+    job.forEach((si) => {
+      const pts = strokes[si].pts, step = Math.max(1, Math.floor(pts.length / 24));
+      depth[si] = faces.filter((fc) => {
+        let n = 0, inside = 0;
+        for (let k = 0; k < pts.length; k += step) { n++; if (!this.nearEdge(pts[k], fc.pts) && this.inPoly(pts[k], fc.pts)) inside++; }
+        return inside > n / 2;
+      }).length;
+    });
+    job.sort((x, y) => depth[y] - depth[x] || x - y);
+    this.job = job;
+    this.runJob(job.map((si) => strokes[si].pts), false);
+  }
+  runJob(paths, intro) {
+    if (this.raf) cancelAnimationFrame(this.raf);
+    const CUT = intro ? 520 : 300, TRAVEL = 1100, segs = [];
+    const HOME = this.home();
+    let pos = HOME;
+    const add = (a, b, cut, pi, pj) => segs.push({ a, b, cut, pi, pj, dur: Math.max(0.001, Math.hypot(b[0] - a[0], b[1] - a[1]) / (cut ? CUT : TRAVEL)) });
+    paths.forEach((p, pi) => {
+      add(pos, p[0], false, pi, 0);
+      for (let i = 1; i < p.length; i++) add(p[i - 1], p[i], true, pi, i);
+      pos = p[p.length - 1];
+    });
+    add(pos, HOME, false, -1, 0);
+    this.segs = segs; this.paths = paths;
+    this.total = segs.reduce((t, s) => t + s.dur, 0);
+    this.mode = intro ? 'tracing' : 'cutting';
+    this.el = 0;
+    const start = performance.now();
+    let done = false;
+    const tick = () => {
+      const now = performance.now();
+      if (done) {
+        this.stepSmoke(now, null); draw();
+        this.raf = this.smoke.length ? requestAnimationFrame(tick) : null;
+        return;
+      }
+      this.el = Math.min(this.total, (now - start) / 1000);
+      const h = this.headAt(this.el);
+      this.stepSmoke(now, h.laserOn ? h.head : null);
+      if (this.el >= this.total) { done = true; this.finishJob(intro); }
+      else draw();
+      this.raf = requestAnimationFrame(tick);
+    };
+    draw();
+    this.raf = requestAnimationFrame(tick);
+  }
+  headAt(el) {
+    let t = 0;
+    for (const s of this.segs) {
+      if (t + s.dur <= el) { t += s.dur; continue; }
+      const f = (el - t) / s.dur;
+      return { head: [s.a[0] + (s.b[0] - s.a[0]) * f, s.a[1] + (s.b[1] - s.a[1]) * f], laserOn: s.cut };
+    }
+    return { head: this.home(), laserOn: false };
+  }
+  stepSmoke(now, at) {
+    this.now = now;
+    if (at && this.smoke.length < 120) this.smoke.push({ x0: at[0], y0: at[1], born: now, life: 1100 + Math.random() * 500, w: Math.random() * 6.28 });
+    this.smoke = this.smoke.filter((p) => now - p.born < p.life);
+  }
+  pathLen(pts) { return pts.reduce((u, p, i) => i ? u + Math.hypot(p[0] - pts[i - 1][0], p[1] - pts[i - 1][1]) : 0, 0); }
+  finishJob(intro) {
+    if (intro) {
+      this.introDone = true; this.mode = 'draw';
+      this.dropWarning(); draw();
+      return;
+    }
+    const job = this.job;
+    const strokes = this.state.strokes.map((s, si) => job.indexOf(si) >= 0 ? Object.assign({}, s, { cut: true }) : s);
+    this.state.strokes = strokes;
+    const start = this.parts.length;
+    this.updateParts(strokes.map((s, si) => s.cut ? si : -1).filter((si) => si >= 0));
+    const fresh = this.parts.slice(start);
+    this.lastJob = { paths: job.length, pieces: fresh.length, start, mm: Math.round(job.reduce((t, si) => t + this.pathLen(strokes[si].pts), 0) * 0.2646) };
+    applyHoles();
+    fresh.forEach((p, i) => this.dropPiece(p, i));
+    this.mode = 'draw';
+    if (fresh.length) { this.storyFile = null; this.shareMsg = ''; this.prepareStory(); }
+    draw();
+  }
+  dropPiece(part, i) {
+    const n = part.pts.length - 1;
+    const cx = part.pts.slice(0, n).reduce((t, p) => t + p[0], 0) / n, cy = part.pts.slice(0, n).reduce((t, p) => t + p[1], 0) / n;
+    const minY = Math.min(...part.pts.map((p) => p[1]));
+    const outer = document.createElement('div');
+    outer.className = 'piece';
+    outer.style.width = this.W + 'px'; outer.style.height = this.H + 'px';
+    outer.style.transformOrigin = cx.toFixed(1) + 'px ' + cy.toFixed(1) + 'px';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'position:absolute;inset:0;clip-path:path(\'' + polyD(part.pts) + '\')';
+    const clone = app.cloneNode(true);
+    clone.removeAttribute('id'); clone.style.clipPath = 'none'; clone.setAttribute('aria-hidden', 'true');
+    clone.querySelectorAll('[id]').forEach((el) => { if (!el.closest('svg')) el.removeAttribute('id'); });
+    inner.appendChild(clone);
+    const edge = document.createElementNS(SVGNS, 'svg');
+    edge.setAttribute('width', this.W); edge.setAttribute('height', this.H);
+    edge.style.cssText = 'position:absolute;left:0;top:0;overflow:visible';
+    edge.innerHTML = '<path d="' + polyD(part.pts) + '" fill="none" stroke="rgba(92,52,20,.55)" stroke-width="5" stroke-linejoin="round"/><path d="' + polyD(part.pts) + '" fill="none" stroke="#262422" stroke-width="1.6" stroke-linejoin="round"/>';
+    inner.appendChild(edge);
+    outer.appendChild(inner);
+    piecesEl.appendChild(outer);
+    const fall = (this.viewTop() + innerHeight) - minY + 120;
+    const rot = (i % 2 ? -1 : 1) * (10 + Math.random() * 14), dx = (Math.random() - 0.5) * 60;
+    const a = outer.animate([
+      { transform: 'none' },
+      { transform: 'translate(0,5px) scale(.985)', offset: 0.16 },
+      { transform: 'translate(' + dx.toFixed(0) + 'px,' + fall.toFixed(0) + 'px) rotate(' + rot.toFixed(1) + 'deg) scale(.94)' }
+    ], { duration: 1250 + Math.min(900, fall), easing: 'cubic-bezier(.5,0,.92,.55)', fill: 'forwards' });
+    a.onfinish = () => outer.remove();
+  }
+  reload() {
+    if (this.mode === 'cutting' || this.mode === 'tracing') return;
+    this.parts = []; this.faceKey = ''; this.lastJob = null;
+    this.state.strokes = []; this.state.cur = null;
+    this.storyFile = null; this.shareMsg = '';
+    piecesEl.innerHTML = '';
+    app.animate([{ opacity: 0.35 }, { opacity: 1 }], { duration: 450, easing: 'ease-out' });
+    applyHoles(); draw();
+  }
+
+  // ---------- story image ----------
+  loadLib() {
+    if (window.modernScreenshot) return Promise.resolve();
+    if (!this.libP) this.libP = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = LIB; sc.onload = res; sc.onerror = rej; document.head.appendChild(sc); });
+    return this.libP;
+  }
+  capture() {
+    if (!this.cap) {
+      this.cap = (async () => {
+        await this.loadLib();
+        try { await document.fonts.ready; } catch (e) {}
+        const sc = Math.max(1, Math.min(2, Math.sqrt(14e6 / (this.W * this.H))));
+        const cv = await window.modernScreenshot.domToCanvas(app, { scale: sc, backgroundColor: '#F1E9DC', style: { clipPath: 'none' }, width: this.W, height: this.H });
+        return { cv, sc };
+      })();
+      this.cap.catch(() => { this.cap = null; });
+    }
+    return this.cap;
+  }
+  async prepareStory() {
+    if (this.storyBusy) return;
+    const fresh = this.parts.slice(this.lastJob ? this.lastJob.start : 0);
+    const part = (fresh.length ? fresh : this.parts).slice().sort((a, b) => b.area - a.area)[0];
+    if (!part) return;
+    this.storyBusy = true; draw();
+    try {
+      let cap = null;
+      try { cap = await this.capture(); } catch (e) { cap = null; }
+      const plateImg = await this.svgImage(this.plateSVG(13));
+      try { await Promise.all(['500 70px "EB Garamond"', '500 46px "EB Garamond"', '500 26px "IBM Plex Mono"', '400 30px "IBM Plex Mono"'].map((f) => document.fonts.load(f))); } catch (e) {}
+      const cv = document.createElement('canvas'); cv.width = 1080; cv.height = 1920;
+      const ctx = cv.getContext('2d');
+      const serif = '"EB Garamond", Garamond, serif', mono = '"IBM Plex Mono", monospace';
+      ctx.fillStyle = '#F1E9DC'; ctx.fillRect(0, 0, 1080, 1920);
+      ctx.fillStyle = '#7A5A30'; ctx.font = '500 26px ' + mono;
+      if ('letterSpacing' in ctx) ctx.letterSpacing = '2px';
+      ctx.fillText('CUT OUT OF HIS FLYER', 110, 278);
+      if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+      ctx.fillStyle = '#262422'; ctx.font = '500 70px ' + serif;
+      ['Yarden Amir is on a job hunt.', 'I cut this with a laser', 'on his resume.'].forEach((l, i) => ctx.fillText(l, 110, 370 + i * 76));
+      // the bed
+      const BX = 110, BY = 593, BW = 860, BH = 737;
+      ctx.fillStyle = '#1E1D1B'; ctx.fillRect(BX, BY, BW, BH);
+      ctx.save(); ctx.beginPath(); ctx.rect(BX, BY, BW, BH); ctx.clip();
+      ctx.strokeStyle = '#3A3733'; ctx.lineWidth = 2.2;
+      const R = 17, HW = Math.sqrt(3) * R;
+      ctx.beginPath();
+      for (let row = -1; row * 1.5 * R < BH + R; row++) for (let col = -1; col * HW < BW + HW; col++) {
+        const hx = BX + col * HW + (row % 2 ? HW / 2 : 0), hy = BY + row * 1.5 * R;
+        for (let k = 0; k < 6; k++) { const a = Math.PI / 6 + k * Math.PI / 3; ctx[k ? 'lineTo' : 'moveTo'](hx + R * Math.cos(a), hy + R * Math.sin(a)); }
+        ctx.closePath();
+      }
+      ctx.stroke(); ctx.restore();
+      // the piece, lifted off the bed
+      const xs = part.pts.map((p) => p[0]), ys = part.pts.map((p) => p[1]);
+      const x0 = Math.min(...xs), y0 = Math.min(...ys), pw = Math.max(...xs) - x0, ph = Math.max(...ys) - y0;
+      const k = Math.min(740 / pw, 600 / ph, 3.2);
+      const path = new Path2D(polyD(part.pts));
+      ctx.save();
+      ctx.translate(BX + BW / 2, BY + BH / 2); ctx.rotate(-5 * Math.PI / 180); ctx.scale(k, k); ctx.translate(-(x0 + pw / 2), -(y0 + ph / 2));
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,0.5)'; ctx.shadowBlur = 40 / k; ctx.shadowOffsetY = 22 / k;
+      ctx.fillStyle = cap ? '#F1E9DC' : '#C79A5B'; ctx.fill(path);
+      ctx.restore();
+      if (cap) {
+        ctx.save(); ctx.clip(path);
+        const m = 2;
+        ctx.drawImage(cap.cv, (x0 - m) * cap.sc, (y0 - m) * cap.sc, (pw + 2 * m) * cap.sc, (ph + 2 * m) * cap.sc, x0 - m, y0 - m, pw + 2 * m, ph + 2 * m);
+        ctx.restore();
+      }
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = 'rgba(92,52,20,0.55)'; ctx.lineWidth = 6 / k; ctx.stroke(path);
+      ctx.strokeStyle = '#262422'; ctx.lineWidth = 2.2 / k; ctx.stroke(path);
+      ctx.restore();
+      // footer
+      ctx.fillStyle = '#262422'; ctx.fillRect(110, 1460, 860, 2);
+      ctx.font = '500 46px ' + serif; ctx.fillText('Your turn →', 110, 1532);
+      ctx.fillStyle = '#7A5A30'; ctx.font = '400 30px ' + mono; ctx.textAlign = 'right';
+      ctx.fillText('job.yardenamir.com', 970, 1528); ctx.textAlign = 'left';
+      ctx.drawImage(plateImg, 110, 1572, 91, 91);
+      ctx.fillStyle = '#262422'; ctx.font = '500 44px ' + serif; ctx.fillText('Yarden Amir', 223, 1612);
+      ctx.fillStyle = '#5F5A52'; ctx.font = '400 19px ' + mono; ctx.fillText('Designer · Making & Fabrication Instructor · Craft Researcher', 223, 1650);
+      const blob = await new Promise((r) => cv.toBlob(r, 'image/png'));
+      this.storyFile = new File([blob], 'yarden-amir-laser-cut.png', { type: 'image/png' });
+      if (this.storyURL) URL.revokeObjectURL(this.storyURL);
+      this.storyURL = URL.createObjectURL(blob);
+      this.shareMsg = '';
+    } catch (e) {
+      this.shareMsg = 'Could not build the image; the link will still be copied';
+    } finally {
+      this.storyBusy = false; draw();
+    }
+  }
+  copyLink() { try { if (navigator.clipboard) navigator.clipboard.writeText(this.SITE).catch(() => {}); } catch (e) {} }
+  isTouch() { return (window.matchMedia && matchMedia('(pointer: coarse)').matches) || navigator.maxTouchPoints > 0; }
+  onShare() {
+    this.copyLink();
+    const f = this.storyFile;
+    const text = 'Yarden Amir is on a job hunt. I cut this with a laser on his resume. ' + this.SITE;
+    if (f && this.isTouch() && navigator.canShare && navigator.canShare({ files: [f] })) {
+      navigator.share({ files: [f], text }).then(() => { this.shareMsg = 'Shared · the link is copied: add it with a Link sticker'; draw(); }).catch(() => {});
+      this.shareMsg = 'Link copied: job.yardenamir.com · add it with a Link sticker';
+    } else if (f) {
+      const a = document.createElement('a'); a.href = this.storyURL; a.download = f.name; document.body.appendChild(a); a.click(); a.remove();
+      this.shareMsg = 'Image saved and link copied · post it to your story with a Link sticker';
+    } else this.shareMsg = 'Link copied: job.yardenamir.com';
+    draw();
+  }
+  onShareLink() {
+    this.copyLink();
+    if (this.isTouch() && navigator.share) { navigator.share({ title: 'Yarden Amir is on a job hunt', text: 'Cut something with a laser on his resume.', url: this.SITE }).catch(() => {}); this.linkMsg = ''; }
+    else this.linkMsg = 'Link copied: job.yardenamir.com';
+    draw();
+  }
+}
+
+const g = new Game();
+window.__flyer = g;
+function polyD(pts) { return 'M' + pts.map((p) => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L') + 'Z'; }
+function lineD(pts) { return 'M' + pts.map((p) => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L'); }
+
+function measure() {
+  const W = app.offsetWidth, H = app.offsetHeight;
+  const changedW = g.W && Math.abs(W - g.W) > 1;
+  g.W = W; g.H = H;
+  [ov, rig].forEach((s) => { s.setAttribute('width', W); s.setAttribute('height', H); s.setAttribute('viewBox', '0 0 ' + W + ' ' + H); });
+  if (changedW && g.parts.length) { g.cap = null; g.reload(); }
+  else if (changedW) g.cap = null;
+  applyHoles(); draw();
+}
+function applyHoles() {
+  if (!g.parts.length) { app.style.clipPath = ''; return; }
+  app.style.clipPath = "path(evenodd, 'M0 0H" + g.W + 'V' + g.H + 'H0Z' + g.parts.map((p) => polyD(p.pts)).join('') + "')";
+}
+
+let drawing = false;
+function draw() {
+  if (drawing) return; drawing = true;
+  try {
+    const st = g.state, mode = g.mode, accent = '#B4593A';
+    const cutting = mode === 'cutting' || mode === 'tracing';
+    // ---- strokes and kerf (under the pieces)
+    let o = '<defs><mask id="hm" maskUnits="userSpaceOnUse" x="0" y="0" width="' + g.W + '" height="' + g.H + '"><rect width="' + g.W + '" height="' + g.H + '" fill="#fff"/>' + g.parts.map((p) => '<path d="' + polyD(p.pts) + '" fill="#000"/>').join('') + '</mask></defs>';
+    const reached = {}; let partial = null, partialPi = -1, head = g.home(), laserOn = false;
+    if (cutting) {
+      let t = 0;
+      for (const s of g.segs) {
+        if (t + s.dur <= g.el) { if (s.cut) reached[s.pi] = s.pj; t += s.dur; head = s.b; continue; }
+        const f = (g.el - t) / s.dur;
+        head = [s.a[0] + (s.b[0] - s.a[0]) * f, s.a[1] + (s.b[1] - s.a[1]) * f];
+        laserOn = s.cut; if (s.cut) { partial = head; partialPi = s.pi; }
+        break;
+      }
+    }
+    const kerfPaths = st.strokes.filter((s) => s.cut).map((s) => s.pts);
+    if (cutting) (g.paths || []).forEach((p, pi) => {
+      let pts = reached[pi] > 0 ? p.slice(0, reached[pi] + 1) : (pi === partialPi ? [p[0]] : []);
+      if (pi === partialPi) pts = pts.concat([partial]);
+      if (pts.length > 1) kerfPaths.push(pts);
+    });
+    o += '<g mask="url(#hm)">' + kerfPaths.map((p) => '<path d="' + lineD(p) + '" fill="none" stroke="rgba(92,52,20,.38)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="' + lineD(p) + '" fill="none" stroke="#262422" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>').join('') + '</g>';
+    const uncut = st.strokes.filter((s) => !s.cut);
+    o += uncut.map((s, i) => (cutting && g.job && g.job.indexOf(st.strokes.indexOf(s)) >= 0 && false) ? '' : '<path d="' + lineD(s.pts) + '" fill="none" stroke="' + accent + '" stroke-width="1.6" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round"/>').join('');
+    uncut.forEach((s) => s.nodes.forEach((n) => { o += '<rect x="' + (n[0] - 3).toFixed(1) + '" y="' + (n[1] - 3).toFixed(1) + '" width="6" height="6" fill="#C79A5B" stroke="#262422" stroke-width="1"/>'; }));
+    const cur = st.cur;
+    if (cur && cur.length > 1) o += '<path d="' + lineD(cur) + '" fill="none" stroke="#262422" stroke-width="1.4" stroke-dasharray="2 3" stroke-linecap="round" opacity=".7"/>';
+    if (cur && cur.length > 3) {
+      const l = cur[cur.length - 1], near = cur.length >= 6 && Math.hypot(cur[0][0] - l[0], cur[0][1] - l[1]) < 22;
+      o += '<circle cx="' + cur[0][0].toFixed(1) + '" cy="' + cur[0][1].toFixed(1) + '" r="11" fill="none" stroke="' + accent + '" stroke-width="1.6" ' + (near ? '' : 'stroke-dasharray="3 3" opacity=".6"') + '/>';
+    }
+    ov.innerHTML = o;
+    // ---- gantry, head and smoke (above everything but the dock)
+    let r = '';
+    if (mode !== 'idle') {
+      const y = head[1];
+      r += '<rect x="0" y="' + (y - 7).toFixed(1) + '" width="' + g.W + '" height="13" fill="#3E3D39" opacity=".94"/><rect x="0" y="' + (y - 7).toFixed(1) + '" width="' + g.W + '" height="2" fill="#5A5852"/>';
+      r += '<g transform="translate(' + head[0].toFixed(1) + ',' + y.toFixed(1) + ')">'
+        + '<circle r="16" fill="' + accent + '" opacity="' + (laserOn ? 0.4 : 0) + '"/>'
+        + '<rect x="-14" y="-18" width="28" height="32" rx="3" fill="#D6CFBF" stroke="#262422" stroke-width=".8"/><rect x="-9" y="-13" width="18" height="7" rx="1" fill="#8D877A"/>'
+        + '<circle cy="6" r="3.6" fill="' + (laserOn ? accent : '#4A4740') + '"/></g>';
+      const now = g.now;
+      g.smoke.forEach((p) => {
+        const k = Math.min(1, (now - p.born) / p.life);
+        const x = p.x0 + Math.sin(k * 7 + p.w) * 9 * k, yy = p.y0 - 70 * k;
+        const op = 0.4 * (1 - k) * Math.min(1, k * 8);
+        r += '<circle cx="' + x.toFixed(1) + '" cy="' + yy.toFixed(1) + '" r="' + (3 + 10 * k).toFixed(1) + '" fill="rgba(214,208,196,' + op.toFixed(3) + ')"/>';
+      });
+    }
+    rig.innerHTML = r;
+    // ---- dock
+    const n = uncut.length;
+    let hint = '';
+    if (mode === 'intro') hint = 'tap the warning to begin';
+    else if (mode === 'tracing') hint = 'clearing the warning…';
+    else if (mode === 'cutting') hint = 'cutting… ' + Math.round(g.el / g.total * 100) + '%';
+    else if (mode === 'draw') {
+      if (n) hint = n + (n === 1 ? ' path' : ' paths') + ' ready · add more, or press Cut';
+      else if (g.lastJob && g.lastJob.pieces) hint = g.lastJob.pieces + (g.lastJob.pieces === 1 ? ' piece' : ' pieces') + ' dropped · ' + g.lastJob.mm + ' mm of kerf';
+      else if (g.lastJob) hint = 'nothing dropped · close a shape to cut out a piece';
+      else hint = 'draw on the flyer · close a shape · press Cut';
+    }
+    $('hintT').textContent = hint;
+    $('readout').textContent = mode === 'idle' ? '' : (laserOn ? 'LASER ON' : (cutting ? 'MOVING' : 'ARMED'));
+    $('readout').style.color = laserOn ? '#E08A6A' : '#C79A5B';
+    $('status').style.display = mode === 'idle' ? 'none' : 'flex';
+    const armB = $('arm');
+    armB.style.display = mode === 'idle' ? 'flex' : 'none';
+    armB.classList.toggle('compact', g.parts.length > 0);
+    armB.querySelector('.t small').textContent = 'cut a piece out of this flyer';
+    $('armedRow').style.display = (mode === 'draw' || cutting) ? 'grid' : 'none';
+    $('cutB').disabled = mode !== 'draw' || !n;
+    $('clearB').disabled = mode !== 'draw' || !n;
+    $('doneB').disabled = mode !== 'draw';
+    const showAfter = g.parts.length > 0 && mode !== 'intro';
+    $('afterRow').style.display = showAfter ? 'grid' : 'none';
+    $('shareB').disabled = cutting;
+    $('reloadB').disabled = cutting;
+    const sm = showAfter ? (g.storyBusy ? 'Preparing your image…' : (g.shareMsg || 'Shares a picture of your piece · the link is copied for a Link sticker')) : '';
+    $('shareMsg').textContent = sm; $('shareMsg').style.display = sm ? 'block' : 'none';
+    $('linkMsg').textContent = g.linkMsg || '';
+  } finally { drawing = false; }
+}
+
+ov.addEventListener('pointerdown', (e) => g.onDown(e));
+ov.addEventListener('pointermove', (e) => g.onMove(e));
+ov.addEventListener('pointerup', () => g.onUp());
+ov.addEventListener('pointercancel', () => g.onUp());
+ov.addEventListener('touchmove', (e) => { if (g.mode !== 'idle') e.preventDefault(); }, { passive: false });
+$('arm').addEventListener('click', () => g.arm());
+$('warn').addEventListener('click', () => g.clearWarning());
+$('warn').addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); g.clearWarning(); } });
+$('cutB').addEventListener('click', () => g.onCut());
+$('clearB').addEventListener('click', () => g.onClear());
+$('doneB').addEventListener('click', () => g.disarm());
+$('shareB').addEventListener('click', () => g.onShare());
+$('reloadB').addEventListener('click', () => g.reload());
+$('shareLinkBtn').addEventListener('click', () => g.onShareLink());
+window.addEventListener('resize', measure);
+if (window.ResizeObserver) new ResizeObserver(() => measure()).observe(app);
+measure();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+})();
+</script>
+</body>
+</html>
