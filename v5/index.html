@@ -1017,5 +1017,9 @@ measure();
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
 })();
 </script>
+<script>
+/* Phones get the phone-format PDFs; desktops and tablets keep the originals. */
+(function () { try { if (matchMedia("(max-width: 820px) and (pointer: coarse)").matches) document.querySelectorAll("a[href*=\"studioya.github.io/pdf/\"]").forEach(function (a) { a.href = a.href.replace(/\.pdf$/, "-mobile.pdf"); }); } catch (e) {} })();
+</script>
 </body>
 </html>
