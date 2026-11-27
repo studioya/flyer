@@ -27,7 +27,12 @@ html,body{margin:0;background:#F1E9DC}
 #ov{z-index:2;pointer-events:none}
 #pieces{position:absolute;inset:0;z-index:3;pointer-events:none}
 #rig{z-index:6;pointer-events:none}
-.piece{position:absolute;left:0;top:0;filter:drop-shadow(0 14px 14px rgba(0,0,0,.45));will-change:transform}
+.piece{position:absolute;left:0;top:0;filter:drop-shadow(0 6px 7px rgba(38,36,34,.38)) drop-shadow(0 1px 1px rgba(38,36,34,.3));will-change:transform}
+#lid{position:fixed;inset:0;z-index:7;pointer-events:none;perspective:1400px;perspective-origin:50% -10%;display:none}
+#lid .frame{position:absolute;inset:0;transform-origin:50% 0;border:solid #2B2927;border-width:30px 16px calc(118px + env(safe-area-inset-bottom));box-shadow:inset 0 0 0 1px #4E4B46,0 24px 50px rgba(0,0,0,.45)}
+#lid .glass{position:absolute;inset:0;background:linear-gradient(112deg,rgba(255,255,255,0) 22%,rgba(255,255,255,.16) 27%,rgba(255,255,255,0) 33%,rgba(255,255,255,0) 61%,rgba(255,255,255,.09) 64%,rgba(255,255,255,0) 69%),rgba(190,92,28,.26);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),inset 0 0 60px rgba(40,18,6,.45)}
+#lid .label{position:absolute;left:0;right:0;top:-22px;text-align:center;font-family:'IBM Plex Mono', ui-monospace, Menlo, monospace;font-size:10px;letter-spacing:.14em;color:#C79A5B}
+#lid .handle{position:absolute;left:28%;right:28%;bottom:-20px;height:9px;border-radius:5px;background:linear-gradient(#6A6660,#45423E);box-shadow:0 2px 3px rgba(0,0,0,.5)}
 html.locked,html.locked body{overflow:hidden;overscroll-behavior:none}
 html.locked #ov{pointer-events:auto;touch-action:none;cursor:crosshair}
 #scrim{position:fixed;inset:0;z-index:4;background:rgba(38,36,34,.32);display:none}
@@ -75,9 +80,9 @@ html.locked #ov{pointer-events:auto;touch-action:none;cursor:crosshair}
 <div id="bedBg" aria-hidden="true"></div>
 <div id="app">
 <div style="width: 100%; min-width: 320px; box-sizing: border-box; background: #F1E9DC; color: #262422; font-family: 'EB Garamond', Garamond, 'Times New Roman', serif; font-variant-numeric: oldstyle-nums; padding: 24px 20px 40px; display: flex; flex-direction: column; gap: 32px">
-<div style="display: flex; align-items: center; gap: 11px"><svg width="32" height="32" viewBox="0 0 42.00 42.00" role="img" aria-label="Yarden Amir test-plate mark" style="display: block; color: #262422"><defs><pattern id="tq0" patternUnits="userSpaceOnUse" width="0.780" height="0.780" patternTransform="rotate(45)"><rect width="0.780" height="0.420" fill="currentColor"></rect></pattern><pattern id="tq1" patternUnits="userSpaceOnUse" width="1.110" height="1.110" patternTransform="rotate(45)"><rect width="1.110" height="0.420" fill="currentColor"></rect></pattern><pattern id="tq2" patternUnits="userSpaceOnUse" width="1.560" height="1.560" patternTransform="rotate(45)"><rect width="1.560" height="0.420" fill="currentColor"></rect></pattern></defs><circle cx="6.00" cy="6.00" r="6.00" fill="url(#tq0)" opacity="0.55"></circle><circle cx="6.00" cy="6.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="21.00" cy="6.00" r="6.00" fill="url(#tq1)" opacity="0.55"></circle><circle cx="21.00" cy="6.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="36.00" cy="6.00" r="6.00" fill="url(#tq2)" opacity="0.55"></circle><circle cx="36.00" cy="6.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="6.00" cy="21.00" r="6.00" fill="url(#tq0)" opacity="0.8"></circle><circle cx="6.00" cy="21.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="21.00" cy="21.00" r="6.00" fill="url(#tq1)" opacity="0.8"></circle><circle cx="21.00" cy="21.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="36.00" cy="21.00" r="6.00" fill="url(#tq2)" opacity="0.8"></circle><circle cx="36.00" cy="21.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="6.00" cy="36.00" r="6.00" fill="url(#tq0)" opacity="1"></circle><circle cx="6.00" cy="36.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="21.00" cy="36.00" r="6.00" fill="url(#tq1)" opacity="1"></circle><circle cx="21.00" cy="36.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="36.00" cy="36.00" r="6.00" fill="url(#tq2)" opacity="1"></circle><circle cx="36.00" cy="36.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle></svg><span style="font-size: 28px; font-weight: 500; letter-spacing: -0.005em; line-height: 1">Yarden Amir</span></div>
+<div style="display: flex; align-items: center; gap: 11px"><svg width="40" height="40" viewBox="0 0 42.00 42.00" role="img" aria-label="Yarden Amir test-plate mark" style="display: block; color: #262422"><defs><pattern id="tq0" patternUnits="userSpaceOnUse" width="0.780" height="0.780" patternTransform="rotate(45)"><rect width="0.780" height="0.420" fill="currentColor"></rect></pattern><pattern id="tq1" patternUnits="userSpaceOnUse" width="1.110" height="1.110" patternTransform="rotate(45)"><rect width="1.110" height="0.420" fill="currentColor"></rect></pattern><pattern id="tq2" patternUnits="userSpaceOnUse" width="1.560" height="1.560" patternTransform="rotate(45)"><rect width="1.560" height="0.420" fill="currentColor"></rect></pattern></defs><circle cx="6.00" cy="6.00" r="6.00" fill="url(#tq0)" opacity="0.55"></circle><circle cx="6.00" cy="6.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="21.00" cy="6.00" r="6.00" fill="url(#tq1)" opacity="0.55"></circle><circle cx="21.00" cy="6.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="36.00" cy="6.00" r="6.00" fill="url(#tq2)" opacity="0.55"></circle><circle cx="36.00" cy="6.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="6.00" cy="21.00" r="6.00" fill="url(#tq0)" opacity="0.8"></circle><circle cx="6.00" cy="21.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="21.00" cy="21.00" r="6.00" fill="url(#tq1)" opacity="0.8"></circle><circle cx="21.00" cy="21.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="36.00" cy="21.00" r="6.00" fill="url(#tq2)" opacity="0.8"></circle><circle cx="36.00" cy="21.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="6.00" cy="36.00" r="6.00" fill="url(#tq0)" opacity="1"></circle><circle cx="6.00" cy="36.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="21.00" cy="36.00" r="6.00" fill="url(#tq1)" opacity="1"></circle><circle cx="21.00" cy="36.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle><circle cx="36.00" cy="36.00" r="6.00" fill="url(#tq2)" opacity="1"></circle><circle cx="36.00" cy="36.00" r="6.00" fill="none" stroke="currentColor" stroke-width="0.300" stroke-opacity=".6"></circle></svg></div>
 <div style="display: flex; flex-direction: column; gap: 14px">
-<h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 500; letter-spacing: -0.005em">Yarden is looking for the next thing.</h1>
+<h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 500; letter-spacing: -0.005em">Yarden Amir is looking for the next thing.</h1>
 <div style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; line-height: 1.5; color: #7A5A30">Designer · Making &amp; Fabrication Instructor · Craft Researcher</div>
 <p style="margin: 0; font-size: 22px; line-height: 1.45; color: #262422">I design and make handmade objects in a digital way, working in a hybrid space of traditional, industrial, and modern technologies. I observe and research workshop culture, and instruct others in both old and new practices.</p>
 </div>
@@ -142,6 +147,7 @@ html.locked #ov{pointer-events:auto;touch-action:none;cursor:crosshair}
 </div>
 
 <div id="scrim"></div>
+<div id="lid" aria-hidden="true"><div class="frame"><div class="glass"></div><div class="label">CLASS 4 LASER · KEEP LID CLOSED</div><div class="handle"></div></div></div>
 <div id="warn" role="button" tabindex="0" aria-label="Laser cutters are not a game. Tap the sheet to play. Draw on the flyer, close a shape and press Cut; that piece of the flyer drops out.">
 <div class="w1">LASER CUTTERS<br>ARE NOT A GAME!</div>
 <div class="w2">&#9654; tap the sheet to play</div>
@@ -214,65 +220,47 @@ class Game {
   }
   clampP(p) { return [Math.max(4, Math.min(this.W - 4, p[0])), Math.max(4, Math.min(this.H - 4, p[1]))]; }
   fitStroke(raw, closed, pinEnd) {
-    const pts = closed ? raw.concat([raw[0]]) : raw;
-    if (closed) {
-      const body = raw;
-      const cx = body.reduce((t, p) => t + p[0], 0) / body.length, cy = body.reduce((t, p) => t + p[1], 0) / body.length;
-      const ds = body.map((p) => Math.hypot(p[0] - cx, p[1] - cy));
-      const R = ds.reduce((t, v) => t + v, 0) / ds.length;
-      const sd = Math.sqrt(ds.reduce((t, v) => t + (v - R) * (v - R), 0) / ds.length);
-      if (R > 8 && sd / R < 0.13) {
-        const a0 = Math.atan2(body[0][1] - cy, body[0][0] - cx), out = [];
-        const n = Math.max(24, Math.ceil(2 * Math.PI * R / 4));
-        for (let i = 0; i < n; i++) out.push(this.clampP([cx + R * Math.cos(a0 + i * 2 * Math.PI / n), cy + R * Math.sin(a0 + i * 2 * Math.PI / n)]));
-        out.push(out[0]);
-        return { pts: out, closed: true, nodes: [[cx, cy]], cut: false };
+    // Even spacing, then a light [1,2,1] smoothing: keeps the hand in the line, takes the jitter out.
+    let src = raw.slice();
+    if (closed && src.length > 2 && Math.hypot(src[0][0] - src[src.length - 1][0], src[0][1] - src[src.length - 1][1]) < 1) src.pop();
+    const loop = closed ? src.concat([src[0]]) : src;
+    const STEP = 3, res = [loop[0].slice()];
+    let need = STEP;
+    for (let i = 1; i < loop.length; i++) {
+      let a = res.length && i === 1 ? loop[0].slice() : loop[i - 1].slice();
+      const b = loop[i];
+      let L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+      while (L >= need) {
+        const t = need / L;
+        a = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+        res.push(a); L -= need; need = STEP;
       }
+      need -= L;
     }
-    const prims = [];
-    const fit = (i, j, depth) => {
-      if (j - i < 2) { prims.push({ i, j, arc: false }); return; }
-      const A = pts[i], B = pts[j];
-      let dev = 0, kmax = i + 1;
-      for (let k = i + 1; k < j; k++) { const d = this.distSeg(pts[k], A, B); if (d > dev) { dev = d; kmax = k; } }
-      if (dev < 5) { prims.push({ i, j, arc: false }); return; }
-      const m = (i + j) >> 1, C = this.circum(A, pts[m], B);
-      if (C && C.r < 700 && j - i >= 4) {
-        let res = 0;
-        for (let k = i; k <= j; k++) res = Math.max(res, Math.abs(Math.hypot(pts[k][0] - C.c[0], pts[k][1] - C.c[1]) - C.r));
-        if (res < 4.5) { prims.push({ i, j, arc: true, m }); return; }
+    if (closed) { if (res.length > 3 && Math.hypot(res[res.length - 1][0] - res[0][0], res[res.length - 1][1] - res[0][1]) < STEP * 0.6) res.pop(); }
+    else { const e = loop[loop.length - 1]; if (Math.hypot(e[0] - res[res.length - 1][0], e[1] - res[res.length - 1][1]) > 0.5) res.push(e.slice()); }
+    let p = res;
+    const n = p.length;
+    if (n >= 3) for (let pass = 0; pass < 3; pass++) {
+      const q = p.map((v) => v.slice());
+      for (let i = 0; i < n; i++) {
+        if (!closed && (i === 0 || i === n - 1)) continue;
+        const A = p[(i - 1 + n) % n], B = p[(i + 1) % n];
+        q[i] = [(A[0] + 2 * p[i][0] + B[0]) / 4, (A[1] + 2 * p[i][1] + B[1]) / 4];
       }
-      if (depth > 8) { prims.push({ i, j, arc: false }); return; }
-      fit(i, kmax, depth + 1);
-      fit(kmax, j, depth + 1);
+      p = q;
+    }
+    // drop points that add nothing (Ramer-Douglas-Peucker, 0.45 px)
+    const keep = new Array(p.length).fill(false);
+    const rdp = (i, j) => {
+      let dmax = 0, k = -1;
+      for (let m = i + 1; m < j; m++) { const d = this.distSeg(p[m], p[i], p[j]); if (d > dmax) { dmax = d; k = m; } }
+      if (dmax > 0.45 && k > 0) { keep[k] = true; rdp(i, k); rdp(k, j); }
     };
-    const last = pts.length - 1;
-    if (closed) {
-      let far = 1, fd = 0;
-      for (let k = 1; k < last; k++) { const d = Math.hypot(pts[k][0] - pts[0][0], pts[k][1] - pts[0][1]); if (d > fd) { fd = d; far = k; } }
-      fit(0, far, 0); fit(far, last, 0);
-    } else fit(0, last, 0);
-
-    const V = [pts[prims[0].i].slice()];
-    prims.forEach((p) => V.push(pts[p.j].slice()));
-    if (closed) V[V.length - 1] = V[0];
-    const STEP = Math.PI / 4, SNAP = 7 * Math.PI / 180;
-    prims.forEach((p, k) => {
-      if (p.arc || ((closed || pinEnd) && k === prims.length - 1)) return;
-      const a = V[k], b = V[k + 1], L = Math.hypot(b[0] - a[0], b[1] - a[1]);
-      const ang = Math.atan2(b[1] - a[1], b[0] - a[0]), snapped = Math.round(ang / STEP) * STEP;
-      if (Math.abs(ang - snapped) < SNAP) {
-        const nb = this.clampP([a[0] + L * Math.cos(snapped), a[1] + L * Math.sin(snapped)]);
-        b[0] = nb[0]; b[1] = nb[1];
-      }
-    });
-    const out = [V[0]];
-    prims.forEach((p, k) => {
-      if (p.arc) this.arcPts(V[k], pts[p.m], V[k + 1]).forEach((q) => out.push(q));
-      else out.push(V[k + 1]);
-    });
-    if (closed) out[out.length - 1] = out[0];
-    return { pts: out.map((p, i) => (closed && i === out.length - 1) ? out[0] : this.clampP(p)), closed, nodes: closed ? V.slice(0, -1) : V, cut: false };
+    keep[0] = true; keep[p.length - 1] = true; rdp(0, p.length - 1);
+    let out = p.filter((v, i) => keep[i]).map((v) => this.clampP(v));
+    if (closed) out.push(out[0]);
+    return { pts: out, closed, nodes: closed ? [] : [out[0], out[out.length - 1]], cut: false };
   }
 
   // ---------- joining strokes into shapes ----------
@@ -454,19 +442,15 @@ class Game {
   }
   clearWarning() {
     if (this.mode !== 'intro') return;
-    $('warn').style.pointerEvents = 'none';
-    const r = $('warn').getBoundingClientRect(), s = stage.getBoundingClientRect();
-    const x0 = r.left - s.left - 3, y0 = r.top - s.top - 3, x1 = r.right - s.left + 3, y1 = r.bottom - s.top + 3;
-    this.runJob([[[x0, y0], [x1, y0], [x1, y1], [x0, y1], [x0, y0]]], true);
-  }
-  dropWarning() {
     const w = $('warn'), sc = $('scrim');
+    w.style.pointerEvents = 'none';
+    this.introDone = true; this.mode = 'draw'; draw();
     const a = w.animate([
       { transform: 'translate(-50%,-50%)', opacity: 1 },
-      { transform: 'translate(-50%,calc(-50% + 6px)) scale(.97)', opacity: 1, offset: 0.18 },
-      { transform: 'translate(-50%,calc(-50% + 75vh)) rotate(9deg) scale(.9)', opacity: 0 }
-    ], { duration: 1000, easing: 'cubic-bezier(.45,0,.9,.55)', fill: 'forwards' });
-    sc.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 700, fill: 'forwards' });
+      { transform: 'translate(calc(-50% + 14px),-50%)', opacity: 1, offset: 0.15 },
+      { transform: 'translate(calc(-50% - 110vw),-50%)', opacity: 1 }
+    ], { duration: 650, easing: 'cubic-bezier(.55,0,.75,.3)', fill: 'forwards' });
+    sc.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, fill: 'forwards' });
     a.onfinish = () => { w.style.display = 'none'; sc.style.display = 'none'; a.cancel(); };
   }
 
@@ -523,7 +507,17 @@ class Game {
     });
     job.sort((x, y) => depth[y] - depth[x] || x - y);
     this.job = job;
-    this.runJob(job.map((si) => strokes[si].pts), false);
+    this.mode = 'closing'; draw();
+    this.lid(true, () => this.runJob(job.map((si) => strokes[si].pts), false));
+  }
+  lid(close, done) {
+    const lid = $('lid'), f = lid.querySelector('.frame');
+    lid.style.display = 'block';
+    const shut = { transform: 'rotateX(0deg)', opacity: 1 }, open = { transform: 'rotateX(-82deg)', opacity: 0 };
+    const kf = close ? [open, { transform: 'rotateX(-30deg)', opacity: 1, offset: 0.45 }, { transform: 'rotateX(1.5deg)', opacity: 1, offset: 0.88 }, shut]
+                     : [shut, { transform: 'rotateX(-25deg)', opacity: 1, offset: 0.5 }, open];
+    const a = f.animate(kf, { duration: close ? 700 : 650, easing: close ? 'cubic-bezier(.5,0,.85,.4)' : 'cubic-bezier(.3,.1,.4,1)', fill: 'forwards' });
+    a.onfinish = () => { if (!close) { lid.style.display = 'none'; a.cancel(); } if (done) done(); };
   }
   runJob(paths, intro) {
     if (this.raf) cancelAnimationFrame(this.raf);
@@ -576,11 +570,6 @@ class Game {
   }
   pathLen(pts) { return pts.reduce((u, p, i) => i ? u + Math.hypot(p[0] - pts[i - 1][0], p[1] - pts[i - 1][1]) : 0, 0); }
   finishJob(intro) {
-    if (intro) {
-      this.introDone = true; this.mode = 'draw';
-      this.dropWarning(); draw();
-      return;
-    }
     const job = this.job;
     const strokes = this.state.strokes.map((s, si) => job.indexOf(si) >= 0 ? Object.assign({}, s, { cut: true }) : s);
     this.state.strokes = strokes;
@@ -589,15 +578,18 @@ class Game {
     const fresh = this.parts.slice(start);
     this.lastJob = { paths: job.length, pieces: fresh.length, start, mm: Math.round(job.reduce((t, si) => t + this.pathLen(strokes[si].pts), 0) * 0.2646) };
     applyHoles();
-    fresh.forEach((p, i) => this.dropPiece(p, i));
-    this.mode = 'draw';
-    if (fresh.length) { this.storyFile = null; this.shareMsg = ''; this.prepareStory(); }
-    draw();
+    this.mode = 'opening'; draw();
+    this.storyFile = null; this.shareMsg = '';
+    setTimeout(() => this.lid(false, () => {
+      this.mode = 'draw';
+      fresh.forEach((p, i) => this.liftPiece(p, i));
+      this.prepareStory();
+      draw();
+    }), 250);
   }
-  dropPiece(part, i) {
+  liftPiece(part, i) {
     const n = part.pts.length - 1;
     const cx = part.pts.slice(0, n).reduce((t, p) => t + p[0], 0) / n, cy = part.pts.slice(0, n).reduce((t, p) => t + p[1], 0) / n;
-    const minY = Math.min(...part.pts.map((p) => p[1]));
     const outer = document.createElement('div');
     outer.className = 'piece';
     outer.style.width = this.W + 'px'; outer.style.height = this.H + 'px';
@@ -611,21 +603,25 @@ class Game {
     const edge = document.createElementNS(SVGNS, 'svg');
     edge.setAttribute('width', this.W); edge.setAttribute('height', this.H);
     edge.style.cssText = 'position:absolute;left:0;top:0;overflow:visible';
-    edge.innerHTML = '<path d="' + polyD(part.pts) + '" fill="none" stroke="rgba(92,52,20,.55)" stroke-width="5" stroke-linejoin="round"/><path d="' + polyD(part.pts) + '" fill="none" stroke="#262422" stroke-width="1.6" stroke-linejoin="round"/>';
+    const cuts = this.state.strokes.filter((s) => s.cut).map((s) => lineD(s.pts)).join('');
+    edge.innerHTML = '<path d="' + cuts + '" fill="none" stroke="rgba(92,52,20,.38)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>'
+      + '<path d="' + polyD(part.pts) + '" fill="none" stroke="rgba(92,52,20,.55)" stroke-width="5" stroke-linejoin="round"/>'
+      + '<path d="' + cuts + '" fill="none" stroke="#262422" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';
     inner.appendChild(edge);
     outer.appendChild(inner);
     piecesEl.appendChild(outer);
-    const fall = (this.viewTop() + innerHeight) - minY + 120;
-    const rot = (i % 2 ? -1 : 1) * (10 + Math.random() * 14), dx = (Math.random() - 0.5) * 60;
-    const a = outer.animate([
-      { transform: 'none' },
-      { transform: 'translate(0,5px) scale(.985)', offset: 0.16 },
-      { transform: 'translate(' + dx.toFixed(0) + 'px,' + fall.toFixed(0) + 'px) rotate(' + rot.toFixed(1) + 'deg) scale(.94)' }
-    ], { duration: 1250 + Math.min(900, fall), easing: 'cubic-bezier(.5,0,.92,.55)', fill: 'forwards' });
-    a.onfinish = () => outer.remove();
+    const room = cx < this.W / 2 ? 1 : -1;
+    const dx = room * (16 + Math.random() * 10) * (i % 2 ? -1 : 1), dy = -(6 + Math.random() * 6);
+    const rot = (dx > 0 ? 1 : -1) * (2.5 + Math.random() * 3.5);
+    part.lift = { dx, dy, rot };
+    outer.animate([
+      { transform: 'none', filter: 'drop-shadow(0 0 0 rgba(38,36,34,0))' },
+      { transform: 'translate(' + (dx * 0.25).toFixed(1) + 'px,' + (dy * 1.4).toFixed(1) + 'px) scale(1.03)', offset: 0.4 },
+      { transform: 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) rotate(' + rot.toFixed(1) + 'deg) scale(1.01)' }
+    ], { duration: 750, easing: 'cubic-bezier(.25,.8,.35,1)', fill: 'forwards' });
   }
   reload() {
-    if (this.mode === 'cutting' || this.mode === 'tracing') return;
+    if (this.mode !== 'draw' && this.mode !== 'idle') return;
     this.parts = []; this.faceKey = ''; this.lastJob = null;
     this.state.strokes = []; this.state.cur = null;
     this.storyFile = null; this.shareMsg = '';
@@ -654,10 +650,9 @@ class Game {
     return this.cap;
   }
   async prepareStory() {
-    if (this.storyBusy) return;
-    const fresh = this.parts.slice(this.lastJob ? this.lastJob.start : 0);
-    const part = (fresh.length ? fresh : this.parts).slice().sort((a, b) => b.area - a.area)[0];
-    if (!part) return;
+    if (this.storyBusy) { this.storyAgain = true; return; }
+    const cuts = this.state.strokes.filter((s) => s.cut);
+    if (!cuts.length) return;
     this.storyBusy = true; draw();
     try {
       let cap = null;
@@ -674,40 +669,104 @@ class Game {
       if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
       ctx.fillStyle = '#262422'; ctx.font = '500 70px ' + serif;
       ['Yarden Amir is on a job hunt.', 'I cut this with a laser', 'on his resume.'].forEach((l, i) => ctx.fillText(l, 110, 370 + i * 76));
-      // the bed
-      const BX = 110, BY = 593, BW = 860, BH = 737;
-      ctx.fillStyle = '#1E1D1B'; ctx.fillRect(BX, BY, BW, BH);
-      ctx.save(); ctx.beginPath(); ctx.rect(BX, BY, BW, BH); ctx.clip();
-      ctx.strokeStyle = '#3A3733'; ctx.lineWidth = 2.2;
-      const R = 17, HW = Math.sqrt(3) * R;
-      ctx.beginPath();
-      for (let row = -1; row * 1.5 * R < BH + R; row++) for (let col = -1; col * HW < BW + HW; col++) {
-        const hx = BX + col * HW + (row % 2 ? HW / 2 : 0), hy = BY + row * 1.5 * R;
-        for (let k = 0; k < 6; k++) { const a = Math.PI / 6 + k * Math.PI / 3; ctx[k ? 'lineTo' : 'moveTo'](hx + R * Math.cos(a), hy + R * Math.sin(a)); }
-        ctx.closePath();
-      }
-      ctx.stroke(); ctx.restore();
-      // the piece, lifted off the bed
-      const xs = part.pts.map((p) => p[0]), ys = part.pts.map((p) => p[1]);
-      const x0 = Math.min(...xs), y0 = Math.min(...ys), pw = Math.max(...xs) - x0, ph = Math.max(...ys) - y0;
-      const k = Math.min(740 / pw, 600 / ph, 3.2);
-      const path = new Path2D(polyD(part.pts));
+
+      // the area of the flyer that was cut
+      const all = [].concat(...cuts.map((s) => s.pts));
+      const PAD = 26;
+      let fx0 = Math.max(0, Math.min(...all.map((p) => p[0])) - PAD), fy0 = Math.max(0, Math.min(...all.map((p) => p[1])) - PAD);
+      let fx1 = Math.min(this.W, Math.max(...all.map((p) => p[0])) + PAD), fy1 = Math.min(this.H, Math.max(...all.map((p) => p[1])) + PAD);
+      const minW = 150, minH = 150;
+      if (fx1 - fx0 < minW) { const c = (fx0 + fx1) / 2; fx0 = Math.max(0, c - minW / 2); fx1 = Math.min(this.W, fx0 + minW); }
+      if (fy1 - fy0 < minH) { const c = (fy0 + fy1) / 2; fy0 = Math.max(0, c - minH / 2); fy1 = Math.min(this.H, fy0 + minH); }
+      const fw = fx1 - fx0, fh = fy1 - fy0;
+      const parts = this.parts;
+      const hasParts = parts.length > 0;
+      // where each piece is set down: under its hole when the cut area is wide, to the right when it's tall
+      const info = parts.map((part) => {
+        const xs = part.pts.map((p) => p[0]), ys = part.pts.map((p) => p[1]), n = part.pts.length - 1;
+        return { w: Math.max(...xs) - Math.min(...xs), h: Math.max(...ys) - Math.min(...ys),
+          cx: part.pts.slice(0, n).reduce((t, p) => t + p[0], 0) / n, cy: part.pts.slice(0, n).reduce((t, p) => t + p[1], 0) / n };
+      });
+      const mW = hasParts ? Math.max(...info.map((q) => q.w)) : 0, mH = hasParts ? Math.max(...info.map((q) => q.h)) : 0;
+      const AX = 110, AY = 600, AW = 860, AH = 760, GAP = 40;
+      const wide = hasParts && fw / fh > 1.15;
+      const k = Math.min(3.2, !hasParts ? Math.min(AW / fw, AH / fh) : wide ? Math.min(AW / fw, (AH - GAP) / (fh + mH)) : Math.min(AH / fh, (AW - GAP) / (fw + mW)));
+      const fragW = fw * k, fragH = fh * k;
+      const ox = AX + (AW - (wide || !hasParts ? fragW : fragW + GAP + mW * k)) / 2;
+      const oy = AY + (AH - (wide ? fragH + GAP + mH * k : fragH)) / 2;
+      const spot = info.map((q) => {
+        if (wide) {
+          const x = ox + (q.cx - fx0) * k + 14;
+          return [Math.max(AX + q.w * k / 2, Math.min(AX + AW - q.w * k / 2, x)), oy + fragH + GAP + mH * k / 2];
+        }
+        const y = oy + (q.cy - fy0) * k;
+        return [ox + fragW + GAP + mW * k / 2, Math.max(AY + q.h * k / 2, Math.min(AY + AH - q.h * k / 2, y))];
+      });
+      const toFrag = () => { ctx.translate(ox, oy); ctx.scale(k, k); ctx.translate(-fx0, -fy0); };
+      const strokesPath = new Path2D(cuts.map((s) => 'M' + s.pts.map((p) => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L')).join(''));
+      const holes = new Path2D(parts.map((p) => polyD(p.pts)).join(''));
+      const hex = (x, y, w, h, R) => {
+        ctx.beginPath();
+        const HW = Math.sqrt(3) * R;
+        for (let row = -1; row * 1.5 * R < h + R; row++) for (let col = -1; col * HW < w + HW; col++) {
+          const hx = x + col * HW + (row % 2 ? HW / 2 : 0), hy = y + row * 1.5 * R;
+          for (let q = 0; q < 6; q++) { const a = Math.PI / 6 + q * Math.PI / 3; ctx[q ? 'lineTo' : 'moveTo'](hx + R * Math.cos(a), hy + R * Math.sin(a)); }
+          ctx.closePath();
+        }
+        ctx.stroke();
+      };
+      // fragment shadow + paper
       ctx.save();
-      ctx.translate(BX + BW / 2, BY + BH / 2); ctx.rotate(-5 * Math.PI / 180); ctx.scale(k, k); ctx.translate(-(x0 + pw / 2), -(y0 + ph / 2));
-      ctx.save();
-      ctx.shadowColor = 'rgba(0,0,0,0.5)'; ctx.shadowBlur = 40 / k; ctx.shadowOffsetY = 22 / k;
-      ctx.fillStyle = cap ? '#F1E9DC' : '#C79A5B'; ctx.fill(path);
+      ctx.shadowColor = 'rgba(38,36,34,0.28)'; ctx.shadowBlur = 34; ctx.shadowOffsetY = 14;
+      ctx.fillStyle = '#F1E9DC'; ctx.fillRect(ox, oy, fragW, fragH);
       ctx.restore();
-      if (cap) {
-        ctx.save(); ctx.clip(path);
-        const m = 2;
-        ctx.drawImage(cap.cv, (x0 - m) * cap.sc, (y0 - m) * cap.sc, (pw + 2 * m) * cap.sc, (ph + 2 * m) * cap.sc, x0 - m, y0 - m, pw + 2 * m, ph + 2 * m);
+      ctx.save();
+      ctx.beginPath(); ctx.rect(ox, oy, fragW, fragH); ctx.clip();
+      ctx.save(); toFrag();
+      if (cap) ctx.drawImage(cap.cv, fx0 * cap.sc, fy0 * cap.sc, fw * cap.sc, fh * cap.sc, fx0, fy0, fw, fh);
+      // holes show the bed
+      if (hasParts) {
+        ctx.save(); ctx.clip(holes, 'evenodd');
+        ctx.fillStyle = '#1E1D1B'; ctx.fillRect(fx0, fy0, fw, fh);
+        ctx.strokeStyle = '#3A3733'; ctx.lineWidth = 1.1; hex(fx0, fy0, fw, fh, 7);
         ctx.restore();
       }
-      ctx.lineJoin = 'round';
-      ctx.strokeStyle = 'rgba(92,52,20,0.55)'; ctx.lineWidth = 6 / k; ctx.stroke(path);
-      ctx.strokeStyle = '#262422'; ctx.lineWidth = 2.2 / k; ctx.stroke(path);
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.strokeStyle = 'rgba(92,52,20,0.32)'; ctx.lineWidth = 4.5; ctx.stroke(strokesPath);
+      ctx.strokeStyle = '#262422'; ctx.lineWidth = 1.5; ctx.stroke(strokesPath);
       ctx.restore();
+      ctx.restore();
+      ctx.strokeStyle = 'rgba(38,36,34,0.18)'; ctx.lineWidth = 2; ctx.strokeRect(ox, oy, fragW, fragH);
+
+      // the pieces, set down beside the fragment
+      if (hasParts) {
+        parts.forEach((part, i) => {
+          const path = new Path2D(polyD(part.pts));
+          const n = part.pts.length - 1;
+          const cx = part.pts.slice(0, n).reduce((t, p) => t + p[0], 0) / n, cy = part.pts.slice(0, n).reduce((t, p) => t + p[1], 0) / n;
+          ctx.save();
+          ctx.translate(spot[i][0], spot[i][1]);
+          ctx.rotate((i % 2 ? -1 : 1) * 6 * Math.PI / 180);
+          ctx.scale(k, k); ctx.translate(-cx, -cy);
+          ctx.save();
+          ctx.shadowColor = 'rgba(38,36,34,0.42)'; ctx.shadowBlur = 26 / k * k; ctx.shadowOffsetY = 16;
+          ctx.fillStyle = cap ? '#F1E9DC' : '#C79A5B'; ctx.fill(path);
+          ctx.restore();
+          ctx.save(); ctx.clip(path);
+          if (cap) {
+            const xs = part.pts.map((p) => p[0]), ys = part.pts.map((p) => p[1]);
+            const x0 = Math.min(...xs) - 2, y0 = Math.min(...ys) - 2, w = Math.max(...xs) - x0 + 4, h = Math.max(...ys) - y0 + 4;
+            ctx.drawImage(cap.cv, x0 * cap.sc, y0 * cap.sc, w * cap.sc, h * cap.sc, x0, y0, w, h);
+          }
+          ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+          ctx.strokeStyle = 'rgba(92,52,20,0.32)'; ctx.lineWidth = 4.5; ctx.stroke(strokesPath);
+          ctx.strokeStyle = '#262422'; ctx.lineWidth = 1.5; ctx.stroke(strokesPath);
+          ctx.restore();
+          ctx.strokeStyle = 'rgba(92,52,20,0.55)'; ctx.lineWidth = 4; ctx.stroke(path);
+          ctx.strokeStyle = '#262422'; ctx.lineWidth = 1.6; ctx.stroke(path);
+          ctx.restore();
+        });
+      }
       // footer
       ctx.fillStyle = '#262422'; ctx.fillRect(110, 1460, 860, 2);
       ctx.font = '500 46px ' + serif; ctx.fillText('Your turn →', 110, 1532);
@@ -725,6 +784,7 @@ class Game {
       this.shareMsg = 'Could not build the image; the link will still be copied';
     } finally {
       this.storyBusy = false; draw();
+      if (this.storyAgain) { this.storyAgain = false; this.prepareStory(); }
     }
   }
   copyLink() { try { if (navigator.clipboard) navigator.clipboard.writeText(this.SITE).catch(() => {}); } catch (e) {} }
@@ -774,11 +834,11 @@ function draw() {
   if (drawing) return; drawing = true;
   try {
     const st = g.state, mode = g.mode, accent = '#B4593A';
-    const cutting = mode === 'cutting' || mode === 'tracing';
+    const cutting = mode === 'cutting' || mode === 'tracing' || mode === 'closing' || mode === 'opening';
     // ---- strokes and kerf (under the pieces)
     let o = '<defs><mask id="hm" maskUnits="userSpaceOnUse" x="0" y="0" width="' + g.W + '" height="' + g.H + '"><rect width="' + g.W + '" height="' + g.H + '" fill="#fff"/>' + g.parts.map((p) => '<path d="' + polyD(p.pts) + '" fill="#000"/>').join('') + '</mask></defs>';
     const reached = {}; let partial = null, partialPi = -1, head = g.home(), laserOn = false;
-    if (cutting) {
+    if (mode === 'cutting') {
       let t = 0;
       for (const s of g.segs) {
         if (t + s.dur <= g.el) { if (s.cut) reached[s.pi] = s.pj; t += s.dur; head = s.b; continue; }
@@ -789,7 +849,7 @@ function draw() {
       }
     }
     const kerfPaths = st.strokes.filter((s) => s.cut).map((s) => s.pts);
-    if (cutting) (g.paths || []).forEach((p, pi) => {
+    if (mode === 'cutting') (g.paths || []).forEach((p, pi) => {
       let pts = reached[pi] > 0 ? p.slice(0, reached[pi] + 1) : (pi === partialPi ? [p[0]] : []);
       if (pi === partialPi) pts = pts.concat([partial]);
       if (pts.length > 1) kerfPaths.push(pts);
@@ -809,7 +869,11 @@ function draw() {
     let r = '';
     if (mode !== 'idle') {
       const y = head[1];
-      r += '<rect x="0" y="' + (y - 7).toFixed(1) + '" width="' + g.W + '" height="13" fill="#3E3D39" opacity=".94"/><rect x="0" y="' + (y - 7).toFixed(1) + '" width="' + g.W + '" height="2" fill="#5A5852"/>';
+      r += '<defs><linearGradient id="gs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".42"/><stop offset=".45" stop-color="#000" stop-opacity=".16"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>'
+        + '<filter id="hs" x="-60%" y="-60%" width="220%" height="260%"><feGaussianBlur stdDeviation="4"/></filter></defs>';
+      r += '<rect x="0" y="' + (y + 5).toFixed(1) + '" width="' + g.W + '" height="26" fill="url(#gs)"/>';
+      r += '<rect x="' + (head[0] - 13).toFixed(1) + '" y="' + (y - 8).toFixed(1) + '" width="30" height="34" rx="4" fill="#000" opacity=".38" filter="url(#hs)" transform="translate(4,9)"/>';
+      r += '<rect x="0" y="' + (y - 7).toFixed(1) + '" width="' + g.W + '" height="13" fill="#3E3D39" opacity=".96"/><rect x="0" y="' + (y - 7).toFixed(1) + '" width="' + g.W + '" height="2" fill="#5A5852"/>';
       r += '<g transform="translate(' + head[0].toFixed(1) + ',' + y.toFixed(1) + ')">'
         + '<circle r="16" fill="' + accent + '" opacity="' + (laserOn ? 0.4 : 0) + '"/>'
         + '<rect x="-14" y="-18" width="28" height="32" rx="3" fill="#D6CFBF" stroke="#262422" stroke-width=".8"/><rect x="-9" y="-13" width="18" height="7" rx="1" fill="#8D877A"/>'
@@ -828,11 +892,13 @@ function draw() {
     let hint = '';
     if (mode === 'intro') hint = 'tap the warning to begin';
     else if (mode === 'tracing') hint = 'clearing the warning…';
+    else if (mode === 'closing') hint = 'closing the lid…';
+    else if (mode === 'opening') hint = 'opening the lid…';
     else if (mode === 'cutting') hint = 'cutting… ' + Math.round(g.el / g.total * 100) + '%';
     else if (mode === 'draw') {
       if (n) hint = n + (n === 1 ? ' path' : ' paths') + ' ready · add more, or press Cut';
-      else if (g.lastJob && g.lastJob.pieces) hint = g.lastJob.pieces + (g.lastJob.pieces === 1 ? ' piece' : ' pieces') + ' dropped · ' + g.lastJob.mm + ' mm of kerf';
-      else if (g.lastJob) hint = 'nothing dropped · close a shape to cut out a piece';
+      else if (g.lastJob && g.lastJob.pieces) hint = g.lastJob.pieces + (g.lastJob.pieces === 1 ? ' piece' : ' pieces') + ' cut free · ' + g.lastJob.mm + ' mm of kerf';
+      else if (g.lastJob) hint = g.lastJob.mm + ' mm of kerf · close a shape to cut out a piece';
       else hint = 'draw on the flyer · close a shape · press Cut';
     }
     $('hintT').textContent = hint;
@@ -841,13 +907,13 @@ function draw() {
     $('status').style.display = mode === 'idle' ? 'none' : 'flex';
     const armB = $('arm');
     armB.style.display = mode === 'idle' ? 'flex' : 'none';
-    armB.classList.toggle('compact', g.parts.length > 0);
+    armB.classList.toggle('compact', g.state.strokes.some((s) => s.cut));
     armB.querySelector('.t small').textContent = 'cut a piece out of this flyer';
     $('armedRow').style.display = (mode === 'draw' || cutting) ? 'grid' : 'none';
     $('cutB').disabled = mode !== 'draw' || !n;
     $('clearB').disabled = mode !== 'draw' || !n;
     $('doneB').disabled = mode !== 'draw';
-    const showAfter = g.parts.length > 0 && mode !== 'intro';
+    const showAfter = g.state.strokes.some((s) => s.cut) && mode !== 'intro';
     $('afterRow').style.display = showAfter ? 'grid' : 'none';
     $('shareB').disabled = cutting;
     $('reloadB').disabled = cutting;
