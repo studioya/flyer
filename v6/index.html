@@ -50,9 +50,9 @@ html.locked #ov{pointer-events:auto;touch-action:none;cursor:crosshair}
 #status{display:flex;justify-content:space-between;gap:10px;font-size:11.5px;line-height:1.4;color:rgba(241,233,220,.78);min-height:16px;padding:0 2px}
 #status b{font-weight:500;white-space:nowrap}
 .row{display:grid;gap:8px}
-#tray{display:none;grid-template-columns:repeat(8,1fr);gap:6px}
+#tray{display:none;grid-template-columns:repeat(7,1fr);gap:6px}
 .shp{height:42px;border:1px solid rgba(241,233,220,.35);background:transparent;color:#F1E9DC;display:grid;place-items:center;cursor:pointer;padding:0;border-radius:0;-webkit-tap-highlight-color:transparent}
-.shp svg{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}
+.shp svg{fill:none;stroke:currentColor;stroke-width:1.3;stroke-linejoin:round;stroke-linecap:round}
 .shp[aria-checked="true"]{background:#C79A5B;border-color:#C79A5B;color:#262422}
 .row3{grid-template-columns:1.3fr 1fr 1fr}
 .row2{grid-template-columns:1.4fr 1fr}
@@ -167,7 +167,7 @@ html.locked #ov{pointer-events:auto;touch-action:none;cursor:crosshair}
 <span class="t"><b>ARM THE LASER</b><small>cut a piece out of this flyer</small></span>
 <span class="go" aria-hidden="true">&rarr;</span>
 </button>
-<div id="tray" role="radiogroup" aria-label="Shapes"><button class="shp" data-shape="circle" role="radio" aria-label="circle"><svg viewBox="0 0 24 24" width="24" height="24"><circle cx="12" cy="12" r="8.5"/></svg></button><button class="shp" data-shape="square" role="radio" aria-label="square"><svg viewBox="0 0 24 24" width="24" height="24"><rect x="4" y="4" width="16" height="16"/></svg></button><button class="shp" data-shape="triangle" role="radio" aria-label="triangle"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 3.5 L21 19.5 H3 Z"/></svg></button><button class="shp" data-shape="hexagon" role="radio" aria-label="hexagon"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 3 L19.8 7.5 V16.5 L12 21 L4.2 16.5 V7.5 Z"/></svg></button><button class="shp" data-shape="star" role="radio" aria-label="star"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 2.8 L14.6 9.2 L21.4 9.6 L16.1 13.9 L17.8 20.6 L12 16.9 L6.2 20.6 L7.9 13.9 L2.6 9.6 L9.4 9.2 Z"/></svg></button><button class="shp" data-shape="heart" role="radio" aria-label="heart"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M12 20.5 C5 15.5 2.8 12 2.8 8.6 C2.8 5.8 5 3.8 7.5 3.8 C9.4 3.8 11 4.9 12 6.6 C13 4.9 14.6 3.8 16.5 3.8 C19 3.8 21.2 5.8 21.2 8.6 C21.2 12 19 15.5 12 20.5 Z"/></svg></button><button class="shp" data-shape="arch" role="radio" aria-label="arch"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M5.5 21 V11.5 C5.5 7.5 8.5 4.2 12 2.8 C15.5 4.2 18.5 7.5 18.5 11.5 V21 Z"/></svg></button><button class="shp" data-shape="mark" role="radio" aria-label="mark"><svg viewBox="0 0 24 24" width="24" height="24"><circle cx="5.2" cy="5.2" r="2.6"/><circle cx="12.0" cy="5.2" r="2.6"/><circle cx="18.8" cy="5.2" r="2.6"/><circle cx="5.2" cy="12.0" r="2.6"/><circle cx="12.0" cy="12.0" r="2.6"/><circle cx="18.8" cy="12.0" r="2.6"/><circle cx="5.2" cy="18.8" r="2.6"/><circle cx="12.0" cy="18.8" r="2.6"/><circle cx="18.8" cy="18.8" r="2.6"/></svg></button></div>
+<div id="tray" role="radiogroup" aria-label="Shapes"><button class="shp" data-shape="rosette" role="radio" aria-label="Mashrabiya rosette" title="Mashrabiya rosette"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M10.0 7.1L10.0 6.6L10.1 6.0L10.2 5.5L10.3 5.1L10.5 4.6L10.7 4.1L11.0 3.7L11.3 3.3L11.6 2.9L12.0 2.5L12.4 2.9L12.7 3.3L13.0 3.7L13.3 4.1L13.5 4.6L13.7 5.1L13.8 5.5L13.9 6.0L14.0 6.6L14.0 7.1L14.4 6.7L14.9 6.4L15.3 6.2L15.7 5.9L16.2 5.7L16.7 5.6L17.2 5.4L17.7 5.3L18.2 5.3L18.7 5.3L18.7 5.8L18.7 6.3L18.6 6.8L18.4 7.3L18.3 7.8L18.1 8.3L17.8 8.7L17.6 9.1L17.3 9.6L16.9 10.0L17.4 10.0L18.0 10.1L18.5 10.2L18.9 10.3L19.4 10.5L19.9 10.7L20.3 11.0L20.7 11.3L21.1 11.6L21.5 12.0L21.1 12.4L20.7 12.7L20.3 13.0L19.9 13.3L19.4 13.5L18.9 13.7L18.5 13.8L18.0 13.9L17.4 14.0L16.9 14.0L17.3 14.4L17.6 14.9L17.8 15.3L18.1 15.7L18.3 16.2L18.4 16.7L18.6 17.2L18.7 17.7L18.7 18.2L18.7 18.7L18.2 18.7L17.7 18.7L17.2 18.6L16.7 18.4L16.2 18.3L15.7 18.1L15.3 17.8L14.9 17.6L14.4 17.3L14.0 16.9L14.0 17.4L13.9 18.0L13.8 18.5L13.7 18.9L13.5 19.4L13.3 19.9L13.0 20.3L12.7 20.7L12.4 21.1L12.0 21.5L11.6 21.1L11.3 20.7L11.0 20.3L10.7 19.9L10.5 19.4L10.3 18.9L10.2 18.5L10.1 18.0L10.0 17.4L10.0 16.9L9.6 17.3L9.1 17.6L8.7 17.8L8.3 18.1L7.8 18.3L7.3 18.4L6.8 18.6L6.3 18.7L5.8 18.7L5.3 18.7L5.3 18.2L5.3 17.7L5.4 17.2L5.6 16.7L5.7 16.2L5.9 15.7L6.2 15.3L6.4 14.9L6.7 14.4L7.1 14.0L6.6 14.0L6.0 13.9L5.5 13.8L5.1 13.7L4.6 13.5L4.1 13.3L3.7 13.0L3.3 12.7L2.9 12.4L2.5 12.0L2.9 11.6L3.3 11.3L3.7 11.0L4.1 10.7L4.6 10.5L5.1 10.3L5.5 10.2L6.0 10.1L6.6 10.0L7.1 10.0L6.7 9.6L6.4 9.1L6.2 8.7L5.9 8.3L5.7 7.8L5.6 7.3L5.4 6.8L5.3 6.3L5.3 5.8L5.3 5.3L5.8 5.3L6.3 5.3L6.8 5.4L7.3 5.6L7.8 5.7L8.3 5.9L8.7 6.2L9.1 6.4L9.6 6.7Z"/></svg></button><button class="shp" data-shape="carvedStar" role="radio" aria-label="Carved Gothic star" title="Carved Gothic star"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M12.0 2.5L12.2 3.6L12.5 4.6L12.8 5.6L13.1 6.5L13.6 7.3L14.0 8.1L14.5 8.8L15.1 9.4L15.7 10.0L16.3 10.5L17.0 11.0L17.8 11.4L18.6 11.7L19.4 12.0L18.6 12.3L17.8 12.6L17.0 13.0L16.3 13.5L15.7 14.0L15.1 14.6L14.5 15.2L14.0 15.9L13.6 16.7L13.1 17.5L12.8 18.4L12.5 19.4L12.2 20.4L12.0 21.5L11.8 20.4L11.5 19.4L11.2 18.4L10.9 17.5L10.4 16.7L10.0 15.9L9.5 15.2L8.9 14.6L8.3 14.0L7.7 13.5L7.0 13.0L6.2 12.6L5.4 12.3L4.6 12.0L5.4 11.7L6.2 11.4L7.0 11.0L7.7 10.5L8.3 10.0L8.9 9.4L9.5 8.8L10.0 8.1L10.4 7.3L10.9 6.5L11.2 5.6L11.5 4.6L11.8 3.6Z"/></svg></button><button class="shp" data-shape="tracery" role="radio" aria-label="Lancet tracery" title="Lancet tracery"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M6.7 21.5L11.6 21.5L11.6 12.2L11.6 11.8L11.6 11.5L11.5 11.1L11.4 10.8L11.3 10.4L11.1 10.1L11.0 9.7L10.8 9.4L10.5 9.1L10.3 8.9L10.0 8.6L9.8 8.4L9.5 8.1L9.2 8.0L8.8 8.1L8.6 8.4L8.3 8.6L8.0 8.9L7.8 9.1L7.6 9.4L7.4 9.7L7.2 10.1L7.0 10.4L6.9 10.8L6.8 11.1L6.8 11.5L6.7 11.8L6.7 12.2ZM12.4 21.5L17.3 21.5L17.3 12.2L17.3 11.8L17.2 11.5L17.2 11.1L17.1 10.8L17.0 10.4L16.8 10.1L16.6 9.7L16.4 9.4L16.2 9.1L16.0 8.9L15.7 8.6L15.4 8.4L15.2 8.1L14.8 8.0L14.5 8.1L14.2 8.4L14.0 8.6L13.7 8.9L13.5 9.1L13.2 9.4L13.0 9.7L12.9 10.1L12.7 10.4L12.6 10.8L12.5 11.1L12.4 11.5L12.4 11.8L12.4 12.2ZM14.0 4.5L13.9 4.8L13.9 5.1L13.7 5.3L13.6 5.6L13.4 5.8L13.2 6.0L12.9 6.2L12.6 6.3L12.3 6.4L12.0 6.4L11.7 6.4L11.4 6.3L11.1 6.2L10.8 6.0L10.6 5.8L10.4 5.6L10.3 5.3L10.1 5.1L10.1 4.8L10.0 4.5L10.1 4.2L10.1 3.9L10.3 3.6L10.4 3.3L10.6 3.1L10.8 2.9L11.1 2.7L11.4 2.6L11.7 2.5L12.0 2.5L12.3 2.5L12.6 2.6L12.9 2.7L13.2 2.9L13.4 3.1L13.6 3.3L13.7 3.6L13.9 3.9L13.9 4.2Z"/></svg></button><button class="shp" data-shape="wheat" role="radio" aria-label="Ear of wheat" title="Ear of wheat"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M12.5 21.5L12.4 20.6L12.4 19.8L12.3 18.9L12.3 18.0L12.2 17.2L12.2 16.3L12.1 15.4L12.1 14.6L12.1 13.7L12.0 12.8L12.0 11.9L12.0 11.1L11.9 10.2L11.9 9.3L11.9 8.5L11.9 7.6M11.9 15.4L11.7 15.3L11.5 15.3L11.3 15.2L11.1 15.1L11.0 14.9L10.8 14.8L10.7 14.7L10.6 14.5L10.5 14.3L10.5 14.1L10.4 13.9L10.4 13.7L10.6 13.7L10.8 13.8L11.0 13.9L11.2 14.0L11.3 14.1L11.5 14.3L11.6 14.4L11.7 14.6L11.8 14.8L11.8 14.9L11.9 15.2ZM10.3 13.5L9.3 11.8M12.3 13.7L12.3 13.5L12.4 13.3L12.5 13.1L12.5 12.9L12.6 12.7L12.7 12.6L12.9 12.5L13.0 12.3L13.2 12.2L13.4 12.2L13.6 12.1L13.8 12.0L13.8 12.2L13.7 12.5L13.7 12.6L13.6 12.8L13.5 13.0L13.4 13.1L13.2 13.3L13.1 13.4L12.9 13.5L12.7 13.6L12.5 13.7ZM14.0 11.9L15.0 10.1M11.8 12.0L11.5 12.0L11.3 11.9L11.2 11.8L11.0 11.7L10.8 11.6L10.7 11.5L10.6 11.3L10.5 11.2L10.4 11.0L10.4 10.8L10.3 10.6L10.3 10.4L10.5 10.4L10.7 10.5L10.9 10.6L11.0 10.7L11.2 10.8L11.3 10.9L11.4 11.1L11.5 11.2L11.6 11.4L11.7 11.6L11.7 11.8ZM10.1 10.2L9.1 8.4M12.2 10.4L12.2 10.2L12.3 9.9L12.3 9.8L12.4 9.6L12.5 9.4L12.6 9.3L12.8 9.1L12.9 9.0L13.1 8.9L13.3 8.8L13.5 8.7L13.7 8.7L13.7 8.9L13.6 9.1L13.6 9.3L13.5 9.5L13.4 9.7L13.3 9.8L13.1 9.9L13.0 10.1L12.8 10.2L12.6 10.2L12.4 10.3ZM13.8 8.5L14.9 6.8M11.7 9.0L11.5 8.9L11.3 8.9L11.1 8.8L10.9 8.7L10.8 8.6L10.6 8.4L10.5 8.3L10.4 8.1L10.3 7.9L10.3 7.7L10.2 7.5L10.2 7.3L10.4 7.4L10.6 7.4L10.8 7.5L11.0 7.6L11.1 7.7L11.3 7.9L11.4 8.0L11.5 8.2L11.5 8.4L11.6 8.6L11.7 8.8ZM10.0 7.1L9.0 5.4M11.9 7.3L11.8 7.1L11.7 6.9L11.6 6.7L11.5 6.6L11.5 6.4L11.5 6.2L11.5 6.0L11.5 5.8L11.6 5.6L11.7 5.4L11.8 5.2L11.9 5.1L12.0 5.2L12.1 5.4L12.2 5.6L12.3 5.8L12.3 6.0L12.3 6.2L12.3 6.4L12.3 6.6L12.2 6.7L12.1 6.9L12.0 7.1ZM11.9 4.8L12.1 2.5"/></svg></button><button class="shp" data-shape="radialTile" role="radio" aria-label="Radial test tile" title="Radial test tile"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M15.9 2.5L21.5 8.1L21.5 15.9L15.9 21.5L8.1 21.5L2.5 15.9L2.5 8.1L8.1 2.5ZM12.0 12.0L15.9 2.5M12.0 12.0L21.5 8.1M12.0 12.0L21.5 15.9M12.0 12.0L15.9 21.5M12.0 12.0L8.1 21.5M12.0 12.0L2.5 15.9M12.0 12.0L2.5 8.1M12.0 12.0L8.1 2.5"/></svg></button><button class="shp" data-shape="quatrefoil" role="radio" aria-label="Quatrefoil" title="Quatrefoil"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M16.8 7.3L17.5 7.3L18.2 7.5L18.9 7.8L19.5 8.2L20.1 8.6L20.6 9.2L21.0 9.8L21.3 10.5L21.4 11.3L21.5 12.0L21.4 12.7L21.3 13.5L21.0 14.2L20.6 14.8L20.1 15.4L19.5 15.8L18.9 16.2L18.2 16.5L17.5 16.7L16.8 16.8L16.7 17.5L16.5 18.2L16.2 18.9L15.8 19.5L15.4 20.1L14.8 20.6L14.2 21.0L13.5 21.3L12.7 21.4L12.0 21.5L11.3 21.4L10.5 21.3L9.8 21.0L9.2 20.6L8.6 20.1L8.2 19.5L7.8 18.9L7.5 18.2L7.3 17.5L7.3 16.8L6.5 16.7L5.8 16.5L5.1 16.2L4.5 15.8L3.9 15.4L3.4 14.8L3.0 14.2L2.7 13.5L2.6 12.7L2.5 12.0L2.6 11.3L2.7 10.5L3.0 9.8L3.4 9.2L3.9 8.6L4.5 8.2L5.1 7.8L5.8 7.5L6.5 7.3L7.3 7.3L7.3 6.5L7.5 5.8L7.8 5.1L8.2 4.5L8.6 3.9L9.2 3.4L9.8 3.0L10.5 2.7L11.3 2.6L12.0 2.5L12.7 2.6L13.5 2.7L14.2 3.0L14.8 3.4L15.4 3.9L15.8 4.5L16.2 5.1L16.5 5.8L16.7 6.5Z"/></svg></button><button class="shp" data-shape="mark" role="radio" aria-label="Test-plate mark" title="Test-plate mark"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M7.9 5.2L7.8 5.7L7.7 6.2L7.4 6.7L7.1 7.1L6.7 7.4L6.2 7.7L5.7 7.8L5.2 7.9L4.7 7.8L4.2 7.7L3.7 7.4L3.3 7.1L3.0 6.7L2.7 6.2L2.6 5.7L2.5 5.2L2.6 4.7L2.7 4.2L3.0 3.7L3.3 3.3L3.7 3.0L4.2 2.7L4.7 2.6L5.2 2.5L5.7 2.6L6.2 2.7L6.7 3.0L7.1 3.3L7.4 3.7L7.7 4.2L7.8 4.7ZM14.7 5.2L14.6 5.7L14.5 6.2L14.2 6.7L13.9 7.1L13.5 7.4L13.0 7.7L12.5 7.8L12.0 7.9L11.5 7.8L11.0 7.7L10.5 7.4L10.1 7.1L9.8 6.7L9.5 6.2L9.4 5.7L9.3 5.2L9.4 4.7L9.5 4.2L9.8 3.7L10.1 3.3L10.5 3.0L11.0 2.7L11.5 2.6L12.0 2.5L12.5 2.6L13.0 2.7L13.5 3.0L13.9 3.3L14.2 3.7L14.5 4.2L14.6 4.7ZM21.5 5.2L21.4 5.7L21.3 6.2L21.0 6.7L20.7 7.1L20.3 7.4L19.8 7.7L19.3 7.8L18.8 7.9L18.3 7.8L17.8 7.7L17.3 7.4L16.9 7.1L16.6 6.7L16.3 6.2L16.2 5.7L16.1 5.2L16.2 4.7L16.3 4.2L16.6 3.7L16.9 3.3L17.3 3.0L17.8 2.7L18.3 2.6L18.8 2.5L19.3 2.6L19.8 2.7L20.3 3.0L20.7 3.3L21.0 3.7L21.3 4.2L21.4 4.7ZM7.9 12.0L7.8 12.5L7.7 13.0L7.4 13.5L7.1 13.9L6.7 14.2L6.2 14.5L5.7 14.6L5.2 14.7L4.7 14.6L4.2 14.5L3.7 14.2L3.3 13.9L3.0 13.5L2.7 13.0L2.6 12.5L2.5 12.0L2.6 11.5L2.7 11.0L3.0 10.5L3.3 10.1L3.7 9.8L4.2 9.5L4.7 9.4L5.2 9.3L5.7 9.4L6.2 9.5L6.7 9.8L7.1 10.1L7.4 10.5L7.7 11.0L7.8 11.5ZM14.7 12.0L14.6 12.5L14.5 13.0L14.2 13.5L13.9 13.9L13.5 14.2L13.0 14.5L12.5 14.6L12.0 14.7L11.5 14.6L11.0 14.5L10.5 14.2L10.1 13.9L9.8 13.5L9.5 13.0L9.4 12.5L9.3 12.0L9.4 11.5L9.5 11.0L9.8 10.5L10.1 10.1L10.5 9.8L11.0 9.5L11.5 9.4L12.0 9.3L12.5 9.4L13.0 9.5L13.5 9.8L13.9 10.1L14.2 10.5L14.5 11.0L14.6 11.5ZM21.5 12.0L21.4 12.5L21.3 13.0L21.0 13.5L20.7 13.9L20.3 14.2L19.8 14.5L19.3 14.6L18.8 14.7L18.3 14.6L17.8 14.5L17.3 14.2L16.9 13.9L16.6 13.5L16.3 13.0L16.2 12.5L16.1 12.0L16.2 11.5L16.3 11.0L16.6 10.5L16.9 10.1L17.3 9.8L17.8 9.5L18.3 9.4L18.8 9.3L19.3 9.4L19.8 9.5L20.3 9.8L20.7 10.1L21.0 10.5L21.3 11.0L21.4 11.5ZM7.9 18.8L7.8 19.3L7.7 19.8L7.4 20.3L7.1 20.7L6.7 21.0L6.2 21.3L5.7 21.4L5.2 21.5L4.7 21.4L4.2 21.3L3.7 21.0L3.3 20.7L3.0 20.3L2.7 19.8L2.6 19.3L2.5 18.8L2.6 18.3L2.7 17.8L3.0 17.3L3.3 16.9L3.7 16.6L4.2 16.3L4.7 16.2L5.2 16.1L5.7 16.2L6.2 16.3L6.7 16.6L7.1 16.9L7.4 17.3L7.7 17.8L7.8 18.3ZM14.7 18.8L14.6 19.3L14.5 19.8L14.2 20.3L13.9 20.7L13.5 21.0L13.0 21.3L12.5 21.4L12.0 21.5L11.5 21.4L11.0 21.3L10.5 21.0L10.1 20.7L9.8 20.3L9.5 19.8L9.4 19.3L9.3 18.8L9.4 18.3L9.5 17.8L9.8 17.3L10.1 16.9L10.5 16.6L11.0 16.3L11.5 16.2L12.0 16.1L12.5 16.2L13.0 16.3L13.5 16.6L13.9 16.9L14.2 17.3L14.5 17.8L14.6 18.3ZM21.5 18.8L21.4 19.3L21.3 19.8L21.0 20.3L20.7 20.7L20.3 21.0L19.8 21.3L19.3 21.4L18.8 21.5L18.3 21.4L17.8 21.3L17.3 21.0L16.9 20.7L16.6 20.3L16.3 19.8L16.2 19.3L16.1 18.8L16.2 18.3L16.3 17.8L16.6 17.3L16.9 16.9L17.3 16.6L17.8 16.3L18.3 16.2L18.8 16.1L19.3 16.2L19.8 16.3L20.3 16.6L20.7 16.9L21.0 17.3L21.3 17.8L21.4 18.3Z"/></svg></button></div>
 <div id="armedRow" class="row row3"><button id="cutB" class="btn primary">CUT</button><button id="clearB" class="btn">CLEAR</button><button id="doneB" class="btn">DONE</button></div>
 <div id="afterRow" class="row row2"><button id="shareB" class="btn primary">SHARE YOUR CUT &#8599;</button><button id="reloadB" class="btn">RELOAD FLYER</button></div>
 <div id="shareMsg"></div>
@@ -179,6 +179,122 @@ const stage = $('stage'), app = $('app'), ov = $('ov'), rig = $('rig'), piecesEl
 const SVGNS = 'http://www.w3.org/2000/svg';
 const LIB = 'https://cdn.jsdelivr.net/npm/modern-screenshot@4.6.8/dist/index.js';
 const LOGO = "<defs><pattern id=\"tq0\" patternUnits=\"userSpaceOnUse\" width=\"0.780\" height=\"0.780\" patternTransform=\"rotate(45)\"><rect width=\"0.780\" height=\"0.420\" fill=\"currentColor\"></rect></pattern><pattern id=\"tq1\" patternUnits=\"userSpaceOnUse\" width=\"1.110\" height=\"1.110\" patternTransform=\"rotate(45)\"><rect width=\"1.110\" height=\"0.420\" fill=\"currentColor\"></rect></pattern><pattern id=\"tq2\" patternUnits=\"userSpaceOnUse\" width=\"1.560\" height=\"1.560\" patternTransform=\"rotate(45)\"><rect width=\"1.560\" height=\"0.420\" fill=\"currentColor\"></rect></pattern></defs><circle cx=\"6.00\" cy=\"6.00\" r=\"6.00\" fill=\"url(#tq0)\" opacity=\"0.55\"></circle><circle cx=\"6.00\" cy=\"6.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"21.00\" cy=\"6.00\" r=\"6.00\" fill=\"url(#tq1)\" opacity=\"0.55\"></circle><circle cx=\"21.00\" cy=\"6.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"36.00\" cy=\"6.00\" r=\"6.00\" fill=\"url(#tq2)\" opacity=\"0.55\"></circle><circle cx=\"36.00\" cy=\"6.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"6.00\" cy=\"21.00\" r=\"6.00\" fill=\"url(#tq0)\" opacity=\"0.8\"></circle><circle cx=\"6.00\" cy=\"21.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"21.00\" cy=\"21.00\" r=\"6.00\" fill=\"url(#tq1)\" opacity=\"0.8\"></circle><circle cx=\"21.00\" cy=\"21.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"36.00\" cy=\"21.00\" r=\"6.00\" fill=\"url(#tq2)\" opacity=\"0.8\"></circle><circle cx=\"36.00\" cy=\"21.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"6.00\" cy=\"36.00\" r=\"6.00\" fill=\"url(#tq0)\" opacity=\"1\"></circle><circle cx=\"6.00\" cy=\"36.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"21.00\" cy=\"36.00\" r=\"6.00\" fill=\"url(#tq1)\" opacity=\"1\"></circle><circle cx=\"21.00\" cy=\"36.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle><circle cx=\"36.00\" cy=\"36.00\" r=\"6.00\" fill=\"url(#tq2)\" opacity=\"1\"></circle><circle cx=\"36.00\" cy=\"36.00\" r=\"6.00\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.300\" stroke-opacity=\".6\"></circle>";
+// Cut shapes drawn from Yarden's own work. Each returns a list of paths in unit space
+// (roughly -1..1), each {pts, closed}. Closed paths become pieces; open paths are cut lines.
+(function (root) {
+  const TAU = Math.PI * 2;
+  const arcPts = (cx, cy, r, a0, a1, n) => { const o = []; for (let k = 0; k <= n; k++) { const t = a0 + (a1 - a0) * k / n; o.push([cx + r * Math.cos(t), cy + r * Math.sin(t)]); } return o; };
+  const close = (p) => ({ pts: p, closed: true });
+  // a straight edge bowed outward (away from c) by `bow` x its length, sampled
+  const bowed = (a, b, bow, c, n = 10) => {
+    const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    let nx = -(b[1] - a[1]) / L, ny = (b[0] - a[0]) / L;
+    if ((mx - c[0]) * nx + (my - c[1]) * ny < 0) { nx = -nx; ny = -ny; }
+    const o = [];
+    for (let k = 0; k < n; k++) { const t = k / n, off = bow * L * 4 * t * (1 - t); o.push([a[0] + (b[0] - a[0]) * t + nx * off, a[1] + (b[1] - a[1]) * t + ny * off]); }
+    return o;
+  };
+  const lancet = (cx, base, spring, w, n = 14) => {
+    // pointed (equilateral) arch, springing at y=spring, half-width w
+    const o = [[cx - w, base], [cx + w, base], [cx + w, spring]];
+    for (let k = 1; k <= n; k++) { const t = k / n * Math.PI / 3; o.push([cx - w + 2 * w * Math.cos(t), spring - 2 * w * Math.sin(t)]); }
+    for (let k = 1; k <= n; k++) { const t = 2 * Math.PI / 3 + k / n * Math.PI / 3; o.push([cx + w + 2 * w * Math.cos(t), spring - 2 * w * Math.sin(t)]); }
+    return o;
+  };
+  const lens = (cx, cy, len, wid, ang, n = 12) => {
+    // a grain: two arcs meeting in points at both ends
+    const o = [];
+    for (let k = 0; k < n; k++) { const t = -1 + 2 * k / n; o.push([t * len / 2, -wid / 2 * (1 - t * t)]); }
+    for (let k = 0; k < n; k++) { const t = 1 - 2 * k / n; o.push([t * len / 2, wid / 2 * (1 - t * t)]); }
+    const c = Math.cos(ang), s = Math.sin(ang);
+    return o.map(([x, y]) => [cx + x * c - y * s, cy + x * s + y * c]);
+  };
+
+  const SHAPES = {
+    // Mashrabiya, Museum for Islamic Art: the eight-point star, each arm bowed out ~10% "into a petal"
+    rosette() {
+      const o = [];
+      for (let k = 0; k < 8; k++) {
+        const a = -Math.PI / 2 + k * TAU / 8, b = a + TAU / 16;
+        const tip = [Math.cos(a), Math.sin(a)], inn = [0.56 * Math.cos(b), 0.56 * Math.sin(b)];
+        const prevIn = [0.56 * Math.cos(a - TAU / 16), 0.56 * Math.sin(a - TAU / 16)];
+        o.push(...bowed(prevIn, tip, 0.1, [0, 0]), ...bowed(tip, inn, 0.1, [0, 0]));
+      }
+      return [close(o)];
+    },
+    // Aumbry 2.0, the hand-carved Gothic piercing: a four-point star of concave arcs
+    carvedStar() {
+      const o = [], tips = [[0, -1], [0.78, 0], [0, 1], [-0.78, 0]];
+      for (let k = 0; k < 4; k++) {
+        const A = tips[k], B = tips[(k + 1) % 4], C = [(A[0] + B[0]) * 0.18, (A[1] + B[1]) * 0.18];
+        for (let j = 0; j < 14; j++) { const t = j / 14; o.push([(1 - t) * (1 - t) * A[0] + 2 * (1 - t) * t * C[0] + t * t * B[0], (1 - t) * (1 - t) * A[1] + 2 * (1 - t) * t * C[1] + t * t * B[1]]); }
+      }
+      return [close(o)];
+    },
+    // Aumbry 2.0 tracery: two pointed lancets under a round oculus, three openings
+    tracery() {
+      return [close(lancet(-0.29, 1, 0.05, 0.25)), close(lancet(0.29, 1, 0.05, 0.25)), close(arcPts(0, -0.74, 0.2, 0, TAU, 40).slice(0, -1))];
+    },
+    // Seven Species porcelain: an ear of wheat, the stem a cut line, each grain its own piece
+    wheat() {
+      // an open ear: a gently curved stem, slender grains set apart and alternating, each with an awn
+      const stem = (t) => [0.06 * (1 - t) * (1 - t) - 0.02 * t, 1.05 - 1.85 * t];   // t 0 (base) .. 1 (top)
+      const sp = []; for (let k = 0; k <= 16; k++) sp.push(stem(k / 16));
+      const p = [{ pts: sp, closed: false }];
+      const L = 0.3, W = 0.11, gap = 0.05;
+      [[0.42, -1], [0.54, 1], [0.66, -1], [0.78, 1], [0.88, -1]].forEach(([t, side]) => {
+        const [x, y] = stem(t), ang = -Math.PI / 2 + side * 0.72;
+        const cx = x + Math.cos(ang) * (gap + L / 2), cy = y + Math.sin(ang) * (gap + L / 2);
+        p.push(close(lens(cx, cy, L, W, ang)));
+        const tx = cx + Math.cos(ang) * L / 2, ty = cy + Math.sin(ang) * L / 2;
+        p.push({ pts: [[tx + Math.cos(ang) * 0.03, ty + Math.sin(ang) * 0.03], [tx + Math.cos(ang - side * 0.18) * 0.3, ty + Math.sin(ang - side * 0.18) * 0.3]], closed: false });
+      });
+      const [x, y] = stem(1);
+      p.push(close(lens(x, y - 0.04 - L / 2, L, W, -Math.PI / 2)));
+      p.push({ pts: [[x, y - 0.08 - L], [x + 0.02, y - 0.38 - L]], closed: false });
+      return p;
+    },
+    // The first ceramic test: an octagonal tile cut into eight tone wedges
+    radialTile() {
+      const v = []; for (let k = 0; k < 8; k++) { const a = -Math.PI / 2 + TAU / 16 + k * TAU / 8; v.push([Math.cos(a), Math.sin(a)]); }
+      const p = [close(v)];
+      v.forEach((q) => p.push({ pts: [[0, 0], q], closed: false }));
+      return p;
+    },
+    // Parametric planters: one tapered terracotta pot from the gradient column
+    planter() {
+      return [close([[-0.74, -0.86], [0.74, -0.86], [0.74, -0.6], [0.64, -0.6], [0.44, 0.92], [-0.44, 0.92], [-0.64, -0.6], [-0.74, -0.6]])];
+    },
+    // Aumbry 2.0: the forged key
+    key() {
+      const cy = -0.55, r = 0.4, hw = 0.07, jy = cy + Math.sqrt(r * r - hw * hw);
+      const a0 = Math.atan2(jy - cy, -hw), a1 = Math.atan2(jy - cy, hw) + TAU;
+      const o = [[hw, jy], [hw, 0.52], [0.36, 0.52], [0.36, 0.64], [0.24, 0.64], [0.24, 0.74], [0.36, 0.74], [0.36, 0.9], [hw, 0.9], [hw, 1.0], [-hw, 1.0], [-hw, jy]];
+      const arc = arcPts(0, cy, r, a0, a1, 44);
+      return [close(o.concat(arc.slice(1, -1)))];
+    },
+    // Passover pot holders and Gothic tracery alike: the quatrefoil
+    quatrefoil() {
+      const o = [], d = 0.48, r = 0.48;
+      [[d, 0, -Math.PI / 2], [0, d, 0], [-d, 0, Math.PI / 2], [0, -d, Math.PI]].forEach(([cx, cy, a]) => o.push(...arcPts(cx, cy, r, a, a + Math.PI, 20).slice(0, -1)));
+      return [close(o)];
+    },
+    // G-code muddler: a toolpath ring with its coordinates jittered into a nest
+    nest() {
+      const o = []; let s = 7;
+      const rnd = () => { s = (s * 16807) % 2147483647; return s / 2147483647; };
+      for (let k = 0; k < 90; k++) { const a = k / 90 * TAU, rr = 1 + (rnd() - 0.5) * 0.12 + 0.04 * Math.sin(a * 7); o.push([rr * Math.cos(a), rr * Math.sin(a)]); }
+      return [close(o)];
+    },
+    // the test-plate mark: nine circles
+    mark() {
+      const p = []; for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) p.push(close(arcPts(i * 0.68, j * 0.68, 0.27, 0, TAU, 32).slice(0, -1)));
+      return p;
+    },
+  };
+  root.CUT_SHAPES = SHAPES;
+})(typeof window !== 'undefined' ? window : globalThis);
+
 
 class Game {
   constructor() {
@@ -487,31 +603,17 @@ class Game {
   // ---------- drawing ----------
   // ---------- shapes ----------
   shapePaths(type, cx, cy, R) {
-    const ring = (n, r, rot, ox = 0, oy = 0) => { const a = []; for (let k = 0; k < n; k++) { const t = rot + k * 2 * Math.PI / n; a.push([ox + r * Math.cos(t), oy + r * Math.sin(t)]); } return a; };
-    let paths;
-    if (type === 'circle') paths = [ring(64, R, 0)];
-    else if (type === 'square') { const h = R * 0.86; paths = [[[-h, -h], [h, -h], [h, h], [-h, h]]]; }
-    else if (type === 'triangle') paths = [ring(3, R * 1.12, -Math.PI / 2)];
-    else if (type === 'hexagon') paths = [ring(6, R, -Math.PI / 2)];
-    else if (type === 'star') { const a = []; for (let k = 0; k < 10; k++) { const t = -Math.PI / 2 + k * Math.PI / 5, r = k % 2 ? R * 0.45 : R * 1.05; a.push([r * Math.cos(t), r * Math.sin(t)]); } paths = [a]; }
-    else if (type === 'heart') { const a = []; for (let k = 0; k < 72; k++) { const t = k / 72 * 2 * Math.PI; a.push([16 * Math.pow(Math.sin(t), 3) * R / 16, -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)) * R / 16]); } paths = [a]; }
-    else if (type === 'arch') {
-      // a pointed (Gothic) arch: two arcs struck from the opposite springing points
-      const w = R * 0.66, base = R * 0.9, spring = 0, a = [[-w, base], [w, base], [w, spring]];
-      for (let k = 1; k <= 18; k++) { const t = k / 18 * Math.PI / 3; a.push([-w + 2 * w * Math.cos(t), spring - 2 * w * Math.sin(t)]); }
-      for (let k = 1; k <= 18; k++) { const t = 2 * Math.PI / 3 + k / 18 * Math.PI / 3; a.push([w + 2 * w * Math.cos(t), spring - 2 * w * Math.sin(t)]); }
-      paths = [a];
-    }
-    else { const r = R * 0.27, step = R * 0.68; paths = []; for (let jj = -1; jj <= 1; jj++) for (let ii = -1; ii <= 1; ii++) paths.push(ring(36, r, 0, ii * step, jj * step)); }
-    // centre on the shape's bounding box, then place it
-    const all = [].concat(...paths);
-    const mx = (Math.min(...all.map((p) => p[0])) + Math.max(...all.map((p) => p[0]))) / 2, my = (Math.min(...all.map((p) => p[1])) + Math.max(...all.map((p) => p[1]))) / 2;
-    return paths.map((a) => { const q = a.map((p) => this.clampP([cx + p[0] - mx, cy + p[1] - my])); q.push(q[0]); return q; });
+    // shapes traced from the portfolio (CUT_SHAPES), scaled so the longer side is ~2R, centred on (cx, cy)
+    const paths = window.CUT_SHAPES[type]();
+    const all = [].concat(...paths.map((q) => q.pts));
+    const x0 = Math.min(...all.map((p) => p[0])), x1 = Math.max(...all.map((p) => p[0])), y0 = Math.min(...all.map((p) => p[1])), y1 = Math.max(...all.map((p) => p[1]));
+    const k = 2 * R / Math.max(x1 - x0, y1 - y0), mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+    return paths.map((q) => { const pts = q.pts.map((p) => this.clampP([cx + (p[0] - mx) * k, cy + (p[1] - my) * k])); if (q.closed) pts.push(pts[0]); return { pts, closed: q.closed }; });
   }
   setGroup(gid) {
     const gr = this.groups[gid];
     const keep = this.state.strokes.filter((s) => s.gid !== gid || s.cut);
-    const fresh = this.shapePaths(gr.type, gr.cx, gr.cy, gr.R).map((pts) => ({ pts, closed: true, nodes: [], cut: false, gid }));
+    const fresh = this.shapePaths(gr.type, gr.cx, gr.cy, gr.R).map((q) => ({ pts: q.pts, closed: q.closed, nodes: [], cut: false, gid }));
     this.state.strokes = keep.concat(fresh);
   }
   groupBox(gid) {
@@ -533,7 +635,7 @@ class Game {
       if (p[0] > b[0] - 8 && p[0] < b[2] + 8 && p[1] > b[1] - 8 && p[1] < b[3] + 8) { this.active = gid; this.drag = { gid, kind: 'move', ox: p[0] - gr.cx, oy: p[1] - gr.cy }; draw(); return; }
     }
     const gid = ++this.gseq;
-    this.groups[gid] = { type: this.sel || 'circle', cx: p[0], cy: p[1], R: 46 };
+    this.groups[gid] = { type: this.sel || 'rosette', cx: p[0], cy: p[1], R: ({ wheat: 74, tracery: 56, mark: 50 })[this.sel || 'rosette'] || 52 };
     this.active = gid; this.setGroup(gid);
     this.drag = { gid, kind: 'move', ox: 0, oy: 0 };
     draw();
@@ -1027,7 +1129,7 @@ function draw() {
     armB.querySelector('.t small').textContent = 'cut a piece out of this flyer';
     $('armedRow').style.display = (mode === 'draw' || cutting || mode === 'parking') ? 'grid' : 'none';
     $('tray').style.display = mode === 'draw' ? 'grid' : 'none';
-    document.querySelectorAll('.shp').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.shape === (g.sel || 'circle'))));
+    document.querySelectorAll('.shp').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.shape === (g.sel || 'rosette'))));
     $('cutB').disabled = mode !== 'draw' || !n;
     $('clearB').disabled = mode !== 'draw' || !n;
     $('doneB').disabled = mode !== 'draw';
