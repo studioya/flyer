@@ -432,7 +432,7 @@ class Game {
     this.mode = 'intro';
     $('scrim').style.display = 'block'; $('scrim').style.opacity = '1';
     const w = $('warn'); w.style.display = 'block'; w.style.opacity = '1'; w.style.transform = ''; w.style.pointerEvents = 'none';
-    this.gOff = -1;
+    this.gK = 0;
     const a = w.animate([
       { transform: 'translate(calc(-50% - 110vw),-50%)' },
       { transform: 'translate(calc(-50% + 12px),-50%)', offset: 0.8 },
@@ -452,17 +452,17 @@ class Game {
     draw();
   }
   slideGantry(inward, done) {
-    // gOff: 0 = in place, -1 = hidden above the top of the screen
-    const t0 = performance.now(), D = inward ? 620 : 420;
+    // gK: 0 = machine hidden, 1 = in place. In: rails slide in from the sides, the gantry drops from the top
+    // and bounces, then the head homes from left to right with its LED blinking. Out: the reverse, faster.
+    const t0 = performance.now(), D = inward ? 1700 : 650, from = inward ? 0 : 1;
     if (this.gRaf) cancelAnimationFrame(this.gRaf);
     const step = () => {
       const k = Math.min(1, (performance.now() - t0) / D);
-      const e = inward ? 1 - Math.pow(1 - k, 3) * (1 - 2.2 * k * (1 - k)) : k * k;
-      this.gOff = inward ? e - 1 : -e;
+      this.gK = inward ? k : 1 - k;
       draw();
-      if (k < 1) this.gRaf = requestAnimationFrame(step); else { this.gRaf = null; this.gOff = inward ? 0 : -1; draw(); if (done) done(); }
+      if (k < 1) this.gRaf = requestAnimationFrame(step); else { this.gRaf = null; this.gK = inward ? 1 : 0; draw(); if (done) done(); }
     };
-    this.gOff = inward ? -1 : 0;
+    this.gK = from;
     this.gRaf = requestAnimationFrame(step);
   }
   clearWarning() {
@@ -884,7 +884,7 @@ function draw() {
     const cutting = mode === 'cutting' || mode === 'tracing' || mode === 'closing' || mode === 'opening';
     // ---- strokes and kerf (under the pieces)
     let o = '<defs><mask id="hm" maskUnits="userSpaceOnUse" x="0" y="0" width="' + g.W + '" height="' + g.H + '"><rect width="' + g.W + '" height="' + g.H + '" fill="#fff"/>' + g.parts.map((p) => '<path d="' + polyD(p.pts) + '" fill="#000"/>').join('') + '</mask></defs>';
-    const reached = {}; let partial = null, partialPi = -1, head = g.home(), laserOn = false;
+    const reached = {}; let partial = null, partialPi = -1, head = g.home(), laserOn = false;  // head is reassigned while homing
     if (mode === 'cutting') {
       let t = 0;
       for (const s of g.segs) {
@@ -915,14 +915,31 @@ function draw() {
     // ---- gantry, head and smoke (above everything but the dock)
     let r = '';
     if (mode !== 'idle' && mode !== 'intro') {
-      const y = head[1] + (g.gOff || 0) * (head[1] - g.viewTop() + 40);
+      const gk = g.gK == null ? 1 : g.gK, clamp = (v) => Math.max(0, Math.min(1, v)), nowT = performance.now();
+      const bounce = (t) => { const n = 7.5625, d = 2.75; if (t < 1 / d) return n * t * t; if (t < 2 / d) return n * (t -= 1.5 / d) * t + 0.75; if (t < 2.5 / d) return n * (t -= 2.25 / d) * t + 0.9375; return n * (t -= 2.625 / d) * t + 0.984375; };
+      const railP = 1 - Math.pow(1 - clamp(gk / 0.28), 3);
+      const dropP = bounce(clamp((gk - 0.2) / 0.42));
+      const homeT = clamp((gk - 0.64) / 0.36), homeP = homeT * homeT * (3 - 2 * homeT);
+      const vt = g.viewTop(), vh = innerHeight;
+      const y = vt - 44 + dropP * (head[1] - vt + 44);
+      if (gk < 1 && !cutting) head = [26 + homeP * (head[0] - 26), head[1]];
+      // Y rails along both edges of the screen
+      const ro = (1 - railP) * 18;
+      r += '<defs><linearGradient id="rl" x1="0" x2="1"><stop offset="0" stop-color="#1F1E1C"/><stop offset=".55" stop-color="#4A4743"/><stop offset="1" stop-color="#2A2926"/></linearGradient></defs>';
+      [[-ro, 1], [g.W - 10 + ro, -1]].forEach(([rx, dir]) => {
+        r += '<rect x="' + (rx + (dir > 0 ? 10 : -12)).toFixed(1) + '" y="' + vt.toFixed(1) + '" width="12" height="' + vh + '" fill="#000" opacity=".16" filter="url(#hs)"/>';
+        r += '<rect x="' + rx.toFixed(1) + '" y="' + vt.toFixed(1) + '" width="10" height="' + vh + '" fill="url(#rl)"/>';
+        r += '<rect x="' + (rx + (dir > 0 ? 7 : 1)).toFixed(1) + '" y="' + vt.toFixed(1) + '" width="1.5" height="' + vh + '" fill="#6A6660" opacity=".7"/>';
+      });
       r += '<defs><linearGradient id="gs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".42"/><stop offset=".45" stop-color="#000" stop-opacity=".16"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>'
         + '<filter id="hs" x="-60%" y="-60%" width="220%" height="260%"><feGaussianBlur stdDeviation="4"/></filter></defs>';
       r += '<rect x="0" y="' + (y + 5).toFixed(1) + '" width="' + g.W + '" height="26" fill="url(#gs)"/>';
       r += '<rect x="' + (head[0] - 18).toFixed(1) + '" y="' + (y - 16).toFixed(1) + '" width="37" height="37" rx="4" fill="#000" opacity=".34" filter="url(#hs)" transform="translate(4,9)"/>';
-      r += '<rect x="0" y="' + (y - 7).toFixed(1) + '" width="' + g.W + '" height="13" fill="#3E3D39" opacity=".96"/><rect x="0" y="' + (y - 7).toFixed(1) + '" width="' + g.W + '" height="2" fill="#5A5852"/>';
+      r += '<rect x="0" y="' + (y - 8).toFixed(1) + '" width="' + g.W + '" height="16" fill="#3E3D39" opacity=".97"/><rect x="0" y="' + (y - 8).toFixed(1) + '" width="' + g.W + '" height="2.5" fill="#5F5C57"/>';
+      // carriages where the gantry rides on the rails
+      r += '<rect x="' + (-ro - 2).toFixed(1) + '" y="' + (y - 13).toFixed(1) + '" width="18" height="26" rx="2" fill="#2E2D2A"/><rect x="' + (g.W - 16 + ro).toFixed(1) + '" y="' + (y - 13).toFixed(1) + '" width="18" height="26" rx="2" fill="#2E2D2A"/>';
       // the head carries the test-plate mark (20% smaller than the header logo); the middle circle is the laser
-      const fire = laserOn ? 0.85 + Math.random() * 0.15 : 0, moving = cutting && !laserOn ? 0.22 : 0;
+      const fire = laserOn ? 0.85 + Math.random() * 0.15 : 0, moving = cutting && !laserOn ? 0.22 : (gk < 1 && homeT > 0 && homeT < 1 ? (Math.floor(nowT / 110) % 2 ? 0.9 : 0.15) : 0);
       const L = 27, S = L / 42, c = -L / 2 + 21 * S, rr = 6 * S;
       const glow = Math.max(fire, moving);
       r += '<defs><filter id="led" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="3"/></filter></defs>';
@@ -951,6 +968,7 @@ function draw() {
     else if (mode === 'closing') hint = 'closing the lid…';
     else if (mode === 'opening') hint = 'cut done…';
     else if (mode === 'cutting') hint = 'cutting… ' + Math.round(g.el / g.total * 100) + '%';
+    else if (mode === 'draw' && g.gK != null && g.gK < 1) hint = 'homing the laser…';
     else if (mode === 'draw') {
       if (n) hint = n + (n === 1 ? ' path' : ' paths') + ' ready · add more, or press Cut';
       else if (g.lastJob && g.lastJob.pieces) hint = g.lastJob.pieces + (g.lastJob.pieces === 1 ? ' piece' : ' pieces') + ' cut free · ' + g.lastJob.mm + ' mm of kerf';
