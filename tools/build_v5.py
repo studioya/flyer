@@ -393,6 +393,18 @@ __PLATE__
     if (at && this.smoke.length < 120) this.smoke.push({ x0: at[0], y0: at[1], born: now, life: 1100 + Math.random() * 500, w: Math.random() * 6.28 });
     this.smoke = this.smoke.filter((p) => now - p.born < p.life);
   }
+  clusters(parts) {
+    const box = parts.map((p) => { const xs = p.pts.map((q) => q[0]), ys = p.pts.map((q) => q[1]); return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)]; });
+    const up = parts.map((_, i) => i), find = (i) => (up[i] === i ? i : (up[i] = find(up[i])));
+    const near = (a, b) => a[0] - 14 < b[2] && b[0] - 14 < a[2] && a[1] - 14 < b[3] && b[1] - 14 < a[3];
+    for (let i = 0; i < parts.length; i++) for (let j = i + 1; j < parts.length; j++) if (near(box[i], box[j])) up[find(i)] = find(j);
+    const groups = {};
+    parts.forEach((_, i) => { const k = find(i); (groups[k] = groups[k] || []).push(i); });
+    return Object.values(groups).map((idx) => {
+      const b = [Math.min(...idx.map((i) => box[i][0])), Math.min(...idx.map((i) => box[i][1])), Math.max(...idx.map((i) => box[i][2])), Math.max(...idx.map((i) => box[i][3]))];
+      return { idx, box: b, cx: (b[0] + b[2]) / 2, cy: (b[1] + b[3]) / 2 };
+    });
+  }
   pathLen(pts) { return pts.reduce((u, p, i) => i ? u + Math.hypot(p[0] - pts[i - 1][0], p[1] - pts[i - 1][1]) : 0, 0); }
   finishJob(intro) {
     const job = this.job;
@@ -405,6 +417,12 @@ __PLATE__
     applyHoles();
     this.mode = 'opening'; draw();
     this.storyFile = null; this.shareMsg = '';
+    // pieces of one shape (the wedges of a tile, the grains of an ear) lift together, as one
+    this.clusters(fresh).forEach((c) => {
+      const side = c.cx < this.W / 2 ? 1 : -1;
+      const dx = side * (16 + Math.random() * 8), dy = -(7 + Math.random() * 5), rot = side * (2 + Math.random() * 2.5);
+      c.idx.forEach((i) => { fresh[i].lift = { dx, dy, rot, ox: c.cx, oy: c.cy }; });
+    });
     const els = fresh.map((p) => this.makePiece(p));  // in place right away, so the hole is never empty
     setTimeout(() => {
       this.mode = 'draw';
@@ -440,12 +458,8 @@ __PLATE__
     return outer;
   }
   liftPiece(part, i, outer) {
-    const n = part.pts.length - 1;
-    const cx = part.pts.slice(0, n).reduce((t, p) => t + p[0], 0) / n;
-    const room = cx < this.W / 2 ? 1 : -1;
-    const dx = room * (16 + Math.random() * 10) * (i % 2 ? -1 : 1), dy = -(6 + Math.random() * 6);
-    const rot = (dx > 0 ? 1 : -1) * (2.5 + Math.random() * 3.5);
-    part.lift = { dx, dy, rot };
+    const { dx, dy, rot, ox, oy } = part.lift;
+    outer.style.transformOrigin = ox.toFixed(1) + 'px ' + oy.toFixed(1) + 'px';
     outer.style.filter = '';
     outer.animate([
       { transform: 'none', filter: 'drop-shadow(0 0 0 rgba(38,36,34,0))' },
@@ -502,14 +516,14 @@ __PLATE__
       const jobPts = (this.job || []).map((si) => this.state.strokes[si]).filter(Boolean).map((s) => s.pts);
       const freshIdx = parts.map((p, i) => i).filter((i) => i >= (this.lastJob ? this.lastJob.start : 0));
       // each piece is set down beside its hole, overlapping it a little, toward the side with more room
-      const place = parts.map((part, i) => {
-        const xs = part.pts.map((p) => p[0]);
-        const minX = Math.min(...xs), maxX = Math.max(...xs), w = maxX - minX;
+      const place = [];
+      this.clusters(parts).forEach((c) => {
+        const minX = c.box[0], maxX = c.box[2], w = maxX - minX;
         const toRight = (this.W - maxX) >= minX;
         // up to ~60% of its width to the side, never past the edge of the flyer (big pieces overlap their hole more)
         const room = toRight ? this.W - 6 - maxX : minX - 6;
         const dx = (toRight ? 1 : -1) * Math.min(w * 0.62, Math.max(room, w * 0.22));
-        return { dx, dy: -8, rot: toRight ? 4 : -4 };
+        c.idx.forEach((i) => { place[i] = { dx, dy: -8, rot: toRight ? 4 : -4, ox: c.cx, oy: c.cy }; });
       });
       const all = [].concat(...(jobPts.length ? jobPts : cuts.map((s) => s.pts)));
       freshIdx.forEach((i) => parts[i].pts.forEach((q) => all.push([q[0] + place[i].dx, q[1] + place[i].dy])));
@@ -583,7 +597,7 @@ __PLATE__
         if (cy + 80 < y0 || cy - 80 > y0 + visH) return;
         const path = new Path2D(polyD(part.pts));
         ctx.save();
-        ctx.translate(cx + L.dx, cy + L.dy); ctx.rotate(L.rot * Math.PI / 180); ctx.translate(-cx, -cy);
+        ctx.translate(L.ox + L.dx, L.oy + L.dy); ctx.rotate(L.rot * Math.PI / 180); ctx.translate(-L.ox, -L.oy);
         ctx.save();
         ctx.shadowColor = 'rgba(38,36,34,0.42)'; ctx.shadowBlur = 22; ctx.shadowOffsetY = 12;
         ctx.fillStyle = cap ? '#F1E9DC' : '#C79A5B'; ctx.fill(path);

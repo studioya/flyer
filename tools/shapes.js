@@ -56,21 +56,16 @@
     },
     // Seven Species porcelain: an ear of wheat, the stem a cut line, each grain its own piece
     wheat() {
-      // an open ear: a gently curved stem, slender grains set apart and alternating, each with an awn
-      const stem = (t) => [0.06 * (1 - t) * (1 - t) - 0.02 * t, 1.05 - 1.85 * t];   // t 0 (base) .. 1 (top)
-      const sp = []; for (let k = 0; k <= 16; k++) sp.push(stem(k / 16));
-      const p = [{ pts: sp, closed: false }];
-      const L = 0.3, W = 0.11, gap = 0.05;
-      [[0.42, -1], [0.54, 1], [0.66, -1], [0.78, 1], [0.88, -1]].forEach(([t, side]) => {
-        const [x, y] = stem(t), ang = -Math.PI / 2 + side * 0.72;
-        const cx = x + Math.cos(ang) * (gap + L / 2), cy = y + Math.sin(ang) * (gap + L / 2);
-        p.push(close(lens(cx, cy, L, W, ang)));
-        const tx = cx + Math.cos(ang) * L / 2, ty = cy + Math.sin(ang) * L / 2;
-        p.push({ pts: [[tx + Math.cos(ang) * 0.03, ty + Math.sin(ang) * 0.03], [tx + Math.cos(ang - side * 0.18) * 0.3, ty + Math.sin(ang - side * 0.18) * 0.3]], closed: false });
+      // an icon of an ear: a straight stem, three pairs of plump grains and one at the top, none touching
+      const L = 0.46, W = 0.22, a = 0.6, gap = 0.04, top = -0.66;
+      const p = [{ pts: [[0, 1.1], [0, top]], closed: false }];
+      [0.42, -0.04, -0.5].forEach((y) => {
+        [-1, 1].forEach((side) => {
+          const ang = -Math.PI / 2 + side * a;
+          p.push(close(lens(Math.cos(ang) * (gap + L / 2) + side * 0.02, y + Math.sin(ang) * (gap + L / 2), L, W, ang, 14)));
+        });
       });
-      const [x, y] = stem(1);
-      p.push(close(lens(x, y - 0.04 - L / 2, L, W, -Math.PI / 2)));
-      p.push({ pts: [[x, y - 0.08 - L], [x + 0.02, y - 0.38 - L]], closed: false });
+      p.push(close(lens(0, top - gap - L / 2, L, W, -Math.PI / 2, 14)));
       return p;
     },
     // The first ceramic test: an octagonal tile cut into eight tone wedges

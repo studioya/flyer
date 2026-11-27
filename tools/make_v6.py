@@ -68,7 +68,7 @@ s = s[:i] + r'''  // ---------- shapes ----------
       if (p[0] > b[0] - 8 && p[0] < b[2] + 8 && p[1] > b[1] - 8 && p[1] < b[3] + 8) { this.active = gid; this.drag = { gid, kind: 'move', ox: p[0] - gr.cx, oy: p[1] - gr.cy }; draw(); return; }
     }
     const gid = ++this.gseq;
-    this.groups[gid] = { type: this.sel || 'rosette', cx: p[0], cy: p[1], R: ({ wheat: 74, tracery: 56, mark: 50 })[this.sel || 'rosette'] || 52 };
+    this.groups[gid] = { type: this.sel || 'rosette', cx: p[0], cy: p[1], R: ({ wheat: 64, tracery: 56, mark: 50 })[this.sel || 'rosette'] || 52 };
     this.active = gid; this.setGroup(gid);
     this.drag = { gid, kind: 'move', ox: 0, oy: 0 };
     draw();
