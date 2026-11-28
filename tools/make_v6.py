@@ -20,7 +20,7 @@ rep('<div class="w3">Draw on the flyer with your finger. Close a shape, press Cu
 # ---- tray of shapes in the dock
 import json as _j
 TRAY_ICONS = _j.load(open(D + '../motif/icons.json'))
-TRAY_NAMES = {'rosette': 'Mashrabiya rosette', 'carvedStar': 'Carved Gothic star', 'tracery': 'Lancet tracery', 'quatrefoil': 'Quatrefoil', 'mark': 'Test-plate mark'}
+TRAY_NAMES = {'rosette': 'Mashrabiya rosette', 'carvedStar': 'Carved Gothic star', 'tracery': 'Lancet tracery', 'quatrefoil': 'Quatrefoil', 'medallion': 'Mashrabiya medallion', 'paisley': 'Paisley', 'egg': 'Egg', 'mark': 'Test-plate mark'}
 TRAY_ICONS = {k: TRAY_ICONS[k] for k in TRAY_NAMES}
 tray = '<div id="tray" role="radiogroup" aria-label="Shapes">' + ''.join(
     f'<button class="shp" data-shape="{k}" role="radio" aria-label="{TRAY_NAMES[k]}" title="{TRAY_NAMES[k]}"><svg viewBox="0 0 24 24" width="24" height="24">{v}</svg></button>'
@@ -28,8 +28,8 @@ tray = '<div id="tray" role="radiogroup" aria-label="Shapes">' + ''.join(
 rep('<div id="armedRow" class="row row3">', tray + '<div id="armedRow" class="row row3">')
 rep(".row{{display:grid;gap:8px}}",
     ".row{{display:grid;gap:8px}}\n"
-    "#tray{{display:none;grid-template-columns:repeat(5,1fr);gap:6px}}\n"
-    ".shp{{height:42px;border:1px solid rgba(241,233,220,.35);background:transparent;color:#F1E9DC;display:grid;place-items:center;cursor:pointer;padding:0;border-radius:0;-webkit-tap-highlight-color:transparent}}\n"
+    "#tray{{display:none;grid-template-columns:repeat(8,1fr);gap:6px}}\n"
+    ".shp{{height:40px;border:1px solid rgba(241,233,220,.35);background:transparent;color:#F1E9DC;display:grid;place-items:center;cursor:pointer;padding:0;border-radius:0;-webkit-tap-highlight-color:transparent}}\n"
     ".shp svg{{fill:none;stroke:currentColor;stroke-width:1.3;stroke-linejoin:round;stroke-linecap:round}}\n"
     ".shp[aria-checked=\"true\"]{{background:#C79A5B;border-color:#C79A5B;color:#262422}}")
 
@@ -110,7 +110,7 @@ s = s[:i] + r'''  // ---------- shapes ----------
       if (p[0] > b[0] - 8 && p[0] < b[2] + 8 && p[1] > b[1] - 8 && p[1] < b[3] + 8) { this.active = gid; this.drag = { gid, kind: 'move', ox: p[0] - gr.cx, oy: p[1] - gr.cy }; draw(); return; }
     }
     const gid = ++this.gseq;
-    this.groups[gid] = { type: this.sel || 'rosette', cx: p[0], cy: p[1], s: ({ tracery: 56, mark: 50 })[this.sel || 'rosette'] || 52, rot: 0 };
+    this.groups[gid] = { type: this.sel || 'rosette', cx: p[0], cy: p[1], s: ({ tracery: 56, mark: 50, medallion: 60, egg: 46 })[this.sel || 'rosette'] || 52, rot: 0 };
     this.active = gid; this.setGroup(gid);
     this.drag = { gid, kind: 'move', ox: 0, oy: 0 };
     draw();
