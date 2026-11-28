@@ -826,14 +826,14 @@ class Game {
       ctx.fillText('I LASER-CUT HIS WEBSITE', 110, 278);
       if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
       ctx.fillStyle = '#262422'; ctx.font = '500 70px ' + serif;
-      ['Yarden Amir is on a job hunt.', 'I cut this with a laser', 'on his resume.'].forEach((l, i) => ctx.fillText(l, 110, 370 + i * 76));
-      ctx.fillStyle = '#262422'; ctx.fillRect(110, 1500, 860, 2);
-      ctx.font = '500 46px ' + serif; ctx.fillText('Your turn →', 110, 1562);
-      ctx.fillStyle = '#7A5A30'; ctx.font = '400 30px ' + mono; ctx.textAlign = 'right';
-      ctx.fillText('job.yardenamir.com', 970, 1558); ctx.textAlign = 'left';
-      ctx.drawImage(plateImg, 110, 1600, 91, 91);
-      ctx.fillStyle = '#262422'; ctx.font = '500 44px ' + serif; ctx.fillText('Yarden Amir', 223, 1640);
-      ctx.fillStyle = '#5F5A52'; ctx.font = '400 19px ' + mono; ctx.fillText('Designer · Making & Fabrication Instructor · Craft Researcher', 223, 1678);
+      ['Yarden Amir is on a job hunt.', 'He wants you to cut up', 'his resume.'].forEach((l, i) => ctx.fillText(l, 110, 370 + i * 76));
+      // the call to action: a terracotta bar, white type
+      ctx.fillStyle = '#B4593A'; ctx.fillRect(110, 1500, 860, 124);
+      ctx.fillStyle = '#FFFFFF'; ctx.font = '500 66px ' + serif; ctx.fillText('Your turn \u2192', 146, 1583);
+      ctx.font = '500 26px ' + mono; ctx.textAlign = 'right'; ctx.fillText('job.yardenamir.com', 934, 1577); ctx.textAlign = 'left';
+      ctx.drawImage(plateImg, 110, 1664, 91, 91);
+      ctx.fillStyle = '#262422'; ctx.font = '500 44px ' + serif; ctx.fillText('Yarden Amir', 223, 1704);
+      ctx.fillStyle = '#5F5A52'; ctx.font = '400 19px ' + mono; ctx.fillText('Designer \u00b7 Making & Fabrication Instructor \u00b7 Craft Researcher', 223, 1742);
       const blob = await new Promise((r) => cv.toBlob(r, 'image/png'));
       this.storyFile = new File([blob], 'yarden-amir-laser-cut.png', { type: 'image/png' });
       if (this.storyURL) URL.revokeObjectURL(this.storyURL);
@@ -851,7 +851,7 @@ class Game {
   onShare() {
     this.copyLink();
     const f = this.storyFile;
-    const text = 'Yarden Amir is on a job hunt. I cut this with a laser on his resume. ' + this.SITE;
+    const text = 'Yarden Amir is on a job hunt. He wants you to cut up his resume. ' + this.SITE;
     if (f && this.isTouch() && navigator.canShare && navigator.canShare({ files: [f] })) {
       navigator.share({ files: [f], text }).then(() => { this.shareMsg = 'Shared · the link is copied: add it with a Link sticker'; draw(); }).catch(() => {});
       this.shareMsg = 'Link copied: job.yardenamir.com · add it with a Link sticker';
