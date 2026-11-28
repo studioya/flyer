@@ -20,14 +20,15 @@ rep('<div class="w3">Draw on the flyer with your finger. Close a shape, press Cu
 # ---- tray of shapes in the dock
 import json as _j
 TRAY_ICONS = _j.load(open(D + '../motif/icons.json'))
-TRAY_NAMES = {'rosette': 'Mashrabiya rosette', 'carvedStar': 'Carved Gothic star', 'tracery': 'Lancet tracery', 'wheat': 'Ear of wheat', 'radialTile': 'Radial test tile', 'quatrefoil': 'Quatrefoil', 'mark': 'Test-plate mark'}
+TRAY_NAMES = {'rosette': 'Mashrabiya rosette', 'carvedStar': 'Carved Gothic star', 'tracery': 'Lancet tracery', 'quatrefoil': 'Quatrefoil', 'mark': 'Test-plate mark'}
+TRAY_ICONS = {k: TRAY_ICONS[k] for k in TRAY_NAMES}
 tray = '<div id="tray" role="radiogroup" aria-label="Shapes">' + ''.join(
     f'<button class="shp" data-shape="{k}" role="radio" aria-label="{TRAY_NAMES[k]}" title="{TRAY_NAMES[k]}"><svg viewBox="0 0 24 24" width="24" height="24">{v}</svg></button>'
     for k, v in TRAY_ICONS.items()) + '</div>\n'
 rep('<div id="armedRow" class="row row3">', tray + '<div id="armedRow" class="row row3">')
 rep(".row{{display:grid;gap:8px}}",
     ".row{{display:grid;gap:8px}}\n"
-    "#tray{{display:none;grid-template-columns:repeat(7,1fr);gap:6px}}\n"
+    "#tray{{display:none;grid-template-columns:repeat(5,1fr);gap:6px}}\n"
     ".shp{{height:42px;border:1px solid rgba(241,233,220,.35);background:transparent;color:#F1E9DC;display:grid;place-items:center;cursor:pointer;padding:0;border-radius:0;-webkit-tap-highlight-color:transparent}}\n"
     ".shp svg{{fill:none;stroke:currentColor;stroke-width:1.3;stroke-linejoin:round;stroke-linecap:round}}\n"
     ".shp[aria-checked=\"true\"]{{background:#C79A5B;border-color:#C79A5B;color:#262422}}")
@@ -35,20 +36,59 @@ rep(".row{{display:grid;gap:8px}}",
 # ---- input: place, move and resize shapes instead of free drawing
 i = s.index('  onDown(e) {', s.index('JS = r"""')); j = s.index('  onClear() {', i)
 s = s[:i] + r'''  // ---------- shapes ----------
-  shapePaths(type, cx, cy, R) {
-    // shapes traced from the portfolio (CUT_SHAPES), scaled so the longer side is ~2R, centred on (cx, cy)
-    const paths = window.CUT_SHAPES[type]();
-    const all = [].concat(...paths.map((q) => q.pts));
-    const x0 = Math.min(...all.map((p) => p[0])), x1 = Math.max(...all.map((p) => p[0])), y0 = Math.min(...all.map((p) => p[1])), y1 = Math.max(...all.map((p) => p[1]));
-    const k = 2 * R / Math.max(x1 - x0, y1 - y0), mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
-    return paths.map((q) => { const pts = q.pts.map((p) => this.clampP([cx + (p[0] - mx) * k, cy + (p[1] - my) * k])); if (q.closed) pts.push(pts[0]); return { pts, closed: q.closed }; });
+  unitShape(type) {
+    // a traced shape, centred on its bounding box, longer side 2 units
+    this.units = this.units || {};
+    if (!this.units[type]) {
+      const paths = window.CUT_SHAPES[type]();
+      const all = [].concat(...paths.map((q) => q.pts));
+      const x0 = Math.min(...all.map((p) => p[0])), x1 = Math.max(...all.map((p) => p[0])), y0 = Math.min(...all.map((p) => p[1])), y1 = Math.max(...all.map((p) => p[1]));
+      const k = 2 / Math.max(x1 - x0, y1 - y0), mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+      this.units[type] = paths.map((q) => ({ pts: q.pts.map((p) => [(p[0] - mx) * k, (p[1] - my) * k]), closed: q.closed }));
+    }
+    return this.units[type];
+  }
+  groupPaths(gr) {
+    const base = gr.base || this.unitShape(gr.type), c = Math.cos(gr.rot || 0), sn = Math.sin(gr.rot || 0), k = gr.s;
+    return base.map((q) => {
+      const pts = q.pts.map((p) => this.clampP([gr.cx + (p[0] * c - p[1] * sn) * k, gr.cy + (p[0] * sn + p[1] * c) * k]));
+      if (q.closed) pts.push(pts[0]);
+      return { pts, closed: q.closed };
+    });
   }
   setGroup(gid) {
     const gr = this.groups[gid];
     const keep = this.state.strokes.filter((s) => s.gid !== gid || s.cut);
-    const fresh = this.shapePaths(gr.type, gr.cx, gr.cy, gr.R).map((q) => ({ pts: q.pts, closed: q.closed, nodes: [], cut: false, gid }));
+    const fresh = this.groupPaths(gr).map((q) => ({ pts: q.pts, closed: q.closed, nodes: [], cut: false, gid }));
     this.state.strokes = keep.concat(fresh);
   }
+  // shapes that overlap are welded into one outline, one shape from then on
+  mergeOverlaps(gid) {
+    const PC = window.polygonClipping;
+    if (!PC || !this.groups[gid]) return;
+    const rings = (g) => this.groupPaths(this.groups[g]).filter((q) => q.closed).map((q) => [q.pts]);
+    let merged = true;
+    while (merged) {
+      merged = false;
+      for (const k of Object.keys(this.groups).map(Number)) {
+        if (k === gid || !this.groupBox(k)) continue;
+        const A = rings(gid), B = rings(k);
+        let hit = [];
+        try { hit = PC.intersection(A, B); } catch (e) { hit = []; }
+        if (!hit.length) continue;
+        let U; try { U = PC.union(A, B); } catch (e) { continue; }
+        const outl = []; U.forEach((poly) => poly.forEach((ring) => outl.push(ring.slice(0, -1))));
+        const all = [].concat(...outl), cx = (Math.min(...all.map((p) => p[0])) + Math.max(...all.map((p) => p[0]))) / 2, cy = (Math.min(...all.map((p) => p[1])) + Math.max(...all.map((p) => p[1]))) / 2;
+        this.groups[gid] = { type: 'merged', base: outl.map((r) => ({ pts: r.map((p) => [p[0] - cx, p[1] - cy]), closed: true })), cx, cy, s: 1, rot: 0 };
+        this.state.strokes = this.state.strokes.filter((st) => st.gid !== k || st.cut);
+        delete this.groups[k];
+        this.setGroup(gid);
+        merged = true;
+        break;
+      }
+    }
+  }
+  rotHandle(b) { return [(b[0] + b[2]) / 2, b[1] - 26]; }
   groupBox(gid) {
     const pts = [].concat(...this.state.strokes.filter((s) => s.gid === gid && !s.cut).map((s) => s.pts));
     if (!pts.length) return null;
@@ -64,11 +104,13 @@ s = s[:i] + r'''  // ---------- shapes ----------
     if (this.active && this.groupBox(this.active)) live.unshift(this.active);
     for (const gid of live) {
       const b = this.groupBox(gid), gr = this.groups[gid];
-      if (gid === this.active && Math.hypot(p[0] - b[2], p[1] - b[3]) < 26) { this.drag = { gid, kind: 'size', d0: Math.hypot(p[0] - gr.cx, p[1] - gr.cy), R0: gr.R }; return; }
+      const rh = this.rotHandle(b);
+      if (gid === this.active && Math.hypot(p[0] - rh[0], p[1] - rh[1]) < 20) { this.drag = { gid, kind: 'rot', a0: Math.atan2(p[1] - gr.cy, p[0] - gr.cx), r0: gr.rot || 0 }; return; }
+      if (gid === this.active && Math.hypot(p[0] - b[2], p[1] - b[3]) < 26) { this.drag = { gid, kind: 'size', d0: Math.hypot(p[0] - gr.cx, p[1] - gr.cy), s0: gr.s }; return; }
       if (p[0] > b[0] - 8 && p[0] < b[2] + 8 && p[1] > b[1] - 8 && p[1] < b[3] + 8) { this.active = gid; this.drag = { gid, kind: 'move', ox: p[0] - gr.cx, oy: p[1] - gr.cy }; draw(); return; }
     }
     const gid = ++this.gseq;
-    this.groups[gid] = { type: this.sel || 'rosette', cx: p[0], cy: p[1], R: ({ wheat: 64, tracery: 56, mark: 50 })[this.sel || 'rosette'] || 52 };
+    this.groups[gid] = { type: this.sel || 'rosette', cx: p[0], cy: p[1], s: ({ tracery: 56, mark: 50 })[this.sel || 'rosette'] || 52, rot: 0 };
     this.active = gid; this.setGroup(gid);
     this.drag = { gid, kind: 'move', ox: 0, oy: 0 };
     draw();
@@ -78,10 +120,11 @@ s = s[:i] + r'''  // ---------- shapes ----------
     if (!d) return;
     const p = this.pt(e), gr = this.groups[d.gid];
     if (d.kind === 'move') { gr.cx = p[0] - d.ox; gr.cy = p[1] - d.oy; }
-    else gr.R = Math.max(18, Math.min(150, d.R0 * Math.hypot(p[0] - gr.cx, p[1] - gr.cy) / Math.max(10, d.d0)));
+    else if (d.kind === 'rot') gr.rot = d.r0 + Math.atan2(p[1] - gr.cy, p[0] - gr.cx) - d.a0;
+    else { const f = Math.hypot(p[0] - gr.cx, p[1] - gr.cy) / Math.max(10, d.d0); const lim = gr.type === 'merged' ? [0.3, 3] : [18, 150]; gr.s = gr.type === 'merged' ? Math.max(lim[0], Math.min(lim[1], d.s0 * f)) : Math.max(lim[0], Math.min(lim[1], d.s0 * f)); }
     this.setGroup(d.gid); draw();
   }
-  onUp() { this.drag = null; }
+  onUp() { const d = this.drag; this.drag = null; if (d) { this.mergeOverlaps(d.gid); draw(); } }
 ''' + s[j:]
 rep("    this.setState({ cur: null, strokes: this.state.strokes.filter((s) => s.cut) });",
     "    this.active = null;\n    this.setState({ cur: null, strokes: this.state.strokes.filter((s) => s.cut) });")
@@ -90,9 +133,10 @@ rep("    this.setState({ cur: null, strokes: this.state.strokes.filter((s) => s.
 rep("    uncut.forEach((s) => s.nodes.forEach((n) => { o += '<rect x=\"' + (n[0] - 3).toFixed(1) + '\" y=\"' + (n[1] - 3).toFixed(1) + '\" width=\"6\" height=\"6\" fill=\"#C79A5B\" stroke=\"#262422\" stroke-width=\"1\"/>'; }));",
     "    const ab = g.active && mode === 'draw' ? g.groupBox(g.active) : null;\n"
     "    if (ab) o += '<rect x=\"' + (ab[0] - 6).toFixed(1) + '\" y=\"' + (ab[1] - 6).toFixed(1) + '\" width=\"' + (ab[2] - ab[0] + 12).toFixed(1) + '\" height=\"' + (ab[3] - ab[1] + 12).toFixed(1) + '\" fill=\"none\" stroke=\"#262422\" stroke-width=\".8\" stroke-dasharray=\"2 4\" opacity=\".5\"/>'\n"
-    "      + '<g transform=\"translate(' + ab[2].toFixed(1) + ',' + ab[3].toFixed(1) + ')\"><circle r=\"11\" fill=\"#C79A5B\" stroke=\"#262422\" stroke-width=\"1.2\"/><path d=\"M-4 -4 L4 4 M4 -1 V4 H-1 M-4 1 V-4 H1\" fill=\"none\" stroke=\"#262422\" stroke-width=\"1.4\"/></g>';")
+    "      + '<g transform=\"translate(' + ab[2].toFixed(1) + ',' + ab[3].toFixed(1) + ')\"><circle r=\"11\" fill=\"#C79A5B\" stroke=\"#262422\" stroke-width=\"1.2\"/><path d=\"M-4 -4 L4 4 M4 -1 V4 H-1 M-4 1 V-4 H1\" fill=\"none\" stroke=\"#262422\" stroke-width=\"1.4\"/></g>'\n"
+    "      + (() => { const h = g.rotHandle(ab); return '<line x1=\"' + h[0].toFixed(1) + '\" y1=\"' + (ab[1] - 6).toFixed(1) + '\" x2=\"' + h[0].toFixed(1) + '\" y2=\"' + (h[1] + 11).toFixed(1) + '\" stroke=\"#262422\" stroke-width=\".8\" opacity=\".6\"/><g transform=\"translate(' + h[0].toFixed(1) + ',' + h[1].toFixed(1) + ')\"><circle r=\"11\" fill=\"#C79A5B\" stroke=\"#262422\" stroke-width=\"1.2\"/><path d=\"M4.6 -2.2 A5 5 0 1 0 4.4 2.8 M4.6 -2.2 L4.8 -6 M4.6 -2.2 L1 -2.6\" fill=\"none\" stroke=\"#262422\" stroke-width=\"1.4\" stroke-linecap=\"round\"/></g>'; })();")
 rep("      if (n) hint = n + (n === 1 ? ' path' : ' paths') + ' ready · add more, or press Cut';",
-    "      if (n) hint = 'drag to move · corner to resize · or press Cut';")
+    "      if (n) hint = 'drag · top knob turns · corner sizes · overlaps merge';")
 rep("      else hint = 'draw on the flyer · close a shape · press Cut';",
     "      else hint = 'pick a shape · tap the flyer to place it';")
 rep("    $('armedRow').style.display = (mode === 'draw' || cutting || mode === 'parking') ? 'grid' : 'none';",
@@ -106,6 +150,7 @@ rep("$('cutB').addEventListener('click', () => g.onCut());",
     "  g.active = null;  // the next tap on the flyer places this shape\n"
     "  draw();\n"
     "}));")
+rep('<meta name="robots" content="noindex">', '<meta name="robots" content="noindex">\\n<script src="https://cdn.jsdelivr.net/npm/polygon-clipping@0.15.7/dist/polygon-clipping.umd.min.js"></script>')
 rep("const LOGO = __LOGO__;", "const LOGO = __LOGO__;\n" + open(D + '../motif/shapes.js').read().replace('\\\\', '\\\\\\\\'))
 open(D + 'build_v6.py', 'w').write(s)
 print('wrote build_v6.py')
