@@ -1,0 +1,136 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"./npm/package/build/three.module.js","three/addons/":"./npm/package/examples/jsm/"}}</script>
+</head><body>
+<script type="module">
+// Flat "3D sketch" render of the Aumbry: palette fills from the Yarden Amir design system,
+// three tone bands per material, ink edge lines, a flat cast shadow. Transparent background.
+import * as THREE from 'three';
+import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
+import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
+import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+const P = Object.fromEntries(new URLSearchParams(location.search));
+const W = +P.w || 1600, H = +P.h || 1200, SS = +P.ss || 2;
+THREE.Object3D.DEFAULT_UP.set(0, 0, 1);
+THREE.ColorManagement.enabled = false;
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.outputColorSpace = THREE.LinearSRGBColorSpace; // colours below are written straight to screen
+renderer.setPixelRatio(1); renderer.setSize(W * SS, H * SS); renderer.setClearColor(0, 0);
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+const C = (h) => new THREE.Color(h);
+const mix = (a, b, t) => C(a).lerp(C(b), t);
+// tokens: oak #C79A5B, oak-deep #7A5A30, birch #F1E9DC, ink #262422, paper #FFFFFF
+const TONES = {
+  wood: [mix('#C79A5B', '#F1E9DC', 0.38), C('#C79A5B'), mix('#C79A5B', '#7A5A30', 0.42), mix('#C79A5B', '#7A5A30', 0.78)],
+  aluminium: [C('#4a4642'), C('#3a3633'), C('#262422'), C('#262422')],
+  dowels: [C('#FFFFFF'), C('#F1E9DC'), mix('#F1E9DC', '#C79A5B', 0.35), mix('#F1E9DC', '#C79A5B', 0.35)],
+  plate: [C('#4a4642'), C('#3a3633'), C('#262422'), C('#262422')],
+  plinth: [C('#FFFFFF'), C('#F1E9DC'), mix('#F1E9DC', '#C79A5B', 0.3), mix('#F1E9DC', '#C79A5B', 0.3)],
+};
+const L = new THREE.Vector3(+P.lx || -0.3, +P.ly || -0.9, +P.lz || 0.3).normalize();
+const toneMat = (t) => new THREE.ShaderMaterial({
+  uniforms: { c0: { value: t[0] }, c1: { value: t[1] }, c2: { value: t[2] }, c3: { value: t[3] }, L: { value: L } },
+  vertexShader: `varying vec3 vN; void main(){ vN = normalize(mat3(modelMatrix) * normal); gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position,1.); }`,
+  fragmentShader: `uniform vec3 c0,c1,c2,c3,L; varying vec3 vN;
+    void main(){ vec3 n = normalize(vN); float d = dot(n, L);
+      vec3 c = n.z > 0.72 ? c0 : (d > 0.45 ? c1 : (d > -0.35 ? c2 : c3));
+      gl_FragColor = vec4(c, 1.); }`,
+  polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1,
+});
+const lineMat = new LineMaterial({ color: 0x262422, linewidth: (+P.lw || 1.1) * SS, worldUnits: false });
+lineMat.resolution.set(W * SS, H * SS);
+const thin = new LineMaterial({ color: 0x262422, linewidth: (+P.lw || 1.1) * 0.6 * SS, worldUnits: false, transparent: true, opacity: 0.55 });
+thin.resolution.set(W * SS, H * SS);
+
+const ix = await (await fetch('model.json')).json();
+const buf = await (await fetch('model.bin')).arrayBuffer();
+const arr = (k, key) => { const [o, n] = ix[k][key]; return key === 'F' ? new Uint32Array(buf, o, n) : new Float32Array(buf, o, n); };
+const center = new THREE.Vector3(9572, -2165, -596);
+const geoms = {};
+for (const k of Object.keys(ix)) {
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(arr(k, 'V'), 3));
+  g.setAttribute('normal', new THREE.BufferAttribute(arr(k, 'N'), 3));
+  g.setIndex(new THREE.BufferAttribute(arr(k, 'F'), 1));
+  g.translate(-center.x, -center.y, -center.z);
+  geoms[k] = g;
+}
+const edgeCache = {};
+const edgesOf = (k, g) => edgeCache[k] || (edgeCache[k] = new LineSegmentsGeometry().setPositions(new THREE.EdgesGeometry(g, +P.ang || 28).attributes.position.array));
+const mats = Object.fromEntries(Object.entries(TONES).map(([k, t]) => [k, toneMat(t)]));
+function addPart(k, group, kind) {
+  const g = geoms[k]; const m = new THREE.Mesh(g, mats[kind || k.split(':')[0]]);
+  m.castShadow = true; group.add(m);
+  const isDowel = k.startsWith('dowels');
+  group.add(new LineSegments2(edgesOf(k, g), isDowel ? thin : lineMat));
+  return m;
+}
+const aumbry = new THREE.Group(); scene.add(aumbry);
+for (const k of Object.keys(geoms)) addPart(k, aumbry);
+function addBox(group, sx, sy, sz, x, y, z, kind) {
+  const g = new THREE.BoxGeometry(sx, sy, sz); g.translate(x, y, z);
+  const m = new THREE.Mesh(g, mats[kind]); m.castShadow = m.receiveShadow = true; group.add(m);
+  group.add(new LineSegments2(new LineSegmentsGeometry().setPositions(new THREE.EdgesGeometry(g).attributes.position.array), lineMat));
+  return m;
+}
+if (P.rfid) {
+  // the RFID lock plate on the track beside the door, as in the 2024 proposal
+  const zc = +P.rfid;
+  addBox(aumbry, 64, 3, 64, -159, -178.5, zc, 'plate');
+  // contactless mark, drawn as lines on the plate face
+  const pts = []; const y = -180.2;
+  const arc = (r) => { for (let i = 0; i < 16; i++) { const a0 = -0.75 + 1.5 * i / 16, a1 = -0.75 + 1.5 * (i + 1) / 16;
+    pts.push(-159 - 12 + r * Math.cos(a0), y, zc + r * Math.sin(a0), -159 - 12 + r * Math.cos(a1), y, zc + r * Math.sin(a1)); } };
+  [8, 15, 22].forEach(arc);
+  const mk = new LineMaterial({ color: 0xF1E9DC, linewidth: 1.6 * SS }); mk.resolution.set(W * SS, H * SS);
+  aumbry.add(new LineSegments2(new LineSegmentsGeometry().setPositions(pts), mk));
+}
+if (P.display) {
+  // proposed display: the front panels milled a second time and hung flat on the wall behind, aumbry on a plinth
+  const wallY = +P.wally || 900, dx = +P.ax || -420;
+  aumbry.position.set(dx, 0, 120);
+  addBox(scene, 1180, 560, 120, dx, 10, 60, 'plinth');
+  const wall = new THREE.Group(); scene.add(wall);
+  // panels: [key, x offset of its centre on the wall, z of its bottom]
+  const hang = [['wood:97', 0, 0], ['wood:92', 400, 245], ['wood:96', 800, 0]];
+  const sides = [];
+  const x0 = +P.wx || 120, z0 = +P.wz || 220;
+  for (const [k, x, dz] of hang) {
+    const g = geoms[k]; g.computeBoundingBox(); const b = g.boundingBox;
+    const grp = new THREE.Group(); addPart(k, grp);
+    grp.position.set(x0 + x - (b.min.x + b.max.x) / 2, wallY - 45 - b.max.y, z0 + dz - b.min.z); wall.add(grp);
+  }
+  for (const [k, x] of sides) {
+    const g = geoms[k]; g.computeBoundingBox(); const b = g.boundingBox;
+    const grp = new THREE.Group(); const inner = new THREE.Group(); addPart(k, inner);
+    inner.rotation.z = (k === 'wood:89' ? -1 : 1) * Math.PI / 2; grp.add(inner); wall.add(grp);
+    const bb = new THREE.Box3().setFromObject(inner);
+    grp.position.set(x0 + x - (bb.min.x + bb.max.x) / 2, wallY - bb.max.y, z0 - bb.min.z);
+  }
+  const wallM = new THREE.Mesh(new THREE.PlaneGeometry(20000, 6000), new THREE.ShadowMaterial({ opacity: 0.2, color: 0x262422 }));
+  // where the wall meets the floor: one thin ink line
+  const fl = new LineMaterial({ color: 0x262422, linewidth: 0.8 * SS, transparent: true, opacity: 0.5 }); fl.resolution.set(W * SS, H * SS);
+  scene.add(new LineSegments2(new LineSegmentsGeometry().setPositions([-4000, wallY, 0, 5000, wallY, 0]), fl));
+  wallM.rotation.x = Math.PI / 2; wallM.position.set(0, wallY + 1, 3000); wallM.receiveShadow = true; scene.add(wallM);
+}
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(20000, 20000), new THREE.ShadowMaterial({ opacity: +P.sh || 0.13, color: 0x262422 }));
+ground.receiveShadow = true; scene.add(ground);
+const key = new THREE.DirectionalLight(0xffffff, 1);
+const ka = (+P.ka || -35) * Math.PI / 180, ke = (+P.ke || 55) * Math.PI / 180;
+key.position.set(4000 * Math.sin(ka) * Math.cos(ke), -4000 * Math.cos(ka) * Math.cos(ke), 4000 * Math.sin(ke));
+key.castShadow = true; key.shadow.mapSize.set(4096, 4096);
+Object.assign(key.shadow.camera, { left: -2200, right: 2200, top: 2200, bottom: -2200, near: 100, far: 10000 });
+key.shadow.bias = -0.0005; scene.add(key);
+const az = (+P.az || 0) * Math.PI / 180, el = (+P.el || 8) * Math.PI / 180, dist = +P.dist || 3600;
+const tgt = new THREE.Vector3(+P.tx || 0, +P.ty || 0, P.tz !== undefined ? +P.tz : 545);
+const cam = new THREE.PerspectiveCamera(+P.fov || 30, W / H, 10, 30000);
+cam.position.set(tgt.x + dist * Math.sin(az) * Math.cos(el), tgt.y - dist * Math.cos(az) * Math.cos(el), tgt.z + dist * Math.sin(el));
+cam.lookAt(tgt);
+renderer.render(scene, cam);
+const out = document.createElement('canvas'); out.width = W; out.height = H; out.id = 'out';
+const c2 = out.getContext('2d'); c2.imageSmoothingQuality = 'high'; c2.drawImage(renderer.domElement, 0, 0, W, H);
+document.body.appendChild(out);
+window.DONE = true;
+</script></body></html>

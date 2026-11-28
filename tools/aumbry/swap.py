@@ -8,12 +8,12 @@ def flat(name, ground, size):
     im = Image.open(f'{R}/{name}.png').convert('RGBA')
     g = Image.new('RGBA', im.size, ground); g.alpha_composite(im)
     return g.convert('RGB').resize(size, Image.LANCZOS)
-# object id of the image XObject -> (render, ground); the RFID plate and the display proposal are not in the model, so they stay
+# object id of the image XObject -> (render, ground)
 JOBS = {
     'aumbry-2.0.pdf': ({46: ('cover', WHITE), 211: ('door', BIRCH), 291: ('tracery', BIRCH), 293: ('dowels', BIRCH),
-                        297: ('tracks', BIRCH), 393: ('back', WHITE)}, 1.0),
+                        297: ('tracks', BIRCH), 393: ('back', WHITE), 295: ('rfid', BIRCH), 391: ('display', WHITE)}, 1.0),
     'aumbry-2.0-mobile.pdf': ({57: ('cover', WHITE), 222: ('door', WHITE), 302: ('tracery', WHITE), 304: ('dowels', WHITE),
-                               308: ('tracks', WHITE), 404: ('back', WHITE)}, 1.0),
+                               308: ('tracks', WHITE), 404: ('back', WHITE), 306: ('rfid', WHITE), 402: ('display', WHITE)}, 1.0),
 }
 src, out = sys.argv[2], sys.argv[3]
 for fn, (jobs, _) in JOBS.items():
